@@ -1,9 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { createClient } from "@/lib/supabase/client";
 import { motion, AnimatePresence } from "framer-motion";
-import { decrypt } from "@/lib/encryption";
 import MonthlyReport from "./MonthlyReport";
 
 interface JournalEntry {
@@ -41,7 +39,6 @@ export default function MoodCalendar() {
   const [report, setReport] = useState<Record<string, unknown> | null>(null);
   const [reportLoading, setReportLoading] = useState(false);
   const [reportError, setReportError] = useState("");
-  const supabase = createClient();
 
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
@@ -51,28 +48,17 @@ export default function MoodCalendar() {
   useEffect(() => {
     let cancelled = false;
     async function load() {
-      const startDate = new Date(year, month, 1).toISOString();
-      const endDate = new Date(year, month + 1, 1).toISOString();
-      const { data } = await supabase
-        .from("journal_entries")
-        .select("*")
-        .gte("created_at", startDate)
-        .lt("created_at", endDate)
-        .is("deleted_at", null)
-        .order("created_at", { ascending: true });
-      if (!cancelled && data) {
-        setEntries(
-          data.map((e) => ({
-            ...e,
-            content: decrypt(e.content, e.content_iv),
-          }))
-        );
+      const monthStr = `${year}-${String(month + 1).padStart(2, "0")}`;
+      const res = await fetch(`/api/entries?month=${monthStr}`);
+      const data = await res.json();
+      if (!cancelled && data.entries) {
+        setEntries(data.entries);
         setLoading(false);
       }
     }
     load();
     return () => { cancelled = true; };
-  }, [supabase, year, month]);
+  }, [year, month]);
 
   function prevMonth() {
     setCurrentDate(new Date(year, month - 1));

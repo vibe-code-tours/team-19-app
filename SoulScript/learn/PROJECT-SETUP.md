@@ -40,7 +40,15 @@ Found under **Project API keys** section:
 | **anon public** | Safe for client-side use, respects RLS | `NEXT_PUBLIC_SUPABASE_ANON_KEY` |
 | **service_role** | Admin access, bypasses RLS — **never expose to client** | `SUPABASE_SERVICE_ROLE_KEY` |
 
-Click the **eye icon** to reveal the service_role key, then copy it.
+#### How to Copy the service_role Key
+
+1. Scroll down to **Project API keys** section
+2. Find the row labeled **Secret keys** (it has a warning icon 🔒)
+3. Click the **eye icon** (👁️) to reveal the key
+4. Click the **copy icon** (📋) next to the key
+5. Paste into your `.env` file as `SUPABASE_SERVICE_ROLE_KEY`
+
+> ⚠️ **Security Warning:** The `service_role` key bypasses Row-Level Security (RLS). It can access ALL data in your database. Never commit it to git, never expose it in client-side code, and never use it in browser JavaScript. It's only used in server-side API routes for admin operations like deleting auth users.
 
 ### Add to `.env`
 
@@ -48,13 +56,65 @@ Click the **eye icon** to reveal the service_role key, then copy it.
 NEXT_PUBLIC_SUPABASE_URL=https://your-project-id.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+OPENROUTER_API_KEY=sk-or-v1-your-key-here
+ENCRYPTION_KEY=your-64-char-hex-string
 ```
 
 > **Note:** The `service_role` key is used in `src/app/api/account/route.ts` for deleting auth users. Never commit it to git or expose it in client-side code.
 
+### Generate Encryption Key
+
+Run this command to generate a secure encryption key:
+
+```bash
+openssl rand -hex 32
+```
+
+Copy the output (64 hex characters) → `ENCRYPTION_KEY`
+
+This key is used for AES-256-GCM encryption of journal entries. Never lose it — encrypted data cannot be recovered without it.
+
 ---
 
-## 3. Database Schema Migration
+## 3. OpenRouter API Setup
+
+OpenRouter provides free-tier access to AI models for sentiment analysis.
+
+### Get Your API Key
+
+1. Go to [openrouter.ai](https://openrouter.ai)
+2. Sign up with GitHub or Google
+3. Go to **Keys** page (or click your profile → **API Keys**)
+4. Click **"Create Key"**
+5. Give it a name (e.g., `soulscript-dev`)
+6. Copy the key (starts with `sk-or-v1-...`)
+
+### Add to `.env`
+
+```bash
+OPENROUTER_API_KEY=sk-or-v1-your-key-here
+```
+
+### Free Tier Models
+
+The app uses `meta-llama/llama-3-8b-instruct` which is free on OpenRouter. No payment required.
+
+### How It Works
+
+The app uses the OpenAI SDK with a custom base URL pointing to OpenRouter:
+
+```typescript
+const openai = new OpenAI({
+  baseURL: "https://openrouter.ai/api/v1",
+  apiKey: process.env.OPENROUTER_API_KEY,
+});
+```
+
+This gives you access to free AI models without needing an OpenAI API key.
+
+---
+
+## 4. Database Schema Migration
 
 Schema file: `supabase/migrations/001_initial_schema.sql`
 
@@ -111,7 +171,7 @@ supabase db push
 
 ---
 
-## 4. Verifying Tables & RLS
+## 5. Verifying Tables & RLS
 
 ### Check RLS is Enabled
 
@@ -163,7 +223,7 @@ After signing up, a row should appear with your `display_name` and `preferred_la
 
 ---
 
-## 5. Google OAuth Setup
+## 6. Google OAuth Setup
 
 ### Google Cloud Console
 
@@ -209,7 +269,7 @@ User clicks "Google" on localhost
 
 ---
 
-## 6. End-to-End Verification
+## 7. End-to-End Verification
 
 1. Run `npm run dev`
 2. Go to `http://localhost:3000`
@@ -221,7 +281,7 @@ User clicks "Google" on localhost
 
 ---
 
-## 7. Troubleshooting
+## 8. Troubleshooting
 
 | Issue | Fix |
 |-------|-----|
@@ -230,3 +290,5 @@ User clicks "Google" on localhost
 | Profile not auto-created | Check trigger exists: `SELECT * FROM information_schema.triggers WHERE trigger_name = 'on_auth_user_created'` |
 | RLS blocking valid queries | Check policies: `SELECT * FROM pg_policies WHERE schemaname = 'public'` |
 | Build fails with env vars | Ensure `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` are set |
+| AI analysis fails | Check `OPENROUTER_API_KEY` is set and valid at openrouter.ai |
+| Calendar shows no entries | Check `ENCRYPTION_KEY` is set and matches the key used to encrypt entries |

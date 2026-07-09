@@ -1,6 +1,22 @@
 import { createClient } from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
 import { decrypt } from "@/lib/encryption";
+import OpenAI from "openai";
+
+const openai = new OpenAI({
+  baseURL: "https://openrouter.ai/api/v1",
+  apiKey: process.env.OPENROUTER_API_KEY,
+});
+
+function parseJsonResponse<T>(content: string): T {
+  // Strip markdown code blocks if present
+  const cleaned = content
+    .replace(/^```json\s*/i, "")
+    .replace(/^```\s*/i, "")
+    .replace(/\s*```$/i, "")
+    .trim();
+  return JSON.parse(cleaned);
+}
 
 interface ReportResult {
   summary_overview: string;
@@ -23,62 +39,18 @@ async function callAIForReport(
 
   const userPrompt = `Analyze these ${entries.length} journal entries from this month:\n\n${entrySummaries}`;
 
-  // Try OpenAI first
-  try {
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-      },
-      body: JSON.stringify({
-        model: "gpt-4o-mini",
-        messages: [
-          { role: "system", content: systemPrompt },
-          { role: "user", content: userPrompt },
-        ],
-        response_format: { type: "json_object" },
-        temperature: 0.7,
-        max_tokens: 500,
-      }),
-    });
+  const response = await openai.chat.completions.create({
+    model: "meta-llama/llama-3-8b-instruct",
+    messages: [
+      { role: "system", content: systemPrompt },
+      { role: "user", content: userPrompt },
+    ],
+    response_format: { type: "json_object" },
+    temperature: 0.7,
+    max_tokens: 500,
+  });
 
-    if (response.ok) {
-      const data = await response.json();
-      return JSON.parse(data.choices[0].message.content);
-    }
-  } catch {
-    // Fall through to OpenRouter
-  }
-
-  // Fallback
-  const fallbackResponse = await fetch(
-    "https://openrouter.ai/api/v1/chat/completions",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
-      },
-      body: JSON.stringify({
-        model: "meta-llama/llama-3-8b-instruct",
-        messages: [
-          { role: "system", content: systemPrompt },
-          { role: "user", content: userPrompt },
-        ],
-        response_format: { type: "json_object" },
-        temperature: 0.7,
-        max_tokens: 500,
-      }),
-    }
-  );
-
-  if (!fallbackResponse.ok) {
-    throw new Error("AI providers unavailable");
-  }
-
-  const fallbackData = await fallbackResponse.json();
-  return JSON.parse(fallbackData.choices[0].message.content);
+  return parseJsonResponse<ReportResult>(response.choices[0].message.content || "{}");
 }
 
 export async function POST(request: Request) {
