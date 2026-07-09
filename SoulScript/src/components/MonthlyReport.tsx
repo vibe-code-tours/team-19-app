@@ -37,9 +37,19 @@ function splitInsights(text: string): string[] {
   return sentences.slice(0, 3);
 }
 
-const fadeUp = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
 };
 
 export default function MonthlyReport({
@@ -52,9 +62,14 @@ export default function MonthlyReport({
   const recommendations = report.actionable_recommendations.slice(0, 3);
 
   return (
-    <div className="space-y-6">
+    <motion.div
+      className="space-y-6"
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+    >
       {/* Stage 1: The Big Picture */}
-      <motion.div {...fadeUp} transition={{ delay: 0.1 }}>
+      <motion.div variants={itemVariants}>
         <div className="glass rounded-2xl p-7 text-center space-y-4">
           <p className="text-[10px] font-semibold tracking-wider text-accent">
             THE BIG PICTURE
@@ -71,7 +86,7 @@ export default function MonthlyReport({
       </motion.div>
 
       {/* Stage 2: Pattern Recognition */}
-      <motion.div {...fadeUp} transition={{ delay: 0.3 }}>
+      <motion.div variants={itemVariants}>
         <div className="space-y-3">
           <p className="text-[10px] font-semibold tracking-wider text-accent px-1">
             PATTERN RECOGNITION
@@ -90,7 +105,7 @@ export default function MonthlyReport({
       </motion.div>
 
       {/* Stage 3: Actionable Frameworks */}
-      <motion.div {...fadeUp} transition={{ delay: 0.5 }}>
+      <motion.div variants={itemVariants}>
         <div className="space-y-3">
           <p className="text-[10px] font-semibold tracking-wider text-accent px-1">
             ACTIONABLE FRAMEWORKS
@@ -121,6 +136,6 @@ export default function MonthlyReport({
           </div>
         </div>
       </motion.div>
-    </div>
+    </motion.div>
   );
 }

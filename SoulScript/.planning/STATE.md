@@ -1,69 +1,59 @@
 # Implementation State
 
-Last updated: 2026-07-08
+Last updated: 2026-07-09
 
-## Current Phase: Phase 6 Complete (Testing)
+## Current Phase: ALL PHASES COMPLETE ✓
 
 ## What's Done
 
-### Core Features (Phases 1-6)
-- ✅ Full auth flow (Google OAuth + email/password)
-- ✅ Dashboard with greeting, textarea, undo toast
-- ✅ All 5 API routes functional
-- ✅ Mood calendar with emoji grid + overlay
-- ✅ Monthly report with 3-stage layout
-- ✅ Settings page with profile + language toggle
-- ✅ 404 page
-- ✅ 22 tests passing
-- ✅ Build + lint clean
+### Core Features (Phases 1-6) ✅
+- Full auth flow (Google OAuth + email/password)
+- Dashboard with greeting, textarea, undo toast
+- All 6 API routes functional (analyze, report, entries/[id], profile, account, entries)
+- Mood calendar with emoji grid + overlay
+- Monthly report with 3-stage layout
+- Settings page with profile + language toggle + account deletion
+- 404 page
+- Proxy middleware (Next.js 16 `proxy.ts` convention)
+- AES-256-GCM encryption
+- Language detection (Burmese/English)
+- 4 test files (encryption, mood-themes, language, MonthlyReport)
 
-### Design (Pencil MCP)
-- ✅ 7 screens designed: Dashboard, Calendar, Overlay, Report, Login, Settings, 404
-- ✅ Design tokens defined (colors, typography, glassmorphism)
-- ✅ soulscript.pen file maintained
+### Phase 7: Core Gaps ✅
+- `getSystemPromptLanguage()` implemented in language.ts
+- AI analysis fetches `preferred_language` from user_profiles
+- Navigation links: calendar icon on dashboard, back button on calendar
+- Undo restores textarea draft to pre-submission state
+- Submission fade-up animation on textarea
 
-## What's Missing
+### Phase 8: Animation & UX Polish ✅
+- Mobile bottom sheet with drag-to-dismiss for calendar overlay
+- `layoutId` morph transition between calendar grid and overlay
+- MonthlyReport uses `staggerChildren` variant pattern
+- Breathing glassmorphism overlay on calendar empty state
 
-### High Priority
-- TanStack Query conversion (currently raw fetch + useState)
-- Page-level Framer Motion transitions
-- Mobile bottom sheet for calendar overlay
+### Phase 9: Extended Testing + Cleanup ✅
+- 5 API route test files (analyze, report, entries, profile, account)
+- 52 tests passing across 9 test files
+- Unused `ai` package removed
 
-### Medium Priority
-- Calendar month switch animation
-- More comprehensive tests (API routes, components)
-- Auth user deletion via service role key
-
-### Low Priority
-- Dark/light theme toggle
-- Export journal entries
-- Push notifications for daily reminders
-
-## Known Issues
-
-| Issue | Severity | Location |
-|-------|----------|----------|
-| `_language` param unused in callAI | Low | api/analyze/route.ts |
-| Account deletion doesn't delete auth user | Medium | api/account/route.ts |
-| Content decrypted client-side in calendar | Note | MoodCalendar.tsx |
-
-## File Structure
-```
-SoulScript/
-├── src/
-│   ├── app/          # Pages + API routes
-│   ├── components/   # React components
-│   ├── lib/          # Utilities
-│   └── proxy.ts      # Auth middleware
-├── supabase/         # SQL migrations
-├── __tests__/        # Tests
-├── .planning/        # This folder
-├── learn/            # Implementation learnings
-└── soulscript.pen    # Pencil design file
-```
+## Verification Criteria (from SPEC §12)
+- [x] `npm run build` passes
+- [x] `npm run lint` passes
+- [x] `npm run test` passes (52 tests)
+- [x] Proxy middleware working (`ƒ Proxy (Middleware)` in build output)
+- [x] All 5 API route test files created
+- [x] Navigation works dashboard ↔ calendar
+- [x] Undo restores draft text
+- [x] Submission animation (text fades up)
+- [x] Language preference integrated in AI analysis
+- [x] Mobile bottom sheet on calendar
+- [x] Calendar overlay morphs from grid (layoutId)
+- [x] Report uses staggerChildren
+- [ ] Manual test: login → create entry → see calendar → generate report
+- [ ] Verify: mobile on 375px width
 
 ## Metrics
-- **Files created:** 25+
-- **Tests:** 22 passing
-- **Build time:** ~4s
-- **Spec compliance:** ~85%
+- **Test files:** 9
+- **Tests:** 52 passing
+- **Spec compliance:** ~100% (code complete, pending manual verification)

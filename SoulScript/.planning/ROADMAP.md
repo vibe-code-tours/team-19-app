@@ -66,31 +66,61 @@
 - [x] Language detection tests
 - [x] MonthlyReport component tests
 
-## Phase 7: TanStack Query Integration
-**Status:** Not Started
-**Requirements:** (implicit from SPEC §2)
+---
 
-- [ ] Convert dashboard entry fetching to useQuery
-- [ ] Convert calendar entry fetching to useQuery
-- [ ] Add useMutation for entry submission
-- [ ] Optimistic updates for mood override
-- [ ] Background refetch for calendar
+## Phase 7: Core Gaps — Language, Navigation, Undo
+**Goal:** Fix the 4 critical SPEC compliance gaps
+**Mode:** mvp
+**Requirements:** R4, R5, R7, R9.2
 
-## Phase 8: Animation Polish
-**Status:** Not Started
-**Requirements:** (implicit from SPEC §1, §10)
+**Success Criteria:**
+1. `getSystemPromptLanguage()` function exists and works
+2. AI analysis fetches `preferred_language` from user profile
+3. Dashboard has a link/icon to navigate to calendar
+4. Calendar has a link back to dashboard
+5. Undo restores textarea to pre-submission state
+6. `npm run build` + `npm run test` pass
 
-- [ ] Page-level AnimatePresence transitions
-- [ ] Calendar month switch animation
-- [ ] Mobile bottom sheet for entry overlay
-- [ ] Button hover scale transitions
+**Plans:**
+- [ ] 7.1: Implement `getSystemPromptLanguage()` in language.ts + integrate in analyze route
+- [ ] 7.2: Add navigation links (dashboard → calendar gear icon, calendar → back button)
+- [ ] 7.3: Fix undo to preserve and restore draft text
 
-## Phase 9: Extended Testing
-**Status:** Not Started
+## Phase 8: Animation & UX Polish
+**Goal:** Match SPEC animation and responsive design requirements
+**Mode:** mvp
+**Requirements:** R7, R8, R13
+
+**Success Criteria:**
+1. Submission text fades and floats upward (Framer Motion)
+2. Mobile bottom sheet opens for calendar day tap (375px)
+3. Calendar overlay morphs from grid cell using `layoutId`
+4. Monthly report uses `staggerChildren` instead of fixed delays
+5. Calendar empty state has breathing glassmorphism overlay
+6. Button hover transitions use cubic-bezier scaling
+
+**Plans:**
+- [ ] 8.1: Add submission fade-up animation on dashboard
+- [ ] 8.2: Implement mobile bottom sheet for calendar overlay
+- [ ] 8.3: Add `layoutId` to calendar grid cells + overlay for morph transition
+- [ ] 8.4: Convert report to `staggerChildren` variant pattern
+- [ ] 8.5: Add breathing overlay to calendar empty state
+
+## Phase 9: Extended Testing + Cleanup
+**Goal:** Complete SPEC §11 test coverage + remove dead code
+**Mode:** mvp
 **Requirements:** R12
 
-- [ ] API route integration tests (mock Supabase)
-- [ ] Dashboard submit flow test
-- [ ] Calendar entry rendering test
-- [ ] Settings profile update test
-- [ ] Auth redirect logic test
+**Success Criteria:**
+1. All 5 API route test files created and passing
+2. `npm run test` passes with all 22+ tests
+3. Unused `ai` package removed from package.json
+4. React Query either integrated or removed
+
+**Plans:**
+- [ ] 9.1: Create `__tests__/api/analyze.test.ts`
+- [ ] 9.2: Create `__tests__/api/report.test.ts`
+- [ ] 9.3: Create `__tests__/api/entries.test.ts`
+- [ ] 9.4: Create `__tests__/api/profile.test.ts`
+- [ ] 9.5: Create `__tests__/api/account.test.ts`
+- [ ] 9.6: Remove unused `ai` package, decide on React Query (integrate or remove)
