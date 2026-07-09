@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { createClient as createAdminClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
 
 export async function DELETE() {
@@ -34,8 +35,17 @@ export async function DELETE() {
 
     if (profileError) throw new Error("Failed to delete user profile");
 
-    // Sign out
-    await supabase.auth.signOut();
+    // Delete auth user using service role key
+    const adminSupabase = createAdminClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!
+    );
+
+    const { error: authError } = await adminSupabase.auth.admin.deleteUser(
+      user.id
+    );
+
+    if (authError) throw new Error("Failed to delete auth user");
 
     return NextResponse.json({ success: true });
   } catch (error) {
