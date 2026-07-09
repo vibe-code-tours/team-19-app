@@ -1,0 +1,4078 @@
+{
+  "version": "2.14",
+  "children": [
+    {
+      "type": "frame",
+      "id": "bi8Au",
+      "x": 0,
+      "y": 0,
+      "name": "Frame",
+      "clip": true,
+      "width": 800,
+      "height": 600,
+      "fill": "#FFFFFF",
+      "layout": "none"
+    },
+    {
+      "type": "frame",
+      "id": "TzWN4",
+      "x": 900,
+      "y": 0,
+      "name": "Dashboard",
+      "clip": true,
+      "width": 390,
+      "fill": {
+        "type": "gradient",
+        "gradientType": "linear",
+        "enabled": true,
+        "rotation": 180,
+        "size": {
+          "height": 1
+        },
+        "colors": [
+          {
+            "color": "#0B0F19",
+            "position": 0
+          },
+          {
+            "color": "#1E1B4B",
+            "position": 1
+          }
+        ]
+      },
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "fQNA9",
+          "name": "Status Bar",
+          "width": "fill_container",
+          "height": 62,
+          "padding": [
+            0,
+            24
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "mJ02r",
+              "name": "Time",
+              "fill": "$text-primary",
+              "content": "9:41",
+              "fontFamily": "$font-body",
+              "fontSize": 15,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "V4kjsG",
+              "name": "Status Icons",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "B3lhxM",
+                  "name": "Signal",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "signal",
+                  "library": "lucide",
+                  "fill": "$text-primary"
+                },
+                {
+                  "type": "icon",
+                  "id": "a2arTK",
+                  "name": "Wifi",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "wifi",
+                  "library": "lucide",
+                  "fill": "$text-primary"
+                },
+                {
+                  "type": "icon",
+                  "id": "fUBBf",
+                  "name": "Battery",
+                  "width": 20,
+                  "height": 16,
+                  "icon": "battery-full",
+                  "library": "lucide",
+                  "fill": "$text-primary"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "vKLAA",
+          "name": "Content Wrapper",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 28,
+          "padding": [
+            0,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "SNLKD",
+              "name": "Header",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "f6f0o",
+                  "name": "Settings Icon",
+                  "width": 22,
+                  "height": 22,
+                  "icon": "settings",
+                  "library": "lucide",
+                  "fill": "$text-secondary"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "YHJKk",
+              "name": "Greeting Section",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "IzYb9",
+                  "name": "Greeting",
+                  "fill": "$text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Good evening, Alex.",
+                  "lineHeight": 1.3,
+                  "fontFamily": "$font-heading",
+                  "fontSize": 28,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "QYQcz",
+                  "name": "Subtitle",
+                  "fill": "$text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "How does your soul feel tonight?",
+                  "lineHeight": 1.5,
+                  "fontFamily": "$font-body",
+                  "fontSize": 16,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "z7yg7s",
+              "name": "Glow Layer",
+              "width": "fill_container",
+              "height": 260,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": "$radius-lg",
+                  "id": "oPkOT",
+                  "x": 20,
+                  "y": 20,
+                  "name": "Background Glow",
+                  "fill": {
+                    "type": "gradient",
+                    "gradientType": "radial",
+                    "enabled": true,
+                    "rotation": 0,
+                    "size": {
+                      "width": 1.2,
+                      "height": 1.2
+                    },
+                    "colors": [
+                      {
+                        "color": "#818CF820",
+                        "position": 0
+                      },
+                      {
+                        "color": "#6366F108",
+                        "position": 0.6
+                      },
+                      {
+                        "color": "#00000000",
+                        "position": 1
+                      }
+                    ]
+                  },
+                  "width": 310,
+                  "height": 200,
+                  "effect": {
+                    "type": "blur",
+                    "radius": 40
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "v4qEM0",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Textarea Glass",
+                  "width": 350,
+                  "height": 240,
+                  "fill": "$glass",
+                  "cornerRadius": "$radius-lg",
+                  "stroke": "$glass-border",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "padding": 24,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "RNSyh",
+                      "name": "Placeholder Text",
+                      "fill": "$text-muted",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Write your thoughts here...",
+                      "lineHeight": 1.6,
+                      "fontFamily": "$font-body",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "JeHZ7",
+              "name": "Character Counter",
+              "width": "fill_container",
+              "padding": [
+                0,
+                4
+              ],
+              "justifyContent": "end",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "HKPki",
+                  "name": "Counter",
+                  "fill": "$text-muted",
+                  "content": "0 / 5000",
+                  "fontFamily": "$font-body",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "x4DwL0",
+              "name": "Button Row",
+              "width": "fill_container",
+              "justifyContent": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "JhnkD",
+                  "name": "Submit Button",
+                  "fill": "$accent-primary",
+                  "cornerRadius": "$radius-pill",
+                  "gap": 10,
+                  "padding": [
+                    14,
+                    32
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "JABFN",
+                      "name": "Send Icon",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "send",
+                      "library": "lucide",
+                      "fill": "#FFFFFF"
+                    },
+                    {
+                      "type": "text",
+                      "id": "dbJWk",
+                      "name": "Button Label",
+                      "fill": "#FFFFFF",
+                      "content": "Release to Calendar",
+                      "fontFamily": "$font-body",
+                      "fontSize": 15,
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "ypV1d",
+              "name": "Bottom Spacer",
+              "width": "fill_container",
+              "height": 80
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "kxvja",
+      "x": 1390,
+      "y": 0,
+      "name": "Calendar Screen",
+      "clip": true,
+      "width": 390,
+      "fill": {
+        "type": "gradient",
+        "gradientType": "linear",
+        "enabled": true,
+        "rotation": 180,
+        "size": {
+          "height": 1
+        },
+        "colors": [
+          {
+            "color": "#0B0F19",
+            "position": 0
+          },
+          {
+            "color": "#1E1B4B",
+            "position": 1
+          }
+        ]
+      },
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "L5OsyS",
+          "name": "Status Bar",
+          "width": "fill_container",
+          "height": 62,
+          "padding": [
+            0,
+            24
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "O8cML",
+              "name": "Time",
+              "fill": "$text-primary",
+              "content": "9:41",
+              "fontFamily": "$font-body",
+              "fontSize": 15,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "Vuw06",
+              "name": "Status Icons",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "OI9B8",
+                  "name": "Signal",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "signal",
+                  "library": "lucide",
+                  "fill": "$text-primary"
+                },
+                {
+                  "type": "icon",
+                  "id": "K3VAd2",
+                  "name": "Wifi",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "wifi",
+                  "library": "lucide",
+                  "fill": "$text-primary"
+                },
+                {
+                  "type": "icon",
+                  "id": "cFHv1",
+                  "name": "Battery",
+                  "width": 20,
+                  "height": 16,
+                  "icon": "battery-full",
+                  "library": "lucide",
+                  "fill": "$text-primary"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "NqV5x",
+          "name": "Calendar Content",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 20,
+          "padding": [
+            0,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "T8pxYF",
+              "name": "Month Header",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "rhE4L",
+                  "name": "Prev Month",
+                  "width": 24,
+                  "height": 24,
+                  "icon": "chevron-left",
+                  "library": "lucide",
+                  "fill": "$text-secondary"
+                },
+                {
+                  "type": "text",
+                  "id": "lEgTU",
+                  "name": "Month Title",
+                  "fill": "$text-primary",
+                  "content": "July 2026",
+                  "fontFamily": "$font-heading",
+                  "fontSize": 22,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "icon",
+                  "id": "F0uzP",
+                  "name": "Next Month",
+                  "width": 24,
+                  "height": 24,
+                  "icon": "chevron-right",
+                  "library": "lucide",
+                  "fill": "$text-secondary"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "q8i04j",
+              "name": "Weekday Labels",
+              "width": "fill_container",
+              "justifyContent": "space_around",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Gm3IW",
+                  "name": "Mon Label",
+                  "fill": "$text-muted",
+                  "content": "Mon",
+                  "fontFamily": "$font-body",
+                  "fontSize": 12,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "text",
+                  "id": "shtZE",
+                  "name": "Tue Label",
+                  "fill": "$text-muted",
+                  "content": "Tue",
+                  "fontFamily": "$font-body",
+                  "fontSize": 12,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "text",
+                  "id": "kXRea",
+                  "name": "Wed Label",
+                  "fill": "$text-muted",
+                  "content": "Wed",
+                  "fontFamily": "$font-body",
+                  "fontSize": 12,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "text",
+                  "id": "nBTiZ",
+                  "name": "Thu Label",
+                  "fill": "$text-muted",
+                  "content": "Thu",
+                  "fontFamily": "$font-body",
+                  "fontSize": 12,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "text",
+                  "id": "IPrI3",
+                  "name": "Fri Label",
+                  "fill": "$text-muted",
+                  "content": "Fri",
+                  "fontFamily": "$font-body",
+                  "fontSize": 12,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "text",
+                  "id": "qbHOb",
+                  "name": "Sat Label",
+                  "fill": "$text-muted",
+                  "content": "Sat",
+                  "fontFamily": "$font-body",
+                  "fontSize": 12,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "text",
+                  "id": "Y21BPc",
+                  "name": "Sun Label",
+                  "fill": "$text-muted",
+                  "content": "Sun",
+                  "fontFamily": "$font-body",
+                  "fontSize": 12,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "GolBi",
+              "name": "Calendar Grid",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 6,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "RJr70",
+                  "name": "Week Row 1",
+                  "width": "fill_container",
+                  "justifyContent": "space_around",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "WDZ5L",
+                      "name": "Spacer",
+                      "width": 44,
+                      "height": 44
+                    },
+                    {
+                      "type": "frame",
+                      "id": "nATdi",
+                      "name": "Empty Day 1",
+                      "width": 44,
+                      "height": 44,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "hCiFD",
+                          "x": 8,
+                          "y": 8,
+                          "name": "Empty Ring",
+                          "fill": "#00000000",
+                          "width": 28,
+                          "height": 28,
+                          "stroke": "$glass-border",
+                          "strokeWidth": 1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "eNkKt",
+                      "name": "Empty Day 2",
+                      "width": 44,
+                      "height": 44,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "W2xQgo",
+                          "x": 8,
+                          "y": 8,
+                          "name": "Empty Ring",
+                          "fill": "#00000000",
+                          "width": 28,
+                          "height": 28,
+                          "stroke": "$glass-border",
+                          "strokeWidth": 1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "v2tNu",
+                      "name": "Day 3",
+                      "width": 44,
+                      "height": 44,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "ODwao",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Day Glow",
+                          "fill": "$glass",
+                          "width": 44,
+                          "height": 44,
+                          "stroke": "$glass-border",
+                          "strokeWidth": 1
+                        },
+                        {
+                          "type": "text",
+                          "id": "nUL3f",
+                          "x": 10,
+                          "y": 8,
+                          "name": "Emoji 3",
+                          "fill": "$text-primary",
+                          "content": "😊",
+                          "fontFamily": "$font-body",
+                          "fontSize": 20,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "axdnh",
+                      "name": "Empty Day 4",
+                      "width": 44,
+                      "height": 44,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "uomBT",
+                          "x": 8,
+                          "y": 8,
+                          "name": "Empty Ring",
+                          "fill": "#00000000",
+                          "width": 28,
+                          "height": 28,
+                          "stroke": "$glass-border",
+                          "strokeWidth": 1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "jeUSC",
+                      "name": "Empty Day 5",
+                      "width": 44,
+                      "height": 44,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "zxAPb",
+                          "x": 8,
+                          "y": 8,
+                          "name": "Empty Ring",
+                          "fill": "#00000000",
+                          "width": 28,
+                          "height": 28,
+                          "stroke": "$glass-border",
+                          "strokeWidth": 1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Oe9X2",
+                      "name": "Empty Day 6",
+                      "width": 44,
+                      "height": 44,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "QWBp8",
+                          "x": 8,
+                          "y": 8,
+                          "name": "Empty Ring",
+                          "fill": "#00000000",
+                          "width": 28,
+                          "height": 28,
+                          "stroke": "$glass-border",
+                          "strokeWidth": 1
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "iAx8n",
+                  "name": "Week Row 2",
+                  "width": "fill_container",
+                  "justifyContent": "space_around",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "RnhB7",
+                      "name": "Day 7",
+                      "width": 44,
+                      "height": 44,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "L9qsn",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Day Glow",
+                          "fill": "$glass",
+                          "width": 44,
+                          "height": 44,
+                          "stroke": "$glass-border",
+                          "strokeWidth": 1
+                        },
+                        {
+                          "type": "text",
+                          "id": "AV3QD",
+                          "x": 10,
+                          "y": 8,
+                          "name": "Emoji 7",
+                          "fill": "$text-primary",
+                          "content": "😌",
+                          "fontFamily": "$font-body",
+                          "fontSize": 20,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "TJdAW",
+                      "name": "Empty Day 8",
+                      "width": 44,
+                      "height": 44,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "cIE4M",
+                          "x": 8,
+                          "y": 8,
+                          "name": "Empty Ring",
+                          "fill": "#00000000",
+                          "width": 28,
+                          "height": 28,
+                          "stroke": "$glass-border",
+                          "strokeWidth": 1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "zWtmd",
+                      "name": "Empty Day 9",
+                      "width": 44,
+                      "height": 44,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "L6x2MA",
+                          "x": 8,
+                          "y": 8,
+                          "name": "Empty Ring",
+                          "fill": "#00000000",
+                          "width": 28,
+                          "height": 28,
+                          "stroke": "$glass-border",
+                          "strokeWidth": 1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "IfwoT",
+                      "name": "Empty Day 10",
+                      "width": 44,
+                      "height": 44,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "cCYsV",
+                          "x": 8,
+                          "y": 8,
+                          "name": "Empty Ring",
+                          "fill": "#00000000",
+                          "width": 28,
+                          "height": 28,
+                          "stroke": "$glass-border",
+                          "strokeWidth": 1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "FeYS3",
+                      "name": "Empty Day 11",
+                      "width": 44,
+                      "height": 44,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "qIwqt",
+                          "x": 8,
+                          "y": 8,
+                          "name": "Empty Ring",
+                          "fill": "#00000000",
+                          "width": 28,
+                          "height": 28,
+                          "stroke": "$glass-border",
+                          "strokeWidth": 1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "vBOMd",
+                      "name": "Day 12",
+                      "width": 44,
+                      "height": 44,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "uagFG",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Day Glow",
+                          "fill": "$glass",
+                          "width": 44,
+                          "height": 44,
+                          "stroke": "$glass-border",
+                          "strokeWidth": 1
+                        },
+                        {
+                          "type": "text",
+                          "id": "KJZdQ",
+                          "x": 10,
+                          "y": 8,
+                          "name": "Emoji 12",
+                          "fill": "$text-primary",
+                          "content": "💜",
+                          "fontFamily": "$font-body",
+                          "fontSize": 20,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "AIwjr",
+                      "name": "Empty Day 13",
+                      "width": 44,
+                      "height": 44,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "XsWGR",
+                          "x": 8,
+                          "y": 8,
+                          "name": "Empty Ring",
+                          "fill": "#00000000",
+                          "width": 28,
+                          "height": 28,
+                          "stroke": "$glass-border",
+                          "strokeWidth": 1
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "ekJKe",
+                  "name": "Week Row 3",
+                  "width": "fill_container",
+                  "justifyContent": "space_around",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Lkzu3",
+                      "name": "Empty Day 14",
+                      "width": 44,
+                      "height": 44,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "cq7O5",
+                          "x": 8,
+                          "y": 8,
+                          "name": "Empty Ring",
+                          "fill": "#00000000",
+                          "width": 28,
+                          "height": 28,
+                          "stroke": "$glass-border",
+                          "strokeWidth": 1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "U7xOK",
+                      "name": "Day 15",
+                      "width": 44,
+                      "height": 44,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "UeQYx",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Day Glow",
+                          "fill": "$glass",
+                          "width": 44,
+                          "height": 44,
+                          "stroke": "$glass-border",
+                          "strokeWidth": 1
+                        },
+                        {
+                          "type": "text",
+                          "id": "SiaG1",
+                          "x": 10,
+                          "y": 8,
+                          "name": "Emoji 15",
+                          "fill": "$text-primary",
+                          "content": "🌟",
+                          "fontFamily": "$font-body",
+                          "fontSize": 20,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "f269UG",
+                      "name": "Empty Day 16",
+                      "width": 44,
+                      "height": 44,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "PYxXr",
+                          "x": 8,
+                          "y": 8,
+                          "name": "Empty Ring",
+                          "fill": "#00000000",
+                          "width": 28,
+                          "height": 28,
+                          "stroke": "$glass-border",
+                          "strokeWidth": 1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "AshR4",
+                      "name": "Empty Day 17",
+                      "width": 44,
+                      "height": 44,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "XmQyF",
+                          "x": 8,
+                          "y": 8,
+                          "name": "Empty Ring",
+                          "fill": "#00000000",
+                          "width": 28,
+                          "height": 28,
+                          "stroke": "$glass-border",
+                          "strokeWidth": 1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "smtaO",
+                      "name": "Day 18",
+                      "width": 44,
+                      "height": 44,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "o8QI9B",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Day Glow",
+                          "fill": "$glass",
+                          "width": 44,
+                          "height": 44,
+                          "stroke": "$glass-border",
+                          "strokeWidth": 1
+                        },
+                        {
+                          "type": "text",
+                          "id": "lKAwQ",
+                          "x": 10,
+                          "y": 8,
+                          "name": "Emoji 18",
+                          "fill": "$text-primary",
+                          "content": "😢",
+                          "fontFamily": "$font-body",
+                          "fontSize": 20,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Umjsw",
+                      "name": "Empty Day 19",
+                      "width": 44,
+                      "height": 44,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "d96r1x",
+                          "x": 8,
+                          "y": 8,
+                          "name": "Empty Ring",
+                          "fill": "#00000000",
+                          "width": 28,
+                          "height": 28,
+                          "stroke": "$glass-border",
+                          "strokeWidth": 1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "S6fVg8",
+                      "name": "Empty Day 20",
+                      "width": 44,
+                      "height": 44,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "pcnpf",
+                          "x": 8,
+                          "y": 8,
+                          "name": "Empty Ring",
+                          "fill": "#00000000",
+                          "width": 28,
+                          "height": 28,
+                          "stroke": "$glass-border",
+                          "strokeWidth": 1
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "RslLV",
+                  "name": "Week Row 4",
+                  "width": "fill_container",
+                  "justifyContent": "space_around",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "xoUed",
+                      "name": "Empty Day 21",
+                      "width": 44,
+                      "height": 44,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "whg9o",
+                          "x": 8,
+                          "y": 8,
+                          "name": "Empty Ring",
+                          "fill": "#00000000",
+                          "width": 28,
+                          "height": 28,
+                          "stroke": "$glass-border",
+                          "strokeWidth": 1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "NGQiP",
+                      "name": "Day 22",
+                      "width": 44,
+                      "height": 44,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "Nfijl",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Day Glow",
+                          "fill": "$glass",
+                          "width": 44,
+                          "height": 44,
+                          "stroke": "$glass-border",
+                          "strokeWidth": 1
+                        },
+                        {
+                          "type": "text",
+                          "id": "FEL2F",
+                          "x": 10,
+                          "y": 8,
+                          "name": "Emoji 22",
+                          "fill": "$text-primary",
+                          "content": "😤",
+                          "fontFamily": "$font-body",
+                          "fontSize": 20,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "a6WZZ",
+                      "name": "Empty Day 23",
+                      "width": 44,
+                      "height": 44,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "GWqIR",
+                          "x": 8,
+                          "y": 8,
+                          "name": "Empty Ring",
+                          "fill": "#00000000",
+                          "width": 28,
+                          "height": 28,
+                          "stroke": "$glass-border",
+                          "strokeWidth": 1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "or4o2",
+                      "name": "Empty Day 24",
+                      "width": 44,
+                      "height": 44,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "plBC4",
+                          "x": 8,
+                          "y": 8,
+                          "name": "Empty Ring",
+                          "fill": "#00000000",
+                          "width": 28,
+                          "height": 28,
+                          "stroke": "$glass-border",
+                          "strokeWidth": 1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "CUHDT",
+                      "name": "Day 25",
+                      "width": 44,
+                      "height": 44,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "fd0FL",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Day Glow",
+                          "fill": "$glass",
+                          "width": 44,
+                          "height": 44,
+                          "stroke": "$glass-border",
+                          "strokeWidth": 1
+                        },
+                        {
+                          "type": "text",
+                          "id": "Z9l5p",
+                          "x": 10,
+                          "y": 8,
+                          "name": "Emoji 25",
+                          "fill": "$text-primary",
+                          "content": "😊",
+                          "fontFamily": "$font-body",
+                          "fontSize": 20,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "M63G3",
+                      "name": "Empty Day 26",
+                      "width": 44,
+                      "height": 44,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "Q6mjEq",
+                          "x": 8,
+                          "y": 8,
+                          "name": "Empty Ring",
+                          "fill": "#00000000",
+                          "width": 28,
+                          "height": 28,
+                          "stroke": "$glass-border",
+                          "strokeWidth": 1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "h1CGu",
+                      "name": "Empty Day 27",
+                      "width": 44,
+                      "height": 44,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "PCCzG",
+                          "x": 8,
+                          "y": 8,
+                          "name": "Empty Ring",
+                          "fill": "#00000000",
+                          "width": 28,
+                          "height": 28,
+                          "stroke": "$glass-border",
+                          "strokeWidth": 1
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "FMecz",
+                  "name": "Week Row 5",
+                  "width": "fill_container",
+                  "justifyContent": "space_around",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "vMizo",
+                      "name": "Empty Day 28",
+                      "width": 44,
+                      "height": 44,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "CTf23",
+                          "x": 8,
+                          "y": 8,
+                          "name": "Empty Ring",
+                          "fill": "#00000000",
+                          "width": 28,
+                          "height": 28,
+                          "stroke": "$glass-border",
+                          "strokeWidth": 1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "mg0jl",
+                      "name": "Empty Day 29",
+                      "width": 44,
+                      "height": 44,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "yUpyu",
+                          "x": 8,
+                          "y": 8,
+                          "name": "Empty Ring",
+                          "fill": "#00000000",
+                          "width": 28,
+                          "height": 28,
+                          "stroke": "$glass-border",
+                          "strokeWidth": 1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "V8GEE2",
+                      "name": "Empty Day 30",
+                      "width": 44,
+                      "height": 44,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "c4Oxub",
+                          "x": 8,
+                          "y": 8,
+                          "name": "Empty Ring",
+                          "fill": "#00000000",
+                          "width": 28,
+                          "height": 28,
+                          "stroke": "$glass-border",
+                          "strokeWidth": 1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "fyFwp",
+                      "name": "Empty Day 31",
+                      "width": 44,
+                      "height": 44,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "yA8Nk",
+                          "x": 8,
+                          "y": 8,
+                          "name": "Empty Ring",
+                          "fill": "#00000000",
+                          "width": 28,
+                          "height": 28,
+                          "stroke": "$glass-border",
+                          "strokeWidth": 1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "p5eGGy",
+                      "name": "Spacer",
+                      "width": 44,
+                      "height": 44
+                    },
+                    {
+                      "type": "frame",
+                      "id": "r8A3j",
+                      "name": "Spacer",
+                      "width": 44,
+                      "height": 44
+                    },
+                    {
+                      "type": "frame",
+                      "id": "PBN9r",
+                      "name": "Spacer",
+                      "width": 44,
+                      "height": 44
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "roGlE",
+                  "name": "Week Row 6",
+                  "width": "fill_container",
+                  "justifyContent": "space_around",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "rIz7d",
+                      "name": "Spacer",
+                      "width": 44,
+                      "height": 44
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ogP6Y",
+                      "name": "Spacer",
+                      "width": 44,
+                      "height": 44
+                    },
+                    {
+                      "type": "frame",
+                      "id": "RYRTH",
+                      "name": "Spacer",
+                      "width": 44,
+                      "height": 44
+                    },
+                    {
+                      "type": "frame",
+                      "id": "sGdtk",
+                      "name": "Spacer",
+                      "width": 44,
+                      "height": 44
+                    },
+                    {
+                      "type": "frame",
+                      "id": "K0vE6o",
+                      "name": "Spacer",
+                      "width": 44,
+                      "height": 44
+                    },
+                    {
+                      "type": "frame",
+                      "id": "U60L4",
+                      "name": "Spacer",
+                      "width": 44,
+                      "height": 44
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Gagmi",
+                      "name": "Spacer",
+                      "width": 44,
+                      "height": 44
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "gwg64",
+              "name": "Monthly Report Trigger",
+              "width": "fill_container",
+              "fill": "$glass-strong",
+              "cornerRadius": "$radius-lg",
+              "stroke": "$glass-border",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 8,
+              "padding": 20,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "PWdpo",
+                  "name": "Sparkles Icon",
+                  "width": 28,
+                  "height": 28,
+                  "icon": "sparkles",
+                  "library": "lucide",
+                  "fill": "$accent-primary"
+                },
+                {
+                  "type": "text",
+                  "id": "rGiqn",
+                  "name": "Report Title",
+                  "fill": "$text-primary",
+                  "content": "Reveal This Month's Journey",
+                  "fontFamily": "$font-heading",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "dOKoO",
+                  "name": "Report Subtitle",
+                  "fill": "$text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "7 of 31 days journaled — tap to generate insights",
+                  "textAlign": "center",
+                  "fontFamily": "$font-body",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "tU2QR",
+              "name": "Bottom Spacer",
+              "width": "fill_container",
+              "height": 80
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "xMwOu",
+      "x": 1880,
+      "y": 0,
+      "name": "Calendar Overlay",
+      "clip": true,
+      "width": 390,
+      "fill": {
+        "type": "gradient",
+        "gradientType": "linear",
+        "enabled": true,
+        "rotation": 180,
+        "size": {
+          "height": 1
+        },
+        "colors": [
+          {
+            "color": "#0B0F19",
+            "position": 0
+          },
+          {
+            "color": "#1E1B4B",
+            "position": 1
+          }
+        ]
+      },
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "ejRAS",
+          "name": "Status Bar",
+          "width": "fill_container",
+          "height": 62,
+          "padding": [
+            0,
+            24
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "m5zK8E",
+              "name": "Time",
+              "fill": "$text-primary",
+              "content": "9:41",
+              "fontFamily": "$font-body",
+              "fontSize": 15,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "LJTeM",
+              "name": "Status Icons",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "zcj7v",
+                  "name": "Signal",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "signal",
+                  "library": "lucide",
+                  "fill": "$text-primary"
+                },
+                {
+                  "type": "icon",
+                  "id": "FieEA",
+                  "name": "Wifi",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "wifi",
+                  "library": "lucide",
+                  "fill": "$text-primary"
+                },
+                {
+                  "type": "icon",
+                  "id": "j2xTIG",
+                  "name": "Battery",
+                  "width": 20,
+                  "height": 16,
+                  "icon": "battery-full",
+                  "library": "lucide",
+                  "fill": "$text-primary"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "e7ZqgD",
+          "name": "Overlay Content",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 24,
+          "padding": [
+            0,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "g6Usy",
+              "name": "Dimmed Calendar BG",
+              "width": "fill_container",
+              "height": 180,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "ellipse",
+                  "id": "OgXAG",
+                  "x": 18,
+                  "y": 12,
+                  "name": "Dim Dot 00",
+                  "fill": "#FFFFFF08",
+                  "width": 36,
+                  "height": 36,
+                  "stroke": "#FFFFFF0D",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "ellipse",
+                  "id": "hqeoo",
+                  "x": 66,
+                  "y": 12,
+                  "name": "Dim Dot 01",
+                  "fill": "#FFFFFF08",
+                  "width": 36,
+                  "height": 36,
+                  "stroke": "#FFFFFF0D",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "ellipse",
+                  "id": "Ha1T6",
+                  "x": 114,
+                  "y": 12,
+                  "name": "Dim Dot 02",
+                  "fill": "#FFFFFF08",
+                  "width": 36,
+                  "height": 36,
+                  "stroke": "#FFFFFF0D",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "ellipse",
+                  "id": "J8DZz",
+                  "x": 162,
+                  "y": 12,
+                  "name": "Dim Dot 03",
+                  "fill": "#FFFFFF08",
+                  "width": 36,
+                  "height": 36,
+                  "stroke": "#FFFFFF0D",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "ellipse",
+                  "id": "FH9Vm",
+                  "x": 210,
+                  "y": 12,
+                  "name": "Dim Dot 04",
+                  "fill": "#FFFFFF08",
+                  "width": 36,
+                  "height": 36,
+                  "stroke": "#FFFFFF0D",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "ellipse",
+                  "id": "t8iNRo",
+                  "x": 258,
+                  "y": 12,
+                  "name": "Dim Dot 05",
+                  "fill": "#FFFFFF08",
+                  "width": 36,
+                  "height": 36,
+                  "stroke": "#FFFFFF0D",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "ellipse",
+                  "id": "ysVV6",
+                  "x": 306,
+                  "y": 12,
+                  "name": "Dim Dot 06",
+                  "fill": "#FFFFFF08",
+                  "width": 36,
+                  "height": 36,
+                  "stroke": "#FFFFFF0D",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "ellipse",
+                  "id": "EMs21",
+                  "x": 18,
+                  "y": 58,
+                  "name": "Dim Dot 10",
+                  "fill": "#FFFFFF08",
+                  "width": 36,
+                  "height": 36,
+                  "stroke": "#FFFFFF0D",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "ellipse",
+                  "id": "tbpgH",
+                  "x": 66,
+                  "y": 58,
+                  "name": "Dim Dot 11",
+                  "fill": "#FFFFFF08",
+                  "width": 36,
+                  "height": 36,
+                  "stroke": "#FFFFFF0D",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "ellipse",
+                  "id": "L6qCS",
+                  "x": 114,
+                  "y": 58,
+                  "name": "Dim Dot 12",
+                  "fill": "#FFFFFF08",
+                  "width": 36,
+                  "height": 36,
+                  "stroke": "#FFFFFF0D",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "ellipse",
+                  "id": "RVeRh",
+                  "x": 162,
+                  "y": 58,
+                  "name": "Dim Dot 13",
+                  "fill": "#FFFFFF08",
+                  "width": 36,
+                  "height": 36,
+                  "stroke": "#FFFFFF0D",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "ellipse",
+                  "id": "Z1r94T",
+                  "x": 210,
+                  "y": 58,
+                  "name": "Dim Dot 14",
+                  "fill": "#FFFFFF08",
+                  "width": 36,
+                  "height": 36,
+                  "stroke": "#FFFFFF0D",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "ellipse",
+                  "id": "ypQh6",
+                  "x": 258,
+                  "y": 58,
+                  "name": "Dim Dot 15",
+                  "fill": "#FFFFFF08",
+                  "width": 36,
+                  "height": 36,
+                  "stroke": "#FFFFFF0D",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "ellipse",
+                  "id": "XmsGZ",
+                  "x": 306,
+                  "y": 58,
+                  "name": "Dim Dot 16",
+                  "fill": "#FFFFFF08",
+                  "width": 36,
+                  "height": 36,
+                  "stroke": "#FFFFFF0D",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "ellipse",
+                  "id": "iuOGK",
+                  "x": 18,
+                  "y": 104,
+                  "name": "Dim Dot 20",
+                  "fill": "#FFFFFF08",
+                  "width": 36,
+                  "height": 36,
+                  "stroke": "#FFFFFF0D",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "ellipse",
+                  "id": "Vrz1d",
+                  "x": 66,
+                  "y": 104,
+                  "name": "Dim Dot 21",
+                  "fill": "#FFFFFF08",
+                  "width": 36,
+                  "height": 36,
+                  "stroke": "#FFFFFF0D",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "ellipse",
+                  "id": "OApwd",
+                  "x": 114,
+                  "y": 104,
+                  "name": "Dim Dot 22",
+                  "fill": "#FFFFFF08",
+                  "width": 36,
+                  "height": 36,
+                  "stroke": "#FFFFFF0D",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "ellipse",
+                  "id": "nSwZ2",
+                  "x": 162,
+                  "y": 104,
+                  "name": "Dim Dot 23",
+                  "fill": "#FFFFFF08",
+                  "width": 36,
+                  "height": 36,
+                  "stroke": "#FFFFFF0D",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "ellipse",
+                  "id": "CYcm7",
+                  "x": 210,
+                  "y": 104,
+                  "name": "Dim Dot 24",
+                  "fill": "#FFFFFF08",
+                  "width": 36,
+                  "height": 36,
+                  "stroke": "#FFFFFF0D",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "ellipse",
+                  "id": "dsKzK",
+                  "x": 258,
+                  "y": 104,
+                  "name": "Dim Dot 25",
+                  "fill": "#FFFFFF08",
+                  "width": 36,
+                  "height": 36,
+                  "stroke": "#FFFFFF0D",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "ellipse",
+                  "id": "pAV4z",
+                  "x": 306,
+                  "y": 104,
+                  "name": "Dim Dot 26",
+                  "fill": "#FFFFFF08",
+                  "width": 36,
+                  "height": 36,
+                  "stroke": "#FFFFFF0D",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "ellipse",
+                  "id": "SHrbp",
+                  "x": 18,
+                  "y": 150,
+                  "name": "Dim Dot 30",
+                  "fill": "#FFFFFF08",
+                  "width": 36,
+                  "height": 36,
+                  "stroke": "#FFFFFF0D",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "ellipse",
+                  "id": "RR7FS",
+                  "x": 66,
+                  "y": 150,
+                  "name": "Dim Dot 31",
+                  "fill": "#FFFFFF08",
+                  "width": 36,
+                  "height": 36,
+                  "stroke": "#FFFFFF0D",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "ellipse",
+                  "id": "fV73i",
+                  "x": 114,
+                  "y": 150,
+                  "name": "Dim Dot 32",
+                  "fill": "#FFFFFF08",
+                  "width": 36,
+                  "height": 36,
+                  "stroke": "#FFFFFF0D",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "ellipse",
+                  "id": "Jsacf",
+                  "x": 162,
+                  "y": 150,
+                  "name": "Dim Dot 33",
+                  "fill": "#FFFFFF08",
+                  "width": 36,
+                  "height": 36,
+                  "stroke": "#FFFFFF0D",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "ellipse",
+                  "id": "o8z2d",
+                  "x": 210,
+                  "y": 150,
+                  "name": "Dim Dot 34",
+                  "fill": "#FFFFFF08",
+                  "width": 36,
+                  "height": 36,
+                  "stroke": "#FFFFFF0D",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "ellipse",
+                  "id": "JtZrX",
+                  "x": 258,
+                  "y": 150,
+                  "name": "Dim Dot 35",
+                  "fill": "#FFFFFF08",
+                  "width": 36,
+                  "height": 36,
+                  "stroke": "#FFFFFF0D",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "ellipse",
+                  "id": "aJd9w",
+                  "x": 306,
+                  "y": 150,
+                  "name": "Dim Dot 36",
+                  "fill": "#FFFFFF08",
+                  "width": 36,
+                  "height": 36,
+                  "stroke": "#FFFFFF0D",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "ellipse",
+                  "id": "C55qW",
+                  "x": 18,
+                  "y": 196,
+                  "name": "Dim Dot 40",
+                  "fill": "#FFFFFF08",
+                  "width": 36,
+                  "height": 36,
+                  "stroke": "#FFFFFF0D",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "ellipse",
+                  "id": "O84a3V",
+                  "x": 66,
+                  "y": 196,
+                  "name": "Dim Dot 41",
+                  "fill": "#FFFFFF08",
+                  "width": 36,
+                  "height": 36,
+                  "stroke": "#FFFFFF0D",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "ellipse",
+                  "id": "sq2tI",
+                  "x": 114,
+                  "y": 196,
+                  "name": "Dim Dot 42",
+                  "fill": "#FFFFFF08",
+                  "width": 36,
+                  "height": 36,
+                  "stroke": "#FFFFFF0D",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "ellipse",
+                  "id": "bcSmJ",
+                  "x": 162,
+                  "y": 196,
+                  "name": "Dim Dot 43",
+                  "fill": "#FFFFFF08",
+                  "width": 36,
+                  "height": 36,
+                  "stroke": "#FFFFFF0D",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "ellipse",
+                  "id": "YqcAP",
+                  "x": 210,
+                  "y": 196,
+                  "name": "Dim Dot 44",
+                  "fill": "#FFFFFF08",
+                  "width": 36,
+                  "height": 36,
+                  "stroke": "#FFFFFF0D",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "ellipse",
+                  "id": "rsDBT",
+                  "x": 258,
+                  "y": 196,
+                  "name": "Dim Dot 45",
+                  "fill": "#FFFFFF08",
+                  "width": 36,
+                  "height": 36,
+                  "stroke": "#FFFFFF0D",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "ellipse",
+                  "id": "H1FX6",
+                  "x": 306,
+                  "y": 196,
+                  "name": "Dim Dot 46",
+                  "fill": "#FFFFFF08",
+                  "width": 36,
+                  "height": 36,
+                  "stroke": "#FFFFFF0D",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "ellipse",
+                  "id": "u24nGW",
+                  "x": 18,
+                  "y": 242,
+                  "name": "Dim Dot 50",
+                  "fill": "#FFFFFF08",
+                  "width": 36,
+                  "height": 36,
+                  "stroke": "#FFFFFF0D",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "ellipse",
+                  "id": "gxuz8",
+                  "x": 66,
+                  "y": 242,
+                  "name": "Dim Dot 51",
+                  "fill": "#FFFFFF08",
+                  "width": 36,
+                  "height": 36,
+                  "stroke": "#FFFFFF0D",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "ellipse",
+                  "id": "VReuQ",
+                  "x": 114,
+                  "y": 242,
+                  "name": "Dim Dot 52",
+                  "fill": "#FFFFFF08",
+                  "width": 36,
+                  "height": 36,
+                  "stroke": "#FFFFFF0D",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "ellipse",
+                  "id": "V3sCM",
+                  "x": 162,
+                  "y": 242,
+                  "name": "Dim Dot 53",
+                  "fill": "#FFFFFF08",
+                  "width": 36,
+                  "height": 36,
+                  "stroke": "#FFFFFF0D",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "ellipse",
+                  "id": "u02Gsp",
+                  "x": 210,
+                  "y": 242,
+                  "name": "Dim Dot 54",
+                  "fill": "#FFFFFF08",
+                  "width": 36,
+                  "height": 36,
+                  "stroke": "#FFFFFF0D",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "ellipse",
+                  "id": "ddABz",
+                  "x": 258,
+                  "y": 242,
+                  "name": "Dim Dot 55",
+                  "fill": "#FFFFFF08",
+                  "width": 36,
+                  "height": 36,
+                  "stroke": "#FFFFFF0D",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "ellipse",
+                  "id": "nnRbx",
+                  "x": 306,
+                  "y": 242,
+                  "name": "Dim Dot 56",
+                  "fill": "#FFFFFF08",
+                  "width": 36,
+                  "height": 36,
+                  "stroke": "#FFFFFF0D",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "rectangle",
+                  "id": "Cf16k",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Dim Fill",
+                  "fill": "#0B0F19CC",
+                  "width": 350,
+                  "height": 180,
+                  "effect": {
+                    "type": "blur",
+                    "radius": 8
+                  }
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "oJcva",
+              "name": "Entry Card",
+              "width": "fill_container",
+              "fill": "$glass",
+              "cornerRadius": "$radius-xl",
+              "stroke": "$glass-border",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 20,
+              "padding": 24,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "dWKWs",
+                  "name": "Card Header",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "RD9wU",
+                      "name": "Date Emoji Group",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "UXqh4",
+                          "name": "Emoji Circle",
+                          "width": 48,
+                          "height": 48,
+                          "fill": "$mood-calm",
+                          "cornerRadius": 24,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "IsJGy",
+                              "x": 10,
+                              "y": 8,
+                              "name": "Entry Emoji",
+                              "fill": "$text-primary",
+                              "content": "💜",
+                              "fontFamily": "Inter",
+                              "fontSize": 24,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "lCjxf",
+                          "name": "Date Text Group",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "qRWfj",
+                              "name": "Date",
+                              "fill": "$text-primary",
+                              "content": "July 12, 2026",
+                              "fontFamily": "$font-body",
+                              "fontSize": 14,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "jmzCm",
+                              "name": "Time",
+                              "fill": "$text-secondary",
+                              "content": "9:14 PM",
+                              "fontFamily": "$font-body",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "DTGZQ",
+                      "name": "Edit Mood Button",
+                      "fill": "$glass",
+                      "cornerRadius": "$radius-pill",
+                      "gap": 4,
+                      "padding": [
+                        6,
+                        12
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "lrHqF",
+                          "name": "Edit Icon",
+                          "width": 14,
+                          "height": 14,
+                          "icon": "pencil",
+                          "library": "lucide",
+                          "fill": "$text-secondary"
+                        },
+                        {
+                          "type": "text",
+                          "id": "dMtPC",
+                          "name": "Edit Label",
+                          "fill": "$text-secondary",
+                          "content": "Edit Mood",
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "CeWNB",
+                  "name": "Divider",
+                  "width": "fill_container",
+                  "height": 1,
+                  "fill": "$glass-border"
+                },
+                {
+                  "type": "text",
+                  "id": "Yu2uP",
+                  "name": "Entry Text",
+                  "fill": "$text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Today was a good day. I felt calm and connected after my morning walk. The sunlight felt warm and I found myself smiling at strangers. There's a gentle peace in these small moments.",
+                  "lineHeight": 1.7,
+                  "fontFamily": "$font-body",
+                  "fontSize": 15,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "FiPHS",
+                  "name": "Divider 2",
+                  "width": "fill_container",
+                  "height": 1,
+                  "fill": "$glass-border"
+                },
+                {
+                  "type": "frame",
+                  "id": "aItnS",
+                  "name": "Emotion Pills",
+                  "width": "fill_container",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "LrkLu",
+                      "name": "Pill Calm",
+                      "fill": "$mood-calm",
+                      "cornerRadius": "$radius-pill",
+                      "gap": 4,
+                      "padding": [
+                        6,
+                        14
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "vRwXV",
+                          "name": "Calm Text",
+                          "fill": "$text-primary",
+                          "content": "Calm",
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "r5x96V",
+                      "name": "Pill Grateful",
+                      "fill": "$mood-love",
+                      "cornerRadius": "$radius-pill",
+                      "gap": 4,
+                      "padding": [
+                        6,
+                        14
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "nLAfY",
+                          "name": "Grateful Text",
+                          "fill": "$text-primary",
+                          "content": "Grateful",
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "TMkcV",
+                      "name": "Pill Content",
+                      "fill": "$mood-joy",
+                      "cornerRadius": "$radius-pill",
+                      "gap": 4,
+                      "padding": [
+                        6,
+                        14
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "bSLn9",
+                          "name": "Content Text",
+                          "fill": "$text-primary",
+                          "content": "Content",
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "v5hRQ5",
+      "x": 2370,
+      "y": 0,
+      "name": "Monthly Report",
+      "clip": true,
+      "width": 390,
+      "fill": {
+        "type": "gradient",
+        "gradientType": "linear",
+        "enabled": true,
+        "rotation": 180,
+        "size": {
+          "height": 1
+        },
+        "colors": [
+          {
+            "color": "#0B0F19",
+            "position": 0
+          },
+          {
+            "color": "#1E1B4B",
+            "position": 1
+          }
+        ]
+      },
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "wtpj0",
+          "name": "Status Bar",
+          "width": "fill_container",
+          "height": 62,
+          "padding": [
+            0,
+            24
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "q19WbU",
+              "name": "Time",
+              "fill": "$text-primary",
+              "content": "9:41",
+              "fontFamily": "$font-body",
+              "fontSize": 15,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "P6wO7",
+              "name": "Status Icons",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "tF3Nh",
+                  "name": "Signal",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "signal",
+                  "library": "lucide",
+                  "fill": "$text-primary"
+                },
+                {
+                  "type": "icon",
+                  "id": "XXHvK",
+                  "name": "Wifi",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "wifi",
+                  "library": "lucide",
+                  "fill": "$text-primary"
+                },
+                {
+                  "type": "icon",
+                  "id": "Su6qz",
+                  "name": "Battery",
+                  "width": 20,
+                  "height": 16,
+                  "icon": "battery-full",
+                  "library": "lucide",
+                  "fill": "$text-primary"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "qTE5E",
+          "name": "Report Content",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 24,
+          "padding": [
+            0,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "ENDRb",
+              "name": "Report Header",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "X8hE8o",
+                  "name": "Back Arrow",
+                  "width": 24,
+                  "height": 24,
+                  "icon": "arrow-left",
+                  "library": "lucide",
+                  "fill": "$text-primary"
+                },
+                {
+                  "type": "text",
+                  "id": "TGjK5",
+                  "name": "Report Title",
+                  "fill": "$text-primary",
+                  "content": "July Mind Journey",
+                  "fontFamily": "$font-heading",
+                  "fontSize": 20,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "frame",
+                  "id": "g4TZC",
+                  "name": "Spacer",
+                  "width": 24,
+                  "height": 24
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "B8M6Se",
+              "name": "Big Picture",
+              "width": "fill_container",
+              "fill": {
+                "type": "gradient",
+                "gradientType": "radial",
+                "enabled": true,
+                "rotation": 0,
+                "size": {
+                  "width": 1.5,
+                  "height": 1.5
+                },
+                "colors": [
+                  {
+                    "color": "#0EA5E920",
+                    "position": 0
+                  },
+                  {
+                    "color": "#3B82F610",
+                    "position": 0.5
+                  },
+                  {
+                    "color": "#00000000",
+                    "position": 1
+                  }
+                ],
+                "center": {
+                  "y": 0.4
+                }
+              },
+              "cornerRadius": "$radius-xl",
+              "stroke": "$glass-border",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 16,
+              "padding": 28,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "R6hgGh",
+                  "name": "Section Label",
+                  "fill": "$accent-primary",
+                  "content": "THE BIG PICTURE",
+                  "fontFamily": "$font-body",
+                  "fontSize": 11,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "fG6rp",
+                  "name": "Dominant Emoji",
+                  "fill": "$text-primary",
+                  "content": "😌",
+                  "fontFamily": "Inter",
+                  "fontSize": 56,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "TAkPY",
+                  "name": "Mood Name",
+                  "fill": "$text-primary",
+                  "content": "Calm",
+                  "fontFamily": "$font-heading",
+                  "fontSize": 24,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "X8SN5L",
+                  "name": "Mood Count",
+                  "fill": "$text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "This month, you felt calm on 12 of 31 days.",
+                  "lineHeight": 1.5,
+                  "textAlign": "center",
+                  "fontFamily": "$font-body",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "M7XcC",
+              "name": "Pattern Recognition",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 16,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Y3r91",
+                  "name": "Section Label",
+                  "fill": "$accent-primary",
+                  "content": "PATTERN RECOGNITION",
+                  "fontFamily": "$font-body",
+                  "fontSize": 11,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "b3gKH",
+                  "name": "Insight Card",
+                  "width": "fill_container",
+                  "fill": "$glass",
+                  "cornerRadius": "$radius-md",
+                  "gap": 14,
+                  "padding": [
+                    16,
+                    16,
+                    16,
+                    20
+                  ],
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 2,
+                      "id": "x4q1R",
+                      "name": "Accent Bar",
+                      "fill": "$accent-primary",
+                      "width": 3,
+                      "height": 40
+                    },
+                    {
+                      "type": "text",
+                      "id": "yGS4a",
+                      "name": "Insight Text",
+                      "fill": "$text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "We noticed anxiety peaks typically follow late-night productivity mentions.",
+                      "lineHeight": 1.6,
+                      "fontFamily": "$font-body",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "E0m2el",
+                  "name": "Insight Card",
+                  "width": "fill_container",
+                  "fill": "$glass",
+                  "cornerRadius": "$radius-md",
+                  "gap": 14,
+                  "padding": [
+                    16,
+                    16,
+                    16,
+                    20
+                  ],
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 2,
+                      "id": "sCbon",
+                      "name": "Accent Bar",
+                      "fill": "$accent-primary",
+                      "width": 3,
+                      "height": 40
+                    },
+                    {
+                      "type": "text",
+                      "id": "ENrcM",
+                      "name": "Insight Text",
+                      "fill": "$text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Your calmest days tended to fall on weekends — rest fuels clarity.",
+                      "lineHeight": 1.6,
+                      "fontFamily": "$font-body",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "u9ndZ",
+                  "name": "Insight Card",
+                  "width": "fill_container",
+                  "fill": "$glass",
+                  "cornerRadius": "$radius-md",
+                  "gap": 14,
+                  "padding": [
+                    16,
+                    16,
+                    16,
+                    20
+                  ],
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 2,
+                      "id": "C358M",
+                      "name": "Accent Bar",
+                      "fill": "$accent-primary",
+                      "width": 3,
+                      "height": 40
+                    },
+                    {
+                      "type": "text",
+                      "id": "M4K9NF",
+                      "name": "Insight Text",
+                      "fill": "$text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Gratitude appeared most often alongside entries about personal connections.",
+                      "lineHeight": 1.6,
+                      "fontFamily": "$font-body",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "lrswc",
+              "name": "Actionable Frameworks",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 16,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "GLRsG",
+                  "name": "Section Label",
+                  "fill": "$accent-primary",
+                  "content": "ACTIONABLE FRAMEWORKS",
+                  "fontFamily": "$font-body",
+                  "fontSize": 11,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "N7W1FT",
+                  "name": "Rec Morning Breathing",
+                  "width": "fill_container",
+                  "fill": "$glass",
+                  "cornerRadius": "$radius-lg",
+                  "stroke": "$glass-border",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 20,
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "cBqzx",
+                      "name": "Morning Breathing Icon",
+                      "width": 28,
+                      "height": 28,
+                      "icon": "sunrise",
+                      "library": "lucide",
+                      "fill": "$accent-primary"
+                    },
+                    {
+                      "type": "text",
+                      "id": "J1Gc7T",
+                      "name": "Morning Breathing Title",
+                      "fill": "$text-primary",
+                      "content": "Morning Breathing",
+                      "fontFamily": "$font-heading",
+                      "fontSize": 17,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "KySru",
+                      "name": "Morning Breathing Desc",
+                      "fill": "$text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Start each day with 5 minutes of intentional breath.",
+                      "lineHeight": 1.5,
+                      "fontFamily": "$font-body",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Yl7CX",
+                  "name": "Rec Digital Detox",
+                  "width": "fill_container",
+                  "fill": "$glass",
+                  "cornerRadius": "$radius-lg",
+                  "stroke": "$glass-border",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 20,
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "vrhZy",
+                      "name": "Digital Detox Icon",
+                      "width": 28,
+                      "height": 28,
+                      "icon": "moon",
+                      "library": "lucide",
+                      "fill": "$accent-primary"
+                    },
+                    {
+                      "type": "text",
+                      "id": "H9W4hs",
+                      "name": "Digital Detox Title",
+                      "fill": "$text-primary",
+                      "content": "Digital Detox",
+                      "fontFamily": "$font-heading",
+                      "fontSize": 17,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "dkaMg",
+                      "name": "Digital Detox Desc",
+                      "fill": "$text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Unplug after 8pm for deeper rest and clarity.",
+                      "lineHeight": 1.5,
+                      "fontFamily": "$font-body",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Cn3A3",
+                  "name": "Rec Gratitude Journal",
+                  "width": "fill_container",
+                  "fill": "$glass",
+                  "cornerRadius": "$radius-lg",
+                  "stroke": "$glass-border",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 20,
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "s7cJqb",
+                      "name": "Gratitude Journal Icon",
+                      "width": 28,
+                      "height": 28,
+                      "icon": "pen-line",
+                      "library": "lucide",
+                      "fill": "$accent-primary"
+                    },
+                    {
+                      "type": "text",
+                      "id": "HGUSv",
+                      "name": "Gratitude Journal Title",
+                      "fill": "$text-primary",
+                      "content": "Gratitude Journal",
+                      "fontFamily": "$font-heading",
+                      "fontSize": 17,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "eer6h",
+                      "name": "Gratitude Journal Desc",
+                      "fill": "$text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Write 3 things you're grateful for before bed.",
+                      "lineHeight": 1.5,
+                      "fontFamily": "$font-body",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "L0wp0P",
+              "name": "Bottom Spacer",
+              "width": "fill_container",
+              "height": 40
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "MKwnS",
+      "x": 2860,
+      "y": 0,
+      "name": "Login Screen",
+      "clip": true,
+      "width": 390,
+      "fill": {
+        "type": "gradient",
+        "gradientType": "linear",
+        "enabled": true,
+        "rotation": 180,
+        "size": {
+          "height": 1
+        },
+        "colors": [
+          {
+            "color": "#0B0F19",
+            "position": 0
+          },
+          {
+            "color": "#1E1B4B",
+            "position": 1
+          }
+        ]
+      },
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "MXWpL",
+          "name": "Status Bar",
+          "width": "fill_container",
+          "height": 62,
+          "padding": [
+            0,
+            24
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "v8NwIj",
+              "name": "Time",
+              "fill": "$text-primary",
+              "content": "9:41",
+              "fontFamily": "$font-body",
+              "fontSize": 15,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "Sa6yL",
+              "name": "Status Icons",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "eu8eH",
+                  "name": "Signal",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "signal",
+                  "library": "lucide",
+                  "fill": "$text-primary"
+                },
+                {
+                  "type": "icon",
+                  "id": "J1zBp",
+                  "name": "Wifi",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "wifi",
+                  "library": "lucide",
+                  "fill": "$text-primary"
+                },
+                {
+                  "type": "icon",
+                  "id": "ZwIu8",
+                  "name": "Battery",
+                  "width": 20,
+                  "height": 16,
+                  "icon": "battery-full",
+                  "library": "lucide",
+                  "fill": "$text-primary"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "kp2lc",
+          "name": "Login Content",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 32,
+          "padding": [
+            0,
+            28
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "XdUV4",
+              "name": "Brand Section",
+              "layout": "vertical",
+              "gap": 8,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "fb3dG",
+                  "name": "Logo Icon",
+                  "width": 48,
+                  "height": 48,
+                  "icon": "book-heart",
+                  "library": "lucide",
+                  "fill": "$accent-primary"
+                },
+                {
+                  "type": "text",
+                  "id": "Afdcw",
+                  "name": "App Name",
+                  "fill": "$text-primary",
+                  "content": "SoulScript",
+                  "fontFamily": "$font-heading",
+                  "fontSize": 32,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "kYKOG",
+                  "name": "Tagline",
+                  "fill": "$text-secondary",
+                  "content": "Your digital sanctuary for reflection",
+                  "fontFamily": "$font-body",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Pokgr",
+              "name": "Google OAuth Button",
+              "width": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": "$radius-md",
+              "gap": 12,
+              "padding": 14,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "PLrGR",
+                  "name": "Google G",
+                  "fill": "#4285F4",
+                  "content": "G",
+                  "fontFamily": "$font-body",
+                  "fontSize": 18,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "ekrsv",
+                  "name": "Google Label",
+                  "fill": "#1F1F1F",
+                  "content": "Continue with Google",
+                  "fontFamily": "$font-body",
+                  "fontSize": 15,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "PvyYX",
+              "name": "Divider Row",
+              "width": "fill_container",
+              "gap": 16,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "KB2zF",
+                  "name": "Left Line",
+                  "fill": "$glass-border",
+                  "width": "fill_container",
+                  "height": 1
+                },
+                {
+                  "type": "text",
+                  "id": "gnPIy",
+                  "name": "Or",
+                  "fill": "$text-muted",
+                  "content": "or sign up with email",
+                  "fontFamily": "$font-body",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "rectangle",
+                  "id": "TFNbp",
+                  "name": "Right Line",
+                  "fill": "$glass-border",
+                  "width": "fill_container",
+                  "height": 1
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "flDjl",
+              "name": "Form Card",
+              "width": "fill_container",
+              "fill": "$glass",
+              "cornerRadius": "$radius-lg",
+              "stroke": "$glass-border",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 16,
+              "padding": 24,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "cnNw1",
+                  "name": "Email Field",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 6,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Ef8YZ",
+                      "name": "Email Label",
+                      "fill": "$text-secondary",
+                      "content": "Email",
+                      "fontFamily": "$font-body",
+                      "fontSize": 13,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "N8hOqF",
+                      "name": "Email Input",
+                      "width": "fill_container",
+                      "fill": "$glass",
+                      "cornerRadius": "$radius-sm",
+                      "stroke": "$glass-border",
+                      "strokeWidth": 1,
+                      "gap": 10,
+                      "padding": [
+                        12,
+                        14
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "VjNrJ",
+                          "name": "Email Icon",
+                          "width": 18,
+                          "height": 18,
+                          "icon": "mail",
+                          "library": "lucide",
+                          "fill": "$text-muted"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Fnsu5",
+                          "name": "Email Placeholder",
+                          "fill": "$text-muted",
+                          "content": "you@example.com",
+                          "fontFamily": "$font-body",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "briEi",
+                  "name": "Password Field",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 6,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "z0FyJ",
+                      "name": "Password Label",
+                      "fill": "$text-secondary",
+                      "content": "Password",
+                      "fontFamily": "$font-body",
+                      "fontSize": 13,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "vEahr",
+                      "name": "Password Input",
+                      "width": "fill_container",
+                      "fill": "$glass",
+                      "cornerRadius": "$radius-sm",
+                      "stroke": "$glass-border",
+                      "strokeWidth": 1,
+                      "gap": 10,
+                      "padding": [
+                        12,
+                        14
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "bsY5n",
+                          "name": "Password Icon",
+                          "width": 18,
+                          "height": 18,
+                          "icon": "lock",
+                          "library": "lucide",
+                          "fill": "$text-muted"
+                        },
+                        {
+                          "type": "text",
+                          "id": "OpsPk",
+                          "name": "Password Placeholder",
+                          "fill": "$text-muted",
+                          "content": "••••••••",
+                          "fontFamily": "$font-body",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "nziVD",
+                  "name": "Login Button",
+                  "width": "fill_container",
+                  "fill": "$accent-primary",
+                  "cornerRadius": "$radius-md",
+                  "padding": 14,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "lwKav",
+                      "name": "Login Label",
+                      "fill": "#FFFFFF",
+                      "content": "Sign In",
+                      "fontFamily": "$font-body",
+                      "fontSize": 15,
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "AkYrB",
+              "name": "Signup Link",
+              "gap": 4,
+              "justifyContent": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "B5if7R",
+                  "name": "No Account",
+                  "fill": "$text-secondary",
+                  "content": "Don't have an account?",
+                  "fontFamily": "$font-body",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "DkVku",
+                  "name": "Signup Link Text",
+                  "fill": "$accent-primary",
+                  "content": "Sign up",
+                  "fontFamily": "$font-body",
+                  "fontSize": 13,
+                  "fontWeight": "600"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "U6yuB",
+      "x": 3350,
+      "y": 0,
+      "name": "Settings Screen",
+      "clip": true,
+      "width": 390,
+      "fill": {
+        "type": "gradient",
+        "gradientType": "linear",
+        "enabled": true,
+        "rotation": 180,
+        "size": {
+          "height": 1
+        },
+        "colors": [
+          {
+            "color": "#0B0F19",
+            "position": 0
+          },
+          {
+            "color": "#1E1B4B",
+            "position": 1
+          }
+        ]
+      },
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "fyxlB",
+          "name": "Status Bar",
+          "width": "fill_container",
+          "height": 62,
+          "padding": [
+            0,
+            24
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "erSVg",
+              "name": "Time",
+              "fill": "$text-primary",
+              "content": "9:41",
+              "fontFamily": "$font-body",
+              "fontSize": 15,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "ZqugO",
+              "name": "Status Icons",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "W5k8MN",
+                  "name": "Signal",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "signal",
+                  "library": "lucide",
+                  "fill": "$text-primary"
+                },
+                {
+                  "type": "icon",
+                  "id": "VmtWG",
+                  "name": "Wifi",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "wifi",
+                  "library": "lucide",
+                  "fill": "$text-primary"
+                },
+                {
+                  "type": "icon",
+                  "id": "QAWCI",
+                  "name": "Battery",
+                  "width": 20,
+                  "height": 16,
+                  "icon": "battery-full",
+                  "library": "lucide",
+                  "fill": "$text-primary"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "eKLMN",
+          "name": "Settings Content",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 28,
+          "padding": [
+            0,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "F72yc",
+              "name": "Settings Header",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "sjUkt",
+                  "name": "Back Arrow",
+                  "width": 24,
+                  "height": 24,
+                  "icon": "arrow-left",
+                  "library": "lucide",
+                  "fill": "$text-primary"
+                },
+                {
+                  "type": "text",
+                  "id": "Z0f1s",
+                  "name": "Settings Title",
+                  "fill": "$text-primary",
+                  "content": "Settings",
+                  "fontFamily": "$font-heading",
+                  "fontSize": 22,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "frame",
+                  "id": "h1Foy",
+                  "name": "Spacer",
+                  "width": 24,
+                  "height": 24
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Ferag",
+              "name": "Profile Card",
+              "width": "fill_container",
+              "fill": "$glass",
+              "cornerRadius": "$radius-lg",
+              "stroke": "$glass-border",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 20,
+              "padding": 24,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "HLngT",
+                  "name": "Section Label",
+                  "fill": "$accent-primary",
+                  "content": "PROFILE",
+                  "fontFamily": "$font-body",
+                  "fontSize": 11,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "mNI6F",
+                  "name": "Profile Row",
+                  "width": "fill_container",
+                  "gap": 16,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "GLgAx",
+                      "name": "Avatar",
+                      "width": 56,
+                      "height": 56,
+                      "fill": "$accent-primary",
+                      "cornerRadius": 28,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "MhESL",
+                          "x": 16,
+                          "y": 12,
+                          "name": "Avatar Initial",
+                          "fill": "#FFFFFF",
+                          "content": "A",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 22,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Gggwm",
+                      "name": "Profile Info",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "DdMnz",
+                          "name": "Display Name",
+                          "fill": "$text-primary",
+                          "content": "Alex",
+                          "fontFamily": "$font-body",
+                          "fontSize": 17,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "gjcxM",
+                          "name": "Email",
+                          "fill": "$text-secondary",
+                          "content": "alex@example.com",
+                          "fontFamily": "$font-body",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "vHewc",
+                  "name": "Language Section",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "lXI23",
+                      "name": "Language Label",
+                      "fill": "$text-secondary",
+                      "content": "Preferred Language",
+                      "fontFamily": "$font-body",
+                      "fontSize": 13,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "F17UCf",
+                      "name": "Language Toggle",
+                      "width": "fill_container",
+                      "fill": "$glass",
+                      "cornerRadius": "$radius-pill",
+                      "stroke": "$glass-border",
+                      "strokeWidth": 1,
+                      "padding": 3,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "UQmxE",
+                          "name": "Burmese Option",
+                          "width": "fill_container",
+                          "fill": "$accent-primary",
+                          "cornerRadius": "$radius-pill",
+                          "padding": [
+                            10,
+                            0
+                          ],
+                          "justifyContent": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "LyLfR",
+                              "name": "Burmese Label",
+                              "fill": "#FFFFFF",
+                              "content": "Burmese",
+                              "fontFamily": "$font-body",
+                              "fontSize": 14,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "w2GW5",
+                          "name": "English Option",
+                          "width": "fill_container",
+                          "cornerRadius": "$radius-pill",
+                          "padding": [
+                            10,
+                            0
+                          ],
+                          "justifyContent": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "NNa2Z",
+                              "name": "English Label",
+                              "fill": "$text-muted",
+                              "content": "English",
+                              "fontFamily": "$font-body",
+                              "fontSize": 14,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "vE4pu",
+              "name": "Danger Zone",
+              "width": "fill_container",
+              "fill": "$glass",
+              "cornerRadius": "$radius-lg",
+              "stroke": "#EF444433",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 16,
+              "padding": 24,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "GgKIw",
+                  "name": "Danger Label",
+                  "fill": "#EF4444",
+                  "content": "DANGER ZONE",
+                  "fontFamily": "$font-body",
+                  "fontSize": 11,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "ZZLbi",
+                  "name": "Danger Description",
+                  "fill": "$text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Permanently delete your account and all journal entries. This action cannot be undone.",
+                  "lineHeight": 1.5,
+                  "fontFamily": "$font-body",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "XiWbd",
+                  "name": "Delete Account Button",
+                  "width": "fill_container",
+                  "fill": "#EF444420",
+                  "cornerRadius": "$radius-md",
+                  "stroke": "#EF4444",
+                  "strokeWidth": 1,
+                  "gap": 8,
+                  "padding": 14,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "I272Hz",
+                      "name": "Trash Icon",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "trash-2",
+                      "library": "lucide",
+                      "fill": "#EF4444"
+                    },
+                    {
+                      "type": "text",
+                      "id": "FtVB3",
+                      "name": "Delete Label",
+                      "fill": "#EF4444",
+                      "content": "Delete Account",
+                      "fontFamily": "$font-body",
+                      "fontSize": 15,
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "mBTA8",
+              "name": "Bottom Spacer",
+              "width": "fill_container",
+              "height": 40
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "X9JIUU",
+      "x": 3840,
+      "y": 0,
+      "name": "404 Page",
+      "clip": true,
+      "width": 390,
+      "fill": {
+        "type": "gradient",
+        "gradientType": "linear",
+        "enabled": true,
+        "rotation": 180,
+        "size": {
+          "height": 1
+        },
+        "colors": [
+          {
+            "color": "#0B0F19",
+            "position": 0
+          },
+          {
+            "color": "#1E1B4B",
+            "position": 1
+          }
+        ]
+      },
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "s2GMde",
+          "name": "Status Bar",
+          "width": "fill_container",
+          "height": 62,
+          "padding": [
+            0,
+            24
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "PA54d",
+              "name": "Time",
+              "fill": "$text-primary",
+              "content": "9:41",
+              "fontFamily": "$font-body",
+              "fontSize": 15,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "ke45o",
+              "name": "Status Icons",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "I9zYUU",
+                  "name": "Signal",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "signal",
+                  "library": "lucide",
+                  "fill": "$text-primary"
+                },
+                {
+                  "type": "icon",
+                  "id": "t1QGr",
+                  "name": "Wifi",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "wifi",
+                  "library": "lucide",
+                  "fill": "$text-primary"
+                },
+                {
+                  "type": "icon",
+                  "id": "Q0o0Jr",
+                  "name": "Battery",
+                  "width": 20,
+                  "height": 16,
+                  "icon": "battery-full",
+                  "library": "lucide",
+                  "fill": "$text-primary"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "GgKFX",
+          "name": "404 Center",
+          "width": "fill_container",
+          "layout": "vertical",
+          "padding": [
+            0,
+            40
+          ],
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "rectangle",
+              "cornerRadius": 140,
+              "id": "fwLMD",
+              "name": "404 Glow",
+              "fill": {
+                "type": "gradient",
+                "gradientType": "radial",
+                "enabled": true,
+                "rotation": 0,
+                "size": {
+                  "width": 1.2,
+                  "height": 1.2
+                },
+                "colors": [
+                  {
+                    "color": "#47556920",
+                    "position": 0
+                  },
+                  {
+                    "color": "#00000000",
+                    "position": 1
+                  }
+                ]
+              },
+              "width": 280,
+              "height": 280,
+              "effect": {
+                "type": "blur",
+                "radius": 60
+              }
+            },
+            {
+              "type": "frame",
+              "id": "Zjaam",
+              "name": "404 Card",
+              "width": 300,
+              "fill": "$glass",
+              "cornerRadius": "$radius-xl",
+              "stroke": "$glass-border",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 16,
+              "padding": 40,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "loipY",
+                  "name": "Lost Icon",
+                  "width": 48,
+                  "height": 48,
+                  "icon": "compass",
+                  "library": "lucide",
+                  "fill": "$text-secondary"
+                },
+                {
+                  "type": "text",
+                  "id": "XF1En",
+                  "name": "404 Title",
+                  "fill": "$text-primary",
+                  "content": "Lost in the sanctuary?",
+                  "textAlign": "center",
+                  "fontFamily": "$font-heading",
+                  "fontSize": 24,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "lAzmU",
+                  "name": "404 Message",
+                  "fill": "$text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "This page doesn't exist. Let's guide you back.",
+                  "lineHeight": 1.6,
+                  "textAlign": "center",
+                  "fontFamily": "$font-body",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "Diche",
+                  "name": "Return Home Button",
+                  "fill": "$accent-primary",
+                  "cornerRadius": "$radius-pill",
+                  "gap": 8,
+                  "padding": [
+                    12,
+                    28
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "c5XGc",
+                      "name": "Home Icon",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "house",
+                      "library": "lucide",
+                      "fill": "#FFFFFF"
+                    },
+                    {
+                      "type": "text",
+                      "id": "R52ZS",
+                      "name": "Home Label",
+                      "fill": "#FFFFFF",
+                      "content": "Return Home",
+                      "fontFamily": "$font-body",
+                      "fontSize": 15,
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variables": {
+    "bg-deep": {
+      "type": "color",
+      "value": "#0B0F19"
+    },
+    "bg-mid": {
+      "type": "color",
+      "value": "#1E1B4B"
+    },
+    "bg-gradient": {
+      "type": "color",
+      "value": "#141233"
+    },
+    "glass": {
+      "type": "color",
+      "value": "#FFFFFF0D"
+    },
+    "glass-border": {
+      "type": "color",
+      "value": "#FFFFFF1A"
+    },
+    "glass-strong": {
+      "type": "color",
+      "value": "#FFFFFF14"
+    },
+    "text-primary": {
+      "type": "color",
+      "value": "#F5F5F5"
+    },
+    "text-secondary": {
+      "type": "color",
+      "value": "#94A3B8"
+    },
+    "text-muted": {
+      "type": "color",
+      "value": "#64748B"
+    },
+    "accent-primary": {
+      "type": "color",
+      "value": "#818CF8"
+    },
+    "accent-glow": {
+      "type": "color",
+      "value": "#6366F1"
+    },
+    "mood-joy": {
+      "type": "color",
+      "value": "#F59E0B33"
+    },
+    "mood-sadness": {
+      "type": "color",
+      "value": "#3B82F633"
+    },
+    "mood-anger": {
+      "type": "color",
+      "value": "#EF444433"
+    },
+    "mood-calm": {
+      "type": "color",
+      "value": "#0EA5E933"
+    },
+    "mood-love": {
+      "type": "color",
+      "value": "#EC489933"
+    },
+    "mood-fear": {
+      "type": "color",
+      "value": "#8B5CF633"
+    },
+    "mood-anxious": {
+      "type": "color",
+      "value": "#EAB30833"
+    },
+    "mood-uncertain": {
+      "type": "color",
+      "value": "#47556933"
+    },
+    "font-heading": {
+      "type": "string",
+      "value": "Playfair Display"
+    },
+    "font-body": {
+      "type": "string",
+      "value": "Inter"
+    },
+    "radius-sm": {
+      "type": "number",
+      "value": 8
+    },
+    "radius-md": {
+      "type": "number",
+      "value": 12
+    },
+    "radius-lg": {
+      "type": "number",
+      "value": 16
+    },
+    "radius-xl": {
+      "type": "number",
+      "value": 24
+    },
+    "radius-pill": {
+      "type": "number",
+      "value": 9999
+    }
+  },
+  "fileToken": "b82db296-84bb-4b25-a7a1-1ca567f4c94e"
+}
