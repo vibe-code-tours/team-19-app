@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import MonthlyReport from "./MonthlyReport";
 
@@ -30,6 +31,7 @@ function getFirstDayOfMonth(year: number, month: number) {
 }
 
 export default function MoodCalendar() {
+  const router = useRouter();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [entries, setEntries] = useState<JournalEntry[]>([]);
   const [loading, setLoading] = useState(true);
@@ -157,6 +159,19 @@ export default function MoodCalendar() {
   return (
     <div className="min-h-screen flex flex-col">
       <div className="flex-1 px-5 pb-8 max-w-lg mx-auto w-full">
+        {/* Back to Dashboard */}
+        <div className="flex justify-start pt-4 pb-2">
+          <button
+            onClick={() => router.push("/")}
+            className="flex items-center gap-1.5 text-text-secondary hover:text-text-primary transition-colors text-sm"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Journal
+          </button>
+        </div>
+
         {/* Month Header */}
         <div className="flex items-center justify-between py-4">
           <button onClick={prevMonth} className="p-2 text-text-secondary hover:text-text-primary">

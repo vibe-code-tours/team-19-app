@@ -2,7 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
 import { encrypt } from "@/lib/encryption";
 import { validateGlowTheme, MOOD_THEMES } from "@/lib/mood-themes";
-import { detectLanguage } from "@/lib/language";
+import { detectLanguage, getSystemPromptLanguage } from "@/lib/language";
 import OpenAI from "openai";
 
 const MAX_LENGTH = 5000;
@@ -112,8 +112,17 @@ export async function POST(request: Request) {
       );
     }
 
+    // Fetch user profile for language preference
+    const { data: profile } = await supabase
+      .from("user_profiles")
+      .select("preferred_language")
+      .eq("user_id", user.id)
+      .single();
+
+    const userDefault = (profile?.preferred_language as "burmese" | "english") || "burmese";
+
     // Detect language and analyze
-    const language = detectLanguage(content);
+    const language = getSystemPromptLanguage(content, userDefault);
     const truncatedContent = content.slice(0, MAX_LENGTH);
     const analysis = await callAI(truncatedContent, language);
     const validated = validateResult(analysis);
