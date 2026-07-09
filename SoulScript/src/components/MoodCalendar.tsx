@@ -217,9 +217,12 @@ export default function MoodCalendar() {
                 className="aspect-square flex items-center justify-center relative"
               >
                 {entry ? (
-                  <div className="w-full h-full rounded-full glass flex items-center justify-center">
+                  <motion.div
+                    layoutId={`entry-${entry.id}`}
+                    className="w-full h-full rounded-full glass flex items-center justify-center"
+                  >
                     <span className="text-lg">{entry.emoji}</span>
-                  </div>
+                  </motion.div>
                 ) : (
                   <div className="w-8 h-8 rounded-full border border-dashed border-glass-border" />
                 )}
@@ -275,43 +278,63 @@ export default function MoodCalendar() {
           </div>
         )}
 
-        {/* Empty State */}
+        {/* Empty State — breathing glassmorphism overlay */}
         {entries.length === 0 && (
-          <div className="mt-8 glass-strong rounded-2xl p-6 text-center space-y-3">
-            <p className="text-text-secondary text-sm">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mt-8 glass-strong rounded-2xl p-6 text-center space-y-3"
+          >
+            <div className="breathe mx-auto w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center mb-2">
+              <span className="text-2xl">✨</span>
+            </div>
+            <p className="text-text-secondary text-sm leading-relaxed">
               Your mood constellation awaits. Start journaling to see your
               emotions map.
             </p>
-          </div>
+          </motion.div>
         )}
       </div>
 
-      {/* Entry Overlay */}
+      {/* Entry Overlay — Bottom Sheet on mobile, centered on sm+ */}
       <AnimatePresence>
         {selectedEntry && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-4"
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center"
             onClick={() => {
               setSelectedEntry(null);
               setShowMoodPicker(false);
             }}
           >
             <motion.div
-              initial={{ y: 100, opacity: 0 }}
+              initial={{ y: "100%", opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              exit={{ y: 100, opacity: 0 }}
-              className="glass rounded-2xl p-6 w-full max-w-md space-y-5"
+              exit={{ y: "100%", opacity: 0 }}
+              transition={{ type: "spring", damping: 30, stiffness: 300 }}
+              drag="y"
+              dragConstraints={{ top: 0 }}
+              dragElastic={0.2}
+              onDragEnd={(_, info) => {
+                if (info.offset.y > 100 || info.velocity.y > 500) {
+                  setSelectedEntry(null);
+                  setShowMoodPicker(false);
+                }
+              }}
+              className="glass rounded-t-2xl sm:rounded-2xl p-6 w-full max-w-md space-y-5"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Header */}
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center">
+                  <motion.div
+                    layoutId={`entry-${selectedEntry.id}`}
+                    className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center"
+                  >
                     <span className="text-2xl">{selectedEntry.emoji}</span>
-                  </div>
+                  </motion.div>
                   <div>
                     <p className="text-sm font-medium text-text-primary">
                       {new Date(selectedEntry.created_at).toLocaleDateString(
