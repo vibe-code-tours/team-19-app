@@ -12,12 +12,12 @@ SoulScript is a stunning, minimalist "digital sanctuary" for emotional tracking 
 ---
 
 ## 2. Technical Stack (MVP Scope)
-* **Frontend Framework:** Next.js 14+ (React) utilizing the App Router with TypeScript.
-* **Styling & UI System:** Tailwind CSS with Shadcn/ui (Radix Primitives) for accessible layout foundations.
+* **Frontend Framework:** Next.js 16 (React 19) utilizing the App Router with TypeScript.
+* **Styling & UI System:** Tailwind CSS 4 with glassmorphism design system.
 * **Animation Framework:** Framer Motion (essential for fluid layout morphing and fading states).
 * **Database, Auth & ORM:** **Supabase** (PostgreSQL + Auth + Row-Level Security). All queries use the Supabase JS client (`@supabase/ssr` + `@supabase/supabase-js`). No separate ORM.
-* **AI Processing Engine:** OpenAI API (`gpt-4o-mini`) implemented through the Vercel AI SDK, with **OpenRouter free-tier fallback** for resilience. All AI responses use **structured outputs** (`response_format: json_schema`) to guarantee valid JSON.
-* **Client Data Layer:** **TanStack Query** for optimistic updates, caching, and background refetching.
+* **AI Processing Engine:** **OpenRouter** free-tier (`meta-llama/llama-3-8b-instruct`) implemented through the OpenAI SDK with custom base URL. All AI responses use **structured outputs** (`response_format: json_object`) to guarantee valid JSON.
+* **Client Data Layer:** API routes with server-side decryption for secure data fetching.
 
 ---
 
@@ -30,7 +30,7 @@ SoulScript is a stunning, minimalist "digital sanctuary" for emotional tracking 
   * **`/signup`** — Two paths side by side: a prominent **Google OAuth** button (top) for one-tap sign-up, followed by a divider ("or sign up with email"), then an email/password form with display name, email, password, and confirm password fields. Password rules: min 8 characters, at least 1 number and 1 special character. On submit: creates account via `supabase.auth.signUp()`, auto-creates `user_profiles` row with display name (from input or Google profile) and default language `'burmese'`. Redirect to `/`. Google users get display name pre-filled from their Google profile. Duplicate email and weak password show inline errors.
   * **`/login`** — Same layout: **Google OAuth** button (top) + email/password form. If user signed up with Google and has no password, show hint: *"Signed up with Google? Use the Google button above."* Post-login redirect to `/`. Link to `/signup` for new users. Forgot password deferred past MVP.
   * **`/auth/callback`** — GET handler for OAuth redirect. Exchanges auth code for session via `supabase.auth.exchangeCodeForSession()`. Redirects to `/`.
-* **Account Deletion:** Users can delete their account from a settings page. Deletion cascades to all journal entries and monthly reports. Supabase Auth user is also deleted. Confirmation modal required before deletion.
+* **Account Deletion:** Users can delete their account from a settings page. Deletion cascades to all journal entries, monthly reports, and user profile. Supabase Auth user is deleted via `supabase.auth.admin.deleteUser()` using the service role key. Confirmation modal required before deletion.
 * **Rate Limiting:** Max **10 journal entries per user per day**. Checked via a Supabase query counting today's non-deleted entries before calling AI. Returns HTTP 429 with a message: *"You've reached your daily limit of 10 entries. Come back tomorrow!"*
 
 ---
@@ -252,12 +252,12 @@ The app must be **mobile-first and functional on all screen sizes**.
 ### Feature 9.2: Daily AI Sentiment Analysis Workflow (`/app/api/analyze/route.ts`)
 * **Endpoint Type:** Next.js Route Handler (POST), protected by middleware. Extracts `userId` from the Supabase session — never from the request body.
 * **Request Body:** `{ content: string }`
-* **AI Provider Strategy:** Primary: OpenAI `gpt-4o-mini` via Vercel AI SDK. Fallback: OpenRouter free-tier model (e.g., `meta-llama/llama-3-8b-instruct`). If primary fails (rate limit, timeout, 5xx), retry once with fallback before returning error. All responses use **structured outputs** (`response_format: json_schema`) to guarantee valid JSON.
+* **AI Provider:** **OpenRouter** free-tier (`meta-llama/llama-3-8b-instruct`) via OpenAI SDK with custom base URL. All responses use **structured outputs** (`response_format: json_object`) to guarantee valid JSON.
 * **Language Detection:** Hybrid approach — user sets a default language in settings (persisted to Supabase `user_profiles` table, defaults to Burmese). Per-entry detection runs as a safety net using Myanmar Unicode script range (U+1000–U+109F): if Burmese characters are present, override to Burmese system prompt; if text contains only Latin characters, use English prompt. This handles mixed-language entries and bilingual users without external dependencies.
 * **Supported Languages:** Entries accepted in **Burmese or English**.
 * **Minimum Entry Length:** User must write a full sentence (at least 10 characters). UI disables submit button until threshold is met. API rejects entries below this with a validation error.
 * **Maximum Entry Length:** No hard limit. Entries beyond 5000 characters are truncated before sending to AI (with user warning).
-* **AI Call:** Sends the journal text to OpenAI `gpt-4o-mini` via Vercel AI SDK. System prompt returns `{ primary_emotion, emoji, secondary_emotions, glow_theme }`.
+* **AI Call:** Sends the journal text to OpenRouter via OpenAI SDK. System prompt returns `{ primary_emotion, emoji, secondary_emotions, glow_theme }`.
 * **System Prompt Constraint:** > "You are an empathetic, highly analytical, emotionally intelligent AI psychologist. The input text may be in Burmese or English. Analyze the text payload regardless of language. Always return emotion labels in English. Return a strictly valid JSON object containing: 'primary_emotion' (1 word, in English), 'emoji' (1 character), 'secondary_emotions' (string array of 1-3 terms in English — only include emotions you genuinely identify in the text; if the input is sparse, infer from tone, brevity, or word choice — do not pad), and 'glow_theme' (a valid Tailwind gradient class from the allowed mood themes)."
 * **Validation:**
   - `glow_theme` is validated against the `MOOD_THEMES` allowlist via `validateGlowTheme()`.
@@ -311,14 +311,12 @@ The app must be **mobile-first and functional on all screen sizes**.
 ### Feature 9.3.3: Account Deletion API (`/app/api/account/route.ts`)
 * **Endpoint:** DELETE, protected by middleware. Extracts `userId` from session.
 * **Flow:**
-  1. Fetch all journal entry IDs for the user (for decryption cleanup, if needed).
-  2. Delete all `journal_entries` where `user_id = userId`.
-  3. Delete all `monthly_reports` where `user_id = userId`.
-  4. Delete `user_profiles` where `user_id = userId`.
-  5. Delete the Supabase Auth user via `supabase.auth.admin.deleteUser(userId)` (requires service role key) or redirect to a Supabase Edge Function.
-  6. Sign out the user client-side.
+  1. Delete all `journal_entries` where `user_id = userId`.
+  2. Delete all `monthly_reports` where `user_id = userId`.
+  3. Delete `user_profiles` where `user_id = userId`.
+  4. Delete the Supabase Auth user via `supabase.auth.admin.deleteUser(userId)` using a separate admin client with `SUPABASE_SERVICE_ROLE_KEY`.
 * **Confirmation:** The UI shows a confirmation modal: *"This will permanently delete your account and all journal entries. This action cannot be undone."* User must type "DELETE" to confirm.
-* **Response:** 200 on success. Redirect to `/login` after deletion.
+* **Response:** 200 on success. Client redirects to `/login`.
 * **Error Handling:** If any step fails, abort the entire deletion, show error toast, and log the failure. Partial deletion is not acceptable — either all data is deleted or nothing is.
 
 ### Feature 9.4: Monthly "Mind Journey" Report (`/components/MonthlyReport.tsx`)
@@ -326,8 +324,8 @@ The app must be **mobile-first and functional on all screen sizes**.
 * **Loading State:** Pulsing frosted-glass skeleton matching the report card layout.
 * **Error State:** Glassmorphism card with error message and retry button.
 * **Minimum Data:** Requires at least **10 journal entries** for the target month. If < 10 entries, display a message: *"Keep journaling! You need at least 10 entries to unlock your monthly journey."*
-* **AI Analysis Endpoint (`/app/api/report/route.ts`):** Accepts `{ month: "YYYY-MM" }`. Fetches the target month's entries via `supabase.from('journal_entries').select('*').eq('user_id', userId).gte('created_at', startDate).lt('created_at', endDate).is('deleted_at', null)`. Aggregates data points and calls OpenAI to return the structured report payload. Upserts via `supabase.from('monthly_reports').upsert({...})`.
-* **AI Provider Strategy:** Same fallback logic as the analyze endpoint — OpenAI primary, OpenRouter fallback.
+* **AI Analysis Endpoint (`/app/api/report/route.ts`):** Accepts `{ month: "YYYY-MM" }`. Fetches the target month's entries via `supabase.from('journal_entries').select('*').eq('user_id', userId).gte('created_at', startDate).lt('created_at', endDate).is('deleted_at', null)`. Decrypts entries server-side, aggregates data points, and calls OpenRouter to return the structured report payload. Upserts via `supabase.from('monthly_reports').upsert({...})`.
+* **AI Provider:** **OpenRouter** free-tier via OpenAI SDK with custom base URL.
 * **UI Presentation:** Three stages, vertically stacked, each animating in sequentially with Framer Motion (staggered fade-in from bottom):
   * *The Big Picture:* Full-width card with dominant mood emoji (large, centered), mood name, and a count: *"This month, you felt [mood] on [X] of [Y] days."* Background glow matches the dominant mood gradient.
   * *Pattern Recognition:* Glassmorphism card with 2-3 insights. Each insight is a quote-style block with a subtle left border accent. Examples: *"We noticed anxiety peaks typically follow late-night productivity mentions."* / *"Your calmest days tended to fall on weekends."* Handles variable-length secondary emotions (1-3 per entry).
@@ -337,9 +335,9 @@ The app must be **mobile-first and functional on all screen sizes**.
 ### Feature 9.5: User Settings (`/app/settings/page.tsx`)
 * **Page Access:** Protected route — redirect to `/login` if unauthenticated.
 * **Profile Section:**
+  - Profile image (Google OAuth users see their Google avatar; email users see initials)
   - Display name input (editable, persisted to `user_profiles.display_name`)
   - Email display (read-only, from Supabase Auth)
-  - Avatar placeholder (initials from display name or email)
 * **Language Preference:**
   - Toggle: **Burmese** / **English** — persisted to `user_profiles.preferred_language`
   - Default: Burmese
@@ -406,7 +404,6 @@ After each phase:
 - Manual test: login with Google, create entry, see calendar, generate report
 - Verify RLS: attempt to query entries without session → blocked
 - Verify AI validation: malformed glow_theme falls back to default
-- Verify fallback: disable OpenAI key, confirm OpenRouter fallback works
 - Verify entry validation: submit < 10 characters → blocked with error
 - Verify error state: fail API call → textarea preserved, error toast shown
 - Verify encryption: check DB content column is encrypted ciphertext, not plaintext
@@ -414,7 +411,8 @@ After each phase:
 - Verify mood override: change mood on entry, confirm emoji and glow update
 - Verify language detection: write Burmese text → AI analyzes correctly and returns English emotion labels
 - Verify settings: change language preference → persists across page reload
-- Verify account deletion: delete account, confirm all data removed (entries, reports, profile), redirected to login
+- Verify Google avatar: login with Google → settings shows Google profile picture
+- Verify account deletion: delete account, confirm all data removed (entries, reports, profile, auth user), redirected to login
 - Verify profile trigger: create new auth user → profile auto-created with display name from OAuth or email prefix
 - Verify mobile: test on 375px width (iPhone SE) — bottom sheet opens, calendar readable
 
@@ -429,8 +427,7 @@ All required environment variables. A `.env.example` file must be committed to t
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL | Supabase dashboard → Settings → API |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anonymous (public) key | Supabase dashboard → Settings → API |
 | `SUPABASE_SERVICE_ROLE_KEY` | Supabase admin key — used for account deletion (`auth.admin.deleteUser`) | Supabase dashboard → Settings → API |
-| `OPENAI_API_KEY` | OpenAI API access — primary AI provider | OpenAI dashboard → API Keys |
-| `OPENROUTER_API_KEY` | OpenRouter API access — fallback AI provider | OpenRouter dashboard → Keys |
+| `OPENROUTER_API_KEY` | OpenRouter API access — AI provider (free tier) | OpenRouter dashboard → Keys |
 | `ENCRYPTION_KEY` | AES-256-GCM encryption key — 32 bytes, hex-encoded (64 hex chars) | Self-generated via `openssl rand -hex 32` |
 
 ### `.env.example`
@@ -440,8 +437,7 @@ NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
 
-# AI Providers
-OPENAI_API_KEY=your_openai_api_key
+# AI Provider (OpenRouter)
 OPENROUTER_API_KEY=your_openrouter_api_key
 
 # Encryption

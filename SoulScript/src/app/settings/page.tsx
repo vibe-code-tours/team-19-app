@@ -11,6 +11,7 @@ export default function SettingsPage() {
     preferred_language: string;
   } | null>(null);
   const [email, setEmail] = useState("");
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -30,6 +31,7 @@ export default function SettingsPage() {
       }
 
       setEmail(user.email || "");
+      setAvatarUrl(user.user_metadata?.avatar_url || null);
 
       const { data } = await supabase
         .from("user_profiles")
@@ -104,11 +106,19 @@ export default function SettingsPage() {
           </p>
 
           <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-full bg-accent flex items-center justify-center">
-              <span className="font-[family-name:var(--font-playfair)] text-xl font-bold text-white">
-                {initials}
-              </span>
-            </div>
+            {avatarUrl ? (
+              <img
+                src={avatarUrl}
+                alt="Profile"
+                className="w-14 h-14 rounded-full object-cover"
+              />
+            ) : (
+              <div className="w-14 h-14 rounded-full bg-accent flex items-center justify-center">
+                <span className="font-[family-name:var(--font-playfair)] text-xl font-bold text-white">
+                  {initials}
+                </span>
+              </div>
+            )}
             <div>
               <p className="font-medium text-text-primary text-base">
                 {profile?.display_name || "User"}

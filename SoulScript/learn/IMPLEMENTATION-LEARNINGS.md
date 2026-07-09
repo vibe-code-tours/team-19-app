@@ -1,6 +1,6 @@
 # SoulScript Implementation Learnings
 
-## Session Date: 2026-07-08
+## Session Date: 2026-07-08 (Updated: 2026-07-09)
 
 ---
 
@@ -12,8 +12,8 @@
 | Framework | Next.js 16 (App Router) | SSR for auth, API routes, React Server Components |
 | Styling | Tailwind CSS 4 | Rapid prototyping, consistent design tokens |
 | Database | Supabase (PostgreSQL) | Built-in auth, RLS, real-time subscriptions |
-| AI | OpenAI + OpenRouter fallback | Resilience via provider fallback pattern |
-| State | TanStack Query (planned) | Optimistic updates, caching, background refetch |
+| AI | OpenRouter (free tier) | No-cost AI inference via OpenAI SDK with custom base URL |
+| State | API routes with server-side decryption | Secure data fetching, encryption key never exposed to client |
 | Animation | Framer Motion | Layout morphing, AnimatePresence for toasts |
 | Testing | Vitest | Fast, TypeScript-native, ESM-first |
 
@@ -27,21 +27,15 @@
 
 ## 2. Implementation Flow
 
-### GSD Approach (What We Should Have Done)
-1. ✅ Read SPEC.md thoroughly
-2. ✅ Design screens in Pencil MCP (7 screens)
-3. ⚠️ Should have used `/gsd-execute-phase` for structured implementation
-4. ✅ Built features sequentially with verification
-
 ### What Actually Happened
 1. **Design Phase:** Created 7 Pencil screens (Dashboard, Calendar, Overlay, Report, Login, Settings, 404)
 2. **Setup Phase:** Next.js init, dependencies, directory structure
 3. **Core Libraries:** Encryption, mood-themes, language detection
 4. **Auth:** Login, signup, callback, proxy (middleware)
 5. **Dashboard:** Main page with greeting, textarea, undo toast
-6. **API Routes:** analyze, report, entries/[id], profile, account
-7. **Calendar:** MoodCalendar component with overlay
-8. **Settings:** Profile, language toggle, delete account
+6. **API Routes:** analyze, report, entries, entries/[id], profile, account
+7. **Calendar:** MoodCalendar component with overlay (server-side decryption)
+8. **Settings:** Profile with Google avatar, language toggle, delete account
 9. **Tests:** 16 unit tests passing
 
 ---
@@ -56,6 +50,16 @@
 ### Encryption Module
 - **Don't initialize crypto at module level**: `Buffer.from(process.env.KEY, 'hex')` runs at import time and fails if env var is missing
 - **Solution:** Lazy-load via a `getKey()` function that reads `process.env` at call time
+- **Server-side only**: `ENCRYPTION_KEY` is not exposed to client (no `NEXT_PUBLIC_` prefix). All decryption must happen server-side via API routes.
+
+### OpenRouter Integration
+- **Use OpenAI SDK with custom base URL**: OpenRouter is OpenAI-compatible, so use `new OpenAI({ baseURL: "https://openrouter.ai/api/v1" })` instead of raw fetch
+- **Strip markdown code blocks**: Some models return JSON wrapped in ````json ... ````. Parse with regex to clean before `JSON.parse()`
+- **Free tier models**: `meta-llama/llama-3-8b-instruct` works well for sentiment analysis
+
+### Account Deletion
+- **Service role key required**: `supabase.auth.admin.deleteUser()` needs `SUPABASE_SERVICE_ROLE_KEY`, not the anon key
+- **Create separate admin client**: Use `createClient` from `@supabase/supabase-js` (not `@supabase/ssr`) with service role key for admin operations
 
 ### React Patterns
 - **Avoid setState in effects**: ESLint rules flag synchronous `setState` calls in effect bodies. Use functional updates or restructure to avoid cascading renders
@@ -81,17 +85,20 @@ SoulScript/
 │   │   ├── not-found.tsx         # 404 page
 │   │   ├── login/page.tsx        # Login with Google + email
 │   │   ├── signup/page.tsx       # Signup with validation
-│   │   ├── settings/page.tsx     # Profile, language, delete
+│   │   ├── settings/page.tsx     # Profile with Google avatar, language, delete
 │   │   ├── calendar/page.tsx     # Calendar wrapper
 │   │   ├── auth/callback/        # OAuth callback handler
 │   │   └── api/
-│   │       ├── analyze/route.ts  # AI sentiment analysis
-│   │       ├── report/route.ts   # Monthly report generation
+│   │       ├── analyze/route.ts  # AI sentiment analysis (OpenRouter)
+│   │       ├── report/route.ts   # Monthly report generation (OpenRouter)
+│   │       ├── entries/route.ts  # Fetch entries with server-side decryption
 │   │       ├── entries/[id]/     # Mood override + soft delete
 │   │       ├── profile/route.ts  # User profile CRUD
-│   │       └── account/route.ts  # Account deletion
+│   │       └── account/route.ts  # Account deletion (with auth user)
 │   ├── components/
-│   │   └── MoodCalendar.tsx      # Calendar with overlay
+│   │   ├── MoodCalendar.tsx      # Calendar with overlay
+│   │   ├── MonthlyReport.tsx     # Report display component
+│   │   └── Providers.tsx         # TanStack Query provider
 │   ├── lib/
 │   │   ├── supabase/
 │   │   │   ├── server.ts         # Server-side Supabase client
@@ -122,13 +129,15 @@ SoulScript/
 | TanStack Query integration | ❌ | Dashboard uses raw fetch + useState |
 | Calendar month navigation transitions | ⚠️ | Basic prev/next, no animated transitions |
 | Bottom sheet on mobile | ⚠️ | Uses fixed overlay, not native bottom sheet |
-| Report UI component | ⚠️ | API exists, no dedicated page component |
+| Report UI component | ✅ | MonthlyReport component with 3-stage layout |
 | Framer Motion page transitions | ⚠️ | Used in toasts/overlays, not page-level |
 | Rate limit error UX | ✅ | API returns 429, UI shows error |
 | Character counter warning | ✅ | Warns at 4500, hard stops at 5000 |
 | Skeleton loading states | ✅ | Dashboard and calendar have skeletons |
 | Language toggle persistence | ✅ | PATCH /api/profile updates preferred_language |
-| Account deletion cascade | ✅ | Deletes entries, reports, profile, signs out |
+| Account deletion cascade | ✅ | Deletes entries, reports, profile, auth user |
+| Google profile avatar | ✅ | Settings shows Google OAuth avatar |
+| Server-side decryption | ✅ | Calendar fetches via API route with decryption |
 
 ---
 
@@ -138,13 +147,15 @@ SoulScript/
 - **Encryption:** Roundtrip, different IVs, empty string, unicode, long text
 - **Mood Themes:** Theme count, gradient format, validation, fallback
 - **Language Detection:** Burmese, English, empty, mixed, numbers
+- **MonthlyReport Component:** Renders all 3 sections, handles edge cases
 
 ### What Needs Tests (Future)
 - API route integration tests (mock Supabase)
 - Dashboard submit flow (mock fetch)
-- Calendar entry rendering
+- Calendar entry rendering via API
 - Settings profile update flow
 - Auth redirect logic in proxy
+- Account deletion with auth user removal
 
 ---
 
@@ -197,7 +208,6 @@ openssl rand -hex 32
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
 SUPABASE_SERVICE_ROLE_KEY=
-OPENAI_API_KEY=
 OPENROUTER_API_KEY=
 ENCRYPTION_KEY=
 ```

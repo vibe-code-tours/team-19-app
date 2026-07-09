@@ -3,10 +3,26 @@ import { NextResponse } from "next/server";
 import { encrypt } from "@/lib/encryption";
 import { validateGlowTheme, MOOD_THEMES } from "@/lib/mood-themes";
 import { detectLanguage } from "@/lib/language";
+import OpenAI from "openai";
 
 const MAX_LENGTH = 5000;
 const MIN_LENGTH = 10;
 const DAILY_LIMIT = 10;
+
+const openai = new OpenAI({
+  baseURL: process.env.OPENROUTER_AI_URL || "https://openrouter.ai/api/v1",
+  apiKey: process.env.OPENROUTER_API_KEY,
+});
+
+function parseJsonResponse<T>(content: string): T {
+  // Strip markdown code blocks if present
+  const cleaned = content
+    .replace(/^```json\s*/i, "")
+    .replace(/^```\s*/i, "")
+    .replace(/\s*```$/i, "")
+    .trim();
+  return JSON.parse(cleaned);
+}
 
 interface AnalysisResult {
   primary_emotion: string;
@@ -21,62 +37,17 @@ async function callAI(
 ): Promise<AnalysisResult> {
   const systemPrompt = `You are an empathetic, highly analytical, emotionally intelligent AI psychologist. The input text may be in Burmese or English. Analyze the text payload regardless of language. Always return emotion labels in English. Return a strictly valid JSON object containing: 'primary_emotion' (1 word, in English), 'emoji' (1 character), 'secondary_emotions' (string array of 1-3 terms in English — only include emotions you genuinely identify in the text; if the input is sparse, infer from tone, brevity, or word choice — do not pad), and 'glow_theme' (a valid Tailwind gradient class from the allowed mood themes: ${Object.values(MOOD_THEMES).join(", ")}).`;
 
-  // Try OpenAI first
-  try {
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-      },
-      body: JSON.stringify({
-        model: "gpt-4o-mini",
-        messages: [
-          { role: "system", content: systemPrompt },
-          { role: "user", content },
-        ],
-        response_format: { type: "json_object" },
-        temperature: 0.7,
-        max_tokens: 300,
-      }),
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      return JSON.parse(data.choices[0].message.content);
-    }
-  } catch {
-    // Fall through to OpenRouter
-  }
-
-  // Fallback to OpenRouter
-  const fallbackResponse = await fetch(
-    "https://openrouter.ai/api/v1/chat/completions",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
-      },
-      body: JSON.stringify({
-        model: "meta-llama/llama-3-8b-instruct",
-        messages: [
-          { role: "system", content: systemPrompt },
-          { role: "user", content },
-        ],
-        response_format: { type: "json_object" },
-        temperature: 0.7,
-        max_tokens: 300,
-      }),
-    }
-  );
-
-  if (!fallbackResponse.ok) {
-    throw new Error("AI providers unavailable");
-  }
-
-  const fallbackData = await fallbackResponse.json();
-  return JSON.parse(fallbackData.choices[0].message.content);
+  const response = await openai.chat.completions.create({
+    model: process.env.OPENROUTER_AI_MODEL || "meta-llama/llama-3-8b-instruct",
+    messages: [
+      { role: "system", content: systemPrompt },
+      { role: "user", content },
+    ],
+    response_format: { type: "json_object" },
+    temperature: 0.7,
+    max_tokens: 300,
+  });
+  return parseJsonResponse<AnalysisResult>(response.choices[0].message.content || "{}");
 }
 
 function validateResult(result: Partial<AnalysisResult>): AnalysisResult {
