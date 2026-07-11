@@ -4,7 +4,7 @@ import { decrypt } from "@/lib/encryption";
 import OpenAI from "openai";
 
 const openai = new OpenAI({
-  baseURL: "https://openrouter.ai/api/v1",
+  baseURL: process.env.OPENROUTER_AI_URL || "https://openrouter.ai/api/v1",
   apiKey: process.env.OPENROUTER_API_KEY,
 });
 
@@ -38,9 +38,9 @@ async function callAIForReport(
   const systemPrompt = `You are an empathetic AI psychologist analyzing a month of journal entries. Return a strictly valid JSON object with: 'summary_overview' (2-3 sentence overview of the month), 'dominant_mood' (1 word, the most frequent emotion), 'pattern_insights' (2-3 insights about emotional patterns, each as a separate sentence), 'actionable_recommendations' (array of 2-3 short recommendation titles like "Morning Breathing Exercise", "Digital Detox Evenings", "Gratitude Journaling").`;
 
   const userPrompt = `Analyze these ${entries.length} journal entries from this month:\n\n${entrySummaries}`;
-
+  
   const response = await openai.chat.completions.create({
-    model: "meta-llama/llama-3-8b-instruct",
+    model: process.env.OPENROUTER_AI_MODEL || "meta-llama/llama-3-8b-instruct",
     messages: [
       { role: "system", content: systemPrompt },
       { role: "user", content: userPrompt },
