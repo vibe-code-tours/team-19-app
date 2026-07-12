@@ -176,6 +176,29 @@
             },
             {
               "type": "frame",
+              "id": "JeHZ7",
+              "name": "Character Counter",
+              "width": "fill_container",
+              "padding": [
+                0,
+                4
+              ],
+              "justifyContent": "end",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "HKPki",
+                  "name": "Counter",
+                  "fill": "$text-muted",
+                  "content": "0 / 5000",
+                  "fontFamily": "$font-body",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
               "id": "z7yg7s",
               "name": "Glow Layer",
               "width": "fill_container",
@@ -254,29 +277,6 @@
             },
             {
               "type": "frame",
-              "id": "JeHZ7",
-              "name": "Character Counter",
-              "width": "fill_container",
-              "padding": [
-                0,
-                4
-              ],
-              "justifyContent": "end",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "HKPki",
-                  "name": "Counter",
-                  "fill": "$text-muted",
-                  "content": "0 / 5000",
-                  "fontFamily": "$font-body",
-                  "fontSize": 12,
-                  "fontWeight": "normal"
-                }
-              ]
-            },
-            {
-              "type": "frame",
               "id": "x4DwL0",
               "name": "Button Row",
               "width": "fill_container",
@@ -321,10 +321,1237 @@
             },
             {
               "type": "frame",
-              "id": "ypV1d",
-              "name": "Bottom Spacer",
+              "id": "bO0oC",
+              "name": "Stats Row",
               "width": "fill_container",
-              "height": 80
+              "gap": 12,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "h5JPWG",
+                  "name": "Streak Card",
+                  "width": "fill_container",
+                  "fill": "$glass",
+                  "cornerRadius": "$radius-md",
+                  "stroke": "$glass-border",
+                  "strokeWidth": 1,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#818CF815",
+                    "blur": 16
+                  },
+                  "layout": "vertical",
+                  "gap": 4,
+                  "padding": [
+                    14,
+                    12
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "iCkDk",
+                      "name": "Streak Icon",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "flame",
+                      "library": "lucide",
+                      "fill": "$accent-primary"
+                    },
+                    {
+                      "type": "text",
+                      "id": "OCmJz",
+                      "name": "Streak Value",
+                      "fill": "$text-primary",
+                      "content": "3",
+                      "fontFamily": "$font-body",
+                      "fontSize": 20,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "dusxB",
+                      "name": "Streak Label",
+                      "fill": "$text-secondary",
+                      "content": "day streak",
+                      "fontFamily": "$font-body",
+                      "fontSize": 11
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "wHfrr",
+                  "name": "Entries Card",
+                  "width": "fill_container",
+                  "fill": "$glass",
+                  "cornerRadius": "$radius-md",
+                  "stroke": "$glass-border",
+                  "strokeWidth": 1,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#818CF815",
+                    "blur": 16
+                  },
+                  "layout": "vertical",
+                  "gap": 4,
+                  "padding": [
+                    14,
+                    12
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "D9XT54",
+                      "name": "Entries Icon",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "calendar",
+                      "library": "lucide",
+                      "fill": "$accent-primary"
+                    },
+                    {
+                      "type": "text",
+                      "id": "lDfkw",
+                      "name": "Entries Value",
+                      "fill": "$text-primary",
+                      "content": "12",
+                      "fontFamily": "$font-body",
+                      "fontSize": 20,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "PkoUZ",
+                      "name": "Entries Label",
+                      "fill": "$text-secondary",
+                      "content": "July",
+                      "fontFamily": "$font-body",
+                      "fontSize": 11
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "E7Os9",
+                  "name": "Mood Card",
+                  "width": "fill_container",
+                  "fill": "$glass",
+                  "cornerRadius": "$radius-md",
+                  "stroke": "$glass-border",
+                  "strokeWidth": 1,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#818CF815",
+                    "blur": 16
+                  },
+                  "layout": "vertical",
+                  "gap": 4,
+                  "padding": [
+                    14,
+                    12
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "BZ6n7",
+                      "name": "Mood Emoji",
+                      "fill": "$text-primary",
+                      "content": "😌",
+                      "fontFamily": "Inter",
+                      "fontSize": 20,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "jRdfk",
+                      "name": "Mood Name",
+                      "fill": "$text-primary",
+                      "content": "Calm",
+                      "fontFamily": "$font-body",
+                      "fontSize": 16,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "uGsyF",
+                      "name": "Mood Subtitle",
+                      "fill": "$text-secondary",
+                      "content": "dominant mood",
+                      "fontFamily": "$font-body",
+                      "fontSize": 11
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "H7a7D",
+              "name": "Motivation Text",
+              "fill": "$text-muted",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "keep going, you are doing great ✨",
+              "fontFamily": "$font-body",
+              "fontSize": 12
+            },
+            {
+              "type": "frame",
+              "id": "h3JkK",
+              "name": "AI Insight Card",
+              "width": "fill_container",
+              "fill": "$glass",
+              "cornerRadius": "$radius-xl",
+              "stroke": "$glass-border",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 16,
+              "padding": 20,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "M6zWGB",
+                  "name": "AI Insight Top",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "SHSIn",
+                      "name": "Cosmic Orb",
+                      "width": 64,
+                      "height": 64,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "dcT14",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Orb Glow",
+                          "fill": {
+                            "type": "gradient",
+                            "gradientType": "radial",
+                            "enabled": true,
+                            "rotation": 0,
+                            "size": {
+                              "width": 1,
+                              "height": 1
+                            },
+                            "colors": [
+                              {
+                                "color": "#818CF840",
+                                "position": 0
+                              },
+                              {
+                                "color": "#6366F110",
+                                "position": 0.6
+                              },
+                              {
+                                "color": "#00000000",
+                                "position": 1
+                              }
+                            ]
+                          },
+                          "width": 64,
+                          "height": 64,
+                          "effect": {
+                            "type": "blur",
+                            "radius": 20
+                          }
+                        },
+                        {
+                          "type": "ellipse",
+                          "id": "FmiAU",
+                          "x": 8,
+                          "y": 8,
+                          "name": "Orb Core",
+                          "fill": {
+                            "type": "gradient",
+                            "gradientType": "radial",
+                            "enabled": true,
+                            "rotation": 0,
+                            "size": {
+                              "width": 1,
+                              "height": 1
+                            },
+                            "colors": [
+                              {
+                                "color": "#818CF8",
+                                "position": 0
+                              },
+                              {
+                                "color": "#6366F1",
+                                "position": 0.5
+                              },
+                              {
+                                "color": "#00000000",
+                                "position": 1
+                              }
+                            ]
+                          },
+                          "width": 48,
+                          "height": 48
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "H7EURF",
+                      "name": "Title Stack",
+                      "layout": "vertical",
+                      "gap": 2,
+                      "alignItems": "end",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "wCHXJ",
+                          "name": "AI Title",
+                          "fill": "$text-primary",
+                          "content": "AI Insight Preview",
+                          "fontFamily": "$font-body",
+                          "fontSize": 15,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "QigX5",
+                          "name": "AI Sparkle",
+                          "fill": "$text-primary",
+                          "content": "✨",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "IeaDA",
+                  "name": "Insight Quote",
+                  "fill": "$text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "You've been feeling more calm and reflective this week. You tend to journal most in the evening.",
+                  "lineHeight": 1.6,
+                  "fontFamily": "$font-body",
+                  "fontSize": 14
+                },
+                {
+                  "type": "frame",
+                  "id": "cgTAK",
+                  "name": "CTA Button",
+                  "fill": "$accent-primary",
+                  "cornerRadius": "$radius-pill",
+                  "gap": 6,
+                  "padding": [
+                    10,
+                    20
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "NeGKu",
+                      "name": "CTA Label",
+                      "fill": "#FFFFFF",
+                      "content": "View Insights",
+                      "fontFamily": "$font-body",
+                      "fontSize": 13,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "icon",
+                      "id": "tNC1W",
+                      "name": "CTA Arrow",
+                      "width": 14,
+                      "height": 14,
+                      "icon": "arrow-right",
+                      "library": "lucide",
+                      "fill": "#FFFFFF"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Akvqa",
+              "name": "Recent Entries",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "f07wk",
+                  "name": "Entry Card 1",
+                  "width": "fill_container",
+                  "fill": "$glass",
+                  "cornerRadius": "$radius-lg",
+                  "stroke": "$glass-border",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "SHVKn",
+                      "name": "Card Header 1",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "oH1a7",
+                          "name": "Date Group 1",
+                          "gap": 8,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "wcRQ3",
+                              "name": "Emoji 1",
+                              "fill": "$text-primary",
+                              "content": "😌",
+                              "fontFamily": "Inter",
+                              "fontSize": 20,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "text",
+                              "id": "MGBow",
+                              "name": "Date 1",
+                              "fill": "$text-secondary",
+                              "content": "July 10, 2026",
+                              "fontFamily": "$font-body",
+                              "fontSize": 12,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "i9h0xS",
+                          "name": "Mood Pill 1",
+                          "fill": "$mood-calm",
+                          "cornerRadius": "$radius-pill",
+                          "padding": [
+                            4,
+                            10
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "e1PDn",
+                              "name": "Mood Label 1",
+                              "fill": "$text-primary",
+                              "content": "Calm",
+                              "fontFamily": "$font-body",
+                              "fontSize": 11,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "yPpMc",
+                      "name": "Divider 1",
+                      "width": "fill_container",
+                      "height": 1,
+                      "fill": "#ffffff0f"
+                    },
+                    {
+                      "type": "text",
+                      "id": "aMwll",
+                      "name": "Entry Text 1",
+                      "fill": "$text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Today was a good day. I felt calm and connected after my morning walk. The sunlight felt warm and I found myself smiling at strangers.",
+                      "lineHeight": 1.6,
+                      "fontFamily": "$font-body",
+                      "fontSize": 14
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "vO8WS",
+                  "name": "Entry Card 2",
+                  "width": "fill_container",
+                  "fill": "$glass",
+                  "cornerRadius": "$radius-lg",
+                  "stroke": "$glass-border",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "SG49I",
+                      "name": "Card Header 2",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "Awq6x",
+                          "name": "Date Group 2",
+                          "gap": 8,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "PI3Se",
+                              "name": "Emoji 2",
+                              "fill": "$text-primary",
+                              "content": "🌙",
+                              "fontFamily": "Inter",
+                              "fontSize": 20,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "text",
+                              "id": "mmd93",
+                              "name": "Date 2",
+                              "fill": "$text-secondary",
+                              "content": "July 9, 2026",
+                              "fontFamily": "$font-body",
+                              "fontSize": 12,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "B8VxZ",
+                          "name": "Mood Pill 2",
+                          "fill": "$mood-sadness",
+                          "cornerRadius": "$radius-pill",
+                          "padding": [
+                            4,
+                            10
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "X1tz21",
+                              "name": "Mood Label 2",
+                              "fill": "$text-primary",
+                              "content": "Sadness",
+                              "fontFamily": "$font-body",
+                              "fontSize": 11,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "IBt9N",
+                      "name": "Divider 2",
+                      "width": "fill_container",
+                      "height": 1,
+                      "fill": "#ffffff0f"
+                    },
+                    {
+                      "type": "text",
+                      "id": "phQXo",
+                      "name": "Entry Text 2",
+                      "fill": "$text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Had a rough night. Couldn't stop thinking about work. Need to remember to breathe and let go.",
+                      "lineHeight": 1.6,
+                      "fontFamily": "$font-body",
+                      "fontSize": 14
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "yBgZ4",
+                  "name": "View All Link",
+                  "fill": "$accent-primary",
+                  "content": "View all entries →",
+                  "fontFamily": "$font-body",
+                  "fontSize": 13,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "jNPYZ",
+              "name": "Bottom Nav",
+              "width": "fill_container",
+              "height": 64,
+              "fill": "#0B0F19D9",
+              "stroke": "#ffffff0f",
+              "strokeWidth": 1,
+              "padding": [
+                0,
+                16
+              ],
+              "justifyContent": "space_around",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "udQaJ",
+                  "name": "Tab Home",
+                  "layout": "vertical",
+                  "gap": 4,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "q42cu",
+                      "name": "Home Icon",
+                      "width": 22,
+                      "height": 22,
+                      "icon": "book-heart",
+                      "library": "lucide",
+                      "fill": "$accent-primary"
+                    },
+                    {
+                      "type": "text",
+                      "id": "nYCiq",
+                      "name": "Home Label",
+                      "fill": "$accent-primary",
+                      "content": "Home",
+                      "fontFamily": "$font-body",
+                      "fontSize": 10,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "Z8zLU",
+                      "name": "Active Dot",
+                      "opacity": 0.6,
+                      "fill": "$accent-primary",
+                      "width": 4,
+                      "height": 4
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Lkhz3",
+                  "name": "Tab Calendar",
+                  "layout": "vertical",
+                  "gap": 4,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "E7bEC",
+                      "name": "Calendar Icon",
+                      "width": 22,
+                      "height": 22,
+                      "icon": "calendar",
+                      "library": "lucide",
+                      "fill": "$text-muted"
+                    },
+                    {
+                      "type": "text",
+                      "id": "pU6Gl",
+                      "name": "Calendar Label",
+                      "fill": "$text-muted",
+                      "content": "Calendar",
+                      "fontFamily": "$font-body",
+                      "fontSize": 10,
+                      "fontWeight": "500"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "rKRaV",
+                  "name": "Tab Report",
+                  "layout": "vertical",
+                  "gap": 4,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "eKQys",
+                      "name": "Report Icon",
+                      "width": 22,
+                      "height": 22,
+                      "icon": "sparkles",
+                      "library": "lucide",
+                      "fill": "$text-muted"
+                    },
+                    {
+                      "type": "text",
+                      "id": "WWqWc",
+                      "name": "Report Label",
+                      "fill": "$text-muted",
+                      "content": "Report",
+                      "fontFamily": "$font-body",
+                      "fontSize": 10,
+                      "fontWeight": "500"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "ipXmm",
+                  "name": "Tab Settings",
+                  "layout": "vertical",
+                  "gap": 4,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "c3LdL",
+                      "name": "Settings Icon",
+                      "width": 22,
+                      "height": 22,
+                      "icon": "settings",
+                      "library": "lucide",
+                      "fill": "$text-muted"
+                    },
+                    {
+                      "type": "text",
+                      "id": "KJmhm",
+                      "name": "Settings Label",
+                      "fill": "$text-muted",
+                      "content": "Settings",
+                      "fontFamily": "$font-body",
+                      "fontSize": 10,
+                      "fontWeight": "500"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "kLuxo",
+          "layoutPosition": "absolute",
+          "x": 0,
+          "y": 0,
+          "name": "Dreamy Background",
+          "clip": true,
+          "width": 390,
+          "height": 600,
+          "layout": "none",
+          "children": [
+            {
+              "type": "ellipse",
+              "id": "k64fz",
+              "x": 275,
+              "y": 50,
+              "name": "Moon",
+              "fill": {
+                "type": "gradient",
+                "gradientType": "radial",
+                "enabled": true,
+                "rotation": 0,
+                "size": {
+                  "width": 1,
+                  "height": 1
+                },
+                "colors": [
+                  {
+                    "color": "#F5F5F540",
+                    "position": 0
+                  },
+                  {
+                    "color": "#F5F5F515",
+                    "position": 0.5
+                  },
+                  {
+                    "color": "#00000000",
+                    "position": 1
+                  }
+                ]
+              },
+              "width": 56,
+              "height": 56,
+              "effect": {
+                "type": "blur",
+                "radius": 10
+              }
+            },
+            {
+              "type": "ellipse",
+              "id": "BL8sz",
+              "x": 282,
+              "y": 57,
+              "name": "Moon Core",
+              "fill": {
+                "type": "gradient",
+                "gradientType": "radial",
+                "enabled": true,
+                "rotation": 0,
+                "size": {
+                  "width": 1,
+                  "height": 1
+                },
+                "colors": [
+                  {
+                    "color": "#F5F5F5",
+                    "position": 0
+                  },
+                  {
+                    "color": "#C8D0E0",
+                    "position": 0.5
+                  },
+                  {
+                    "color": "#00000000",
+                    "position": 1
+                  }
+                ]
+              },
+              "width": 42,
+              "height": 42
+            },
+            {
+              "type": "ellipse",
+              "id": "SD4BK",
+              "x": 292,
+              "y": 52,
+              "name": "Moon Shadow",
+              "fill": "#0B0F19",
+              "width": 32,
+              "height": 32
+            },
+            {
+              "type": "path",
+              "id": "tbNSk",
+              "x": 20,
+              "y": 130,
+              "name": "Cloud 1",
+              "geometry": "M0 20q10-20 30-12 20-12 40 2 15-8 25 5 10-7 15 5-10 8-30 5-20 7-40-1-20 6-40-4z",
+              "viewBox": [
+                0,
+                -4,
+                110,
+                36
+              ],
+              "fill": "#FFFFFF08",
+              "width": 130,
+              "height": 36,
+              "effect": {
+                "type": "blur",
+                "radius": 14
+              }
+            },
+            {
+              "type": "path",
+              "id": "DhXCu",
+              "x": 190,
+              "y": 310,
+              "name": "Cloud 2",
+              "geometry": "M0 16q15-16 35-8 15-10 30 2 15-8 25 6-10 8-30 6-20 6-40-2-15 6-20-4z",
+              "viewBox": [
+                0,
+                -2,
+                90,
+                28
+              ],
+              "fill": "#FFFFFF08",
+              "width": 110,
+              "height": 30,
+              "effect": {
+                "type": "blur",
+                "radius": 14
+              }
+            },
+            {
+              "type": "ellipse",
+              "id": "U4m5zB",
+              "x": 40,
+              "y": 85,
+              "name": "Star",
+              "opacity": 0.6,
+              "fill": "#FFFFFF",
+              "width": 4,
+              "height": 4
+            },
+            {
+              "type": "ellipse",
+              "id": "tClvZ",
+              "x": 120,
+              "y": 165,
+              "name": "Star",
+              "opacity": 0.5,
+              "fill": "#FFFFFF",
+              "width": 3,
+              "height": 3
+            },
+            {
+              "type": "ellipse",
+              "id": "MbSRK",
+              "x": 310,
+              "y": 195,
+              "name": "Star",
+              "opacity": 0.6,
+              "fill": "#FFFFFF",
+              "width": 4,
+              "height": 4
+            },
+            {
+              "type": "ellipse",
+              "id": "i2STuS",
+              "x": 50,
+              "y": 345,
+              "name": "Star",
+              "opacity": 0.5,
+              "fill": "#FFFFFF",
+              "width": 3,
+              "height": 3
+            },
+            {
+              "type": "ellipse",
+              "id": "L6LCy",
+              "x": 170,
+              "y": 425,
+              "name": "Star",
+              "opacity": 0.6,
+              "fill": "#FFFFFF",
+              "width": 4,
+              "height": 4
+            },
+            {
+              "type": "ellipse",
+              "id": "xfH0T",
+              "x": 260,
+              "y": 105,
+              "name": "Star",
+              "opacity": 0.5,
+              "fill": "#FFFFFF",
+              "width": 3,
+              "height": 3
+            },
+            {
+              "type": "ellipse",
+              "id": "f5Qucn",
+              "x": 350,
+              "y": 275,
+              "name": "Star",
+              "opacity": 0.6,
+              "fill": "#FFFFFF",
+              "width": 4,
+              "height": 4
+            },
+            {
+              "type": "ellipse",
+              "id": "IsTuy",
+              "x": 90,
+              "y": 475,
+              "name": "Star",
+              "opacity": 0.5,
+              "fill": "#FFFFFF",
+              "width": 3,
+              "height": 3
+            },
+            {
+              "type": "ellipse",
+              "id": "rzEar",
+              "x": 220,
+              "y": 45,
+              "name": "Star",
+              "opacity": 0.6,
+              "fill": "#FFFFFF",
+              "width": 4,
+              "height": 4
+            },
+            {
+              "type": "ellipse",
+              "id": "g6MIC",
+              "x": 370,
+              "y": 395,
+              "name": "Star",
+              "opacity": 0.5,
+              "fill": "#FFFFFF",
+              "width": 3,
+              "height": 3
+            },
+            {
+              "type": "ellipse",
+              "id": "s9onVC",
+              "x": 150,
+              "y": 255,
+              "name": "Star",
+              "opacity": 0.6,
+              "fill": "#FFFFFF",
+              "width": 4,
+              "height": 4
+            },
+            {
+              "type": "ellipse",
+              "id": "tpUh5",
+              "x": 30,
+              "y": 455,
+              "name": "Star",
+              "opacity": 0.5,
+              "fill": "#FFFFFF",
+              "width": 3,
+              "height": 3
+            },
+            {
+              "type": "ellipse",
+              "id": "mW7fa",
+              "x": 250,
+              "y": 375,
+              "name": "Star",
+              "opacity": 0.6,
+              "fill": "#FFFFFF",
+              "width": 4,
+              "height": 4
+            },
+            {
+              "type": "ellipse",
+              "id": "Y444Kr",
+              "x": 340,
+              "y": 155,
+              "name": "Star",
+              "opacity": 0.5,
+              "fill": "#FFFFFF",
+              "width": 3,
+              "height": 3
+            },
+            {
+              "type": "ellipse",
+              "id": "D5iMvB",
+              "x": 80,
+              "y": 285,
+              "name": "Star",
+              "opacity": 0.6,
+              "fill": "#FFFFFF",
+              "width": 4,
+              "height": 4
+            },
+            {
+              "type": "ellipse",
+              "id": "U3dGKy",
+              "x": 200,
+              "y": 200,
+              "name": "Star",
+              "opacity": 0.5,
+              "fill": "#FFFFFF",
+              "width": 3,
+              "height": 3
+            },
+            {
+              "type": "ellipse",
+              "id": "o0Meu9",
+              "x": 100,
+              "y": 380,
+              "name": "Star",
+              "opacity": 0.5,
+              "fill": "#FFFFFF",
+              "width": 3,
+              "height": 3
+            },
+            {
+              "type": "ellipse",
+              "id": "kE4Y8",
+              "x": 300,
+              "y": 450,
+              "name": "Star",
+              "opacity": 0.6,
+              "fill": "#FFFFFF",
+              "width": 4,
+              "height": 4
+            },
+            {
+              "type": "ellipse",
+              "id": "cHMQ2",
+              "x": 160,
+              "y": 80,
+              "name": "Star",
+              "opacity": 0.5,
+              "fill": "#FFFFFF",
+              "width": 3,
+              "height": 3
+            },
+            {
+              "type": "ellipse",
+              "id": "SLW6J",
+              "x": 380,
+              "y": 230,
+              "name": "Star",
+              "opacity": 0.5,
+              "fill": "#FFFFFF",
+              "width": 3,
+              "height": 3
+            },
+            {
+              "type": "ellipse",
+              "id": "iEkgd",
+              "x": 170,
+              "y": 115,
+              "name": "Bright Star",
+              "opacity": 0.7,
+              "fill": "#818CF8",
+              "width": 6,
+              "height": 6,
+              "effect": {
+                "type": "blur",
+                "radius": 4
+              }
+            },
+            {
+              "type": "ellipse",
+              "id": "ZOrRE",
+              "x": 320,
+              "y": 345,
+              "name": "Bright Star",
+              "opacity": 0.65,
+              "fill": "#818CF8",
+              "width": 5,
+              "height": 5,
+              "effect": {
+                "type": "blur",
+                "radius": 4
+              }
+            },
+            {
+              "type": "ellipse",
+              "id": "cxwCm",
+              "x": 60,
+              "y": 415,
+              "name": "Bright Star",
+              "opacity": 0.7,
+              "fill": "#818CF8",
+              "width": 6,
+              "height": 6,
+              "effect": {
+                "type": "blur",
+                "radius": 4
+              }
+            },
+            {
+              "type": "ellipse",
+              "id": "Z2MR5t",
+              "x": 280,
+              "y": 215,
+              "name": "Bright Star",
+              "opacity": 0.65,
+              "fill": "#818CF8",
+              "width": 5,
+              "height": 5,
+              "effect": {
+                "type": "blur",
+                "radius": 4
+              }
+            },
+            {
+              "type": "ellipse",
+              "id": "ElJxG",
+              "x": 130,
+              "y": 300,
+              "name": "Bright Star",
+              "opacity": 0.6,
+              "fill": "#818CF8",
+              "width": 5,
+              "height": 5,
+              "effect": {
+                "type": "blur",
+                "radius": 4
+              }
+            },
+            {
+              "type": "ellipse",
+              "id": "x6GUQT",
+              "x": 350,
+              "y": 120,
+              "name": "Bright Star",
+              "opacity": 0.65,
+              "fill": "#818CF8",
+              "width": 5,
+              "height": 5,
+              "effect": {
+                "type": "blur",
+                "radius": 4
+              }
+            },
+            {
+              "type": "ellipse",
+              "id": "Upe0E",
+              "x": 210,
+              "y": 460,
+              "name": "Bright Star",
+              "opacity": 0.7,
+              "fill": "#818CF8",
+              "width": 6,
+              "height": 6,
+              "effect": {
+                "type": "blur",
+                "radius": 4
+              }
+            },
+            {
+              "type": "ellipse",
+              "id": "fkptQ",
+              "x": 100,
+              "y": 200,
+              "name": "Glow Star",
+              "opacity": 0.55,
+              "fill": "#FFFFFF",
+              "width": 5,
+              "height": 5,
+              "effect": {
+                "type": "blur",
+                "radius": 3
+              }
+            },
+            {
+              "type": "ellipse",
+              "id": "y1WBz6",
+              "x": 250,
+              "y": 150,
+              "name": "Glow Star",
+              "opacity": 0.55,
+              "fill": "#FFFFFF",
+              "width": 5,
+              "height": 5,
+              "effect": {
+                "type": "blur",
+                "radius": 3
+              }
+            },
+            {
+              "type": "ellipse",
+              "id": "xFtbM",
+              "x": 330,
+              "y": 380,
+              "name": "Glow Star",
+              "opacity": 0.55,
+              "fill": "#FFFFFF",
+              "width": 5,
+              "height": 5,
+              "effect": {
+                "type": "blur",
+                "radius": 3
+              }
             }
           ]
         }
