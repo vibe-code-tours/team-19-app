@@ -17,6 +17,9 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   title: "SoulScript — Your Digital Sanctuary",
   description: "A micro-journaling and mood mapping app for mindful reflection.",
+  icons: {
+    icon: "/favicon.png",
+  },
 };
 
 export default function RootLayout({

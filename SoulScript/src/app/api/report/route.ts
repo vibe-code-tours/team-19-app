@@ -22,7 +22,7 @@ interface ReportResult {
   summary_overview: string;
   dominant_mood: string;
   pattern_insights: string;
-  actionable_recommendations: string[];
+  actionable_recommendations: { title: string; description: string }[];
 }
 
 async function callAIForReport(
@@ -35,7 +35,7 @@ async function callAIForReport(
     )
     .join("\n\n");
 
-  const systemPrompt = `You are an empathetic AI psychologist analyzing a month of journal entries. Return a strictly valid JSON object with: 'summary_overview' (2-3 sentence overview of the month), 'dominant_mood' (1 word, the most frequent emotion), 'pattern_insights' (2-3 insights about emotional patterns, each as a separate sentence), 'actionable_recommendations' (array of 2-3 short recommendation titles like "Morning Breathing Exercise", "Digital Detox Evenings", "Gratitude Journaling").`;
+  const systemPrompt = `You are an empathetic AI psychologist analyzing a month of journal entries. Return a strictly valid JSON object with: 'summary_overview' (2-3 sentence overview of the month), 'dominant_mood' (1 word, the most frequent emotion), 'pattern_insights' (a single string containing 2-3 insights about emotional patterns, each insight as a separate sentence separated by periods — do NOT use an array), 'actionable_recommendations' (array of 2-3 objects, each with 'title' (short recommendation name like "Morning Breathing Exercise") and 'description' (1-2 sentence explanation of the benefit and how to practice it)).`;
 
   const userPrompt = `Analyze these ${entries.length} journal entries from this month:\n\n${entrySummaries}`;
   
@@ -47,7 +47,7 @@ async function callAIForReport(
     ],
     response_format: { type: "json_object" },
     temperature: 0.7,
-    max_tokens: 500,
+    max_tokens: 1000,
   });
 
   return parseJsonResponse<ReportResult>(response.choices[0].message.content || "{}");
@@ -118,7 +118,9 @@ export async function POST(request: Request) {
           summary_overview: report.summary_overview,
           dominant_mood: report.dominant_mood,
           pattern_insights: report.pattern_insights,
-          actionable_recommendations: report.actionable_recommendations,
+          actionable_recommendations: report.actionable_recommendations.map((r) =>
+            JSON.stringify(r)
+          ),
         },
         { onConflict: "user_id,month_year" }
       )

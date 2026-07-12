@@ -46,16 +46,8 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center p-6">
       <div className="w-full max-w-sm space-y-8">
         {/* Brand */}
-        <div className="text-center space-y-2">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-accent/20 mb-2">
-            <span className="text-3xl">📖</span>
-          </div>
-          <h1 className="font-[family-name:var(--font-playfair)] text-4xl font-bold text-text-primary">
-            SoulScript
-          </h1>
-          <p className="text-text-secondary text-sm">
-            Your digital sanctuary for reflection
-          </p>
+        <div className="text-center">
+          <img src="/logo-full.png" alt="SoulScript" className="mx-auto h-40" />
         </div>
 
         {/* Google OAuth */}
