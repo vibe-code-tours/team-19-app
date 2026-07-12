@@ -139,9 +139,10 @@ export async function POST(request: Request) {
           summary_overview: report.summary_overview,
           dominant_mood: report.dominant_mood,
           pattern_insights: report.pattern_insights,
-          actionable_recommendations: report.actionable_recommendations.map((r) =>
-            JSON.stringify(r)
-          ),
+          actionable_recommendations: (Array.isArray(report.actionable_recommendations)
+            ? report.actionable_recommendations
+            : []
+          ).map((r) => JSON.stringify(r)),
         },
         { onConflict: "user_id,month_year" }
       )
