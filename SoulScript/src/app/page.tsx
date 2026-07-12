@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import StatsRow from "@/components/StatsRow";
 import AIInsightCard from "@/components/AIInsightCard";
 import RecentEntries from "@/components/RecentEntries";
+import DreamyBackground from "@/components/DreamyBackground";
 
 const MIN_LENGTH = 10;
 const MAX_LENGTH = 5000;
@@ -141,17 +142,19 @@ export default function DashboardPage() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      {/* Content */}
-      <div className="flex flex-1 flex-col gap-7 px-5 pb-8 pt-6 sm:px-8 md:mx-auto md:w-full md:max-w-2xl lg:max-w-3xl lg:gap-9 lg:px-10 lg:pt-8">
-        {/* Greeting */}
-        <div className="space-y-2">
-          <h1 className="font-[family-name:var(--font-playfair)] text-3xl font-bold leading-tight text-text-primary sm:text-4xl lg:text-[40px]">
-            {getGreeting()}, {userName}.
-          </h1>
-          <p className="text-base text-text-secondary sm:text-lg">
-            How does your soul feel {getGreeting().split(" ")[1]}?
-          </p>
-        </div>
+      {/* Hero Section with Dreamy Background */}
+      <div className="relative overflow-hidden px-5 pt-6 sm:px-8 md:mx-auto md:w-full md:max-w-2xl lg:max-w-3xl lg:px-10 lg:pt-8">
+        <DreamyBackground />
+        <div className="relative z-10 flex flex-col gap-7 lg:gap-9">
+          {/* Greeting */}
+          <div className="space-y-2">
+            <h1 className="font-[family-name:var(--font-playfair)] text-3xl font-bold leading-tight text-text-primary sm:text-4xl lg:text-[40px]">
+              {getGreeting()}, {userName}.
+            </h1>
+            <p className="text-base text-text-secondary sm:text-lg">
+              How does your soul feel {getGreeting().split(" ")[1]}?
+            </p>
+          </div>
 
         {/* Textarea with Glow */}
         <motion.div
@@ -229,7 +232,11 @@ export default function DashboardPage() {
             Release to Calendar
           </button>
         </div>
+        </div>
+      </div>
 
+      {/* Content below dreamy background */}
+      <div className="flex flex-1 flex-col gap-7 px-5 pb-8 sm:px-8 md:mx-auto md:w-full md:max-w-2xl lg:max-w-3xl lg:gap-9 lg:px-10">
         {/* Stats Row */}
         <StatsRow />
 
