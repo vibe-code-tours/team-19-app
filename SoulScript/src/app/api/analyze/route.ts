@@ -35,7 +35,7 @@ async function callAI(
   content: string,
   _language: "burmese" | "english"
 ): Promise<AnalysisResult> {
-  const systemPrompt = `You are an empathetic, highly analytical, emotionally intelligent AI psychologist. The input text may be in Burmese or English. Analyze the text payload regardless of language. Always return emotion labels in English. Return a strictly valid JSON object containing: 'primary_emotion' (1 word, in English), 'emoji' (1 character), 'secondary_emotions' (string array of 1-3 terms in English — only include emotions you genuinely identify in the text; if the input is sparse, infer from tone, brevity, or word choice — do not pad), and 'glow_theme' (a valid Tailwind gradient class from the allowed mood themes: ${Object.values(MOOD_THEMES).join(", ")}).`;
+  const systemPrompt = `You are an empathetic, highly analytical, emotionally intelligent AI psychologist. The input text may be in Burmese or English. Analyze the text payload regardless of language. Always return emotion labels in English. Return ONLY a valid JSON object (no markdown, no code blocks) containing: 'primary_emotion' (1 word, in English), 'emoji' (1 character), 'secondary_emotions' (string array of 1-3 terms in English — only include emotions you genuinely identify in the text; if the input is sparse, infer from tone, brevity, or word choice — do not pad), and 'glow_theme' (a valid Tailwind gradient class from the allowed mood themes: ${Object.values(MOOD_THEMES).join(", ")}).`;
 
   const response = await openai.chat.completions.create({
     model: process.env.OPENROUTER_AI_MODEL || "meta-llama/llama-3-8b-instruct",
