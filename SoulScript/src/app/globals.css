@@ -76,3 +76,64 @@ body {
   background-size: 200% 100%;
   animation: shimmer 1.5s ease-in-out infinite;
 }
+
+/* Dreamy Background */
+.dreamy-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.star {
+  animation: twinkle 3s ease-in-out infinite;
+}
+
+.bright-star {
+  animation: twinkle 2s ease-in-out infinite;
+  filter: drop-shadow(0 0 4px #818CF8);
+}
+
+.glow-star {
+  animation: twinkle-slow 4s ease-in-out infinite;
+  filter: blur(1px);
+}
+
+.cloud {
+  background: rgba(255, 255, 255, 0.03);
+  filter: blur(12px);
+  border-radius: 50%;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+@keyframes twinkle-slow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .star, .bright-star, .glow-star {
+    animation: none;
+    opacity: 0.5;
+  }
+}
+
+/* Desktop scaling for dreamy background elements */
+@media (min-width: 1024px) {
+  .moon {
+    width: 72px !important;
+    height: 72px !important;
+  }
+
+  .cloud {
+    height: 44px !important;
+  }
+}
