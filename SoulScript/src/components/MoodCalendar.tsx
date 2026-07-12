@@ -160,7 +160,7 @@ export default function MoodCalendar() {
     <div className="min-h-screen flex flex-col">
       <div className="flex-1 px-5 pb-8 max-w-lg mx-auto w-full">
         {/* Back to Dashboard */}
-        <div className="flex justify-start pt-4 pb-2">
+        <div className="flex items-center justify-between pt-4 pb-2">
           <button
             onClick={() => router.push("/")}
             className="flex items-center gap-1.5 text-text-secondary hover:text-text-primary transition-colors text-sm"
@@ -170,6 +170,7 @@ export default function MoodCalendar() {
             </svg>
             Journal
           </button>
+          <img src="/logo-horizontal.png" alt="SoulScript" className="h-6" />
         </div>
 
         {/* Month Header */}

@@ -425,11 +425,11 @@
         },
         {
           "type": "frame",
-          "id": "NqV5x",
+          "id": "L96aG",
           "name": "Calendar Content",
           "width": "fill_container",
           "layout": "vertical",
-          "gap": 20,
+          "gap": 16,
           "padding": [
             0,
             20
@@ -437,7 +437,7 @@
           "children": [
             {
               "type": "frame",
-              "id": "T8pxYF",
+              "id": "vvEnk",
               "name": "Month Header",
               "width": "fill_container",
               "justifyContent": "space_between",
@@ -445,17 +445,17 @@
               "children": [
                 {
                   "type": "icon",
-                  "id": "rhE4L",
+                  "id": "VHZS3",
                   "name": "Prev Month",
-                  "width": 24,
-                  "height": 24,
+                  "width": 20,
+                  "height": 20,
                   "icon": "chevron-left",
                   "library": "lucide",
                   "fill": "$text-secondary"
                 },
                 {
                   "type": "text",
-                  "id": "lEgTU",
+                  "id": "MrVBF",
                   "name": "Month Title",
                   "fill": "$text-primary",
                   "content": "July 2026",
@@ -465,10 +465,10 @@
                 },
                 {
                   "type": "icon",
-                  "id": "F0uzP",
+                  "id": "RuESF",
                   "name": "Next Month",
-                  "width": 24,
-                  "height": 24,
+                  "width": 20,
+                  "height": 20,
                   "icon": "chevron-right",
                   "library": "lucide",
                   "fill": "$text-secondary"
@@ -477,94 +477,155 @@
             },
             {
               "type": "frame",
-              "id": "q8i04j",
+              "id": "uGa7q",
+              "name": "Progress Row",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "E0FipV",
+                  "name": "Progress Text",
+                  "fill": "$text-muted",
+                  "content": "7 of 31 days journaled",
+                  "fontFamily": "$font-body",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "XYaY1",
+                  "name": "Streak Pill",
+                  "fill": "$accent-glow-soft",
+                  "cornerRadius": "$radius-pill",
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#818CF830",
+                    "blur": 12
+                  },
+                  "gap": 4,
+                  "padding": [
+                    4,
+                    10
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "G8tx7",
+                      "name": "Streak Emoji",
+                      "fill": "$text-primary",
+                      "content": "🔥",
+                      "fontFamily": "$font-body",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "V3KcrR",
+                      "name": "Streak Text",
+                      "fill": "$accent-primary",
+                      "content": "3 day streak",
+                      "fontFamily": "$font-body",
+                      "fontSize": 12,
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Xqszq",
               "name": "Weekday Labels",
               "width": "fill_container",
               "justifyContent": "space_around",
               "children": [
                 {
                   "type": "text",
-                  "id": "Gm3IW",
-                  "name": "Mon Label",
+                  "id": "RLDHq",
+                  "name": "M Label",
                   "fill": "$text-muted",
-                  "content": "Mon",
+                  "content": "M",
                   "fontFamily": "$font-body",
                   "fontSize": 12,
-                  "fontWeight": "500"
+                  "fontWeight": "600"
                 },
                 {
                   "type": "text",
-                  "id": "shtZE",
-                  "name": "Tue Label",
+                  "id": "gVWif",
+                  "name": "T Label",
                   "fill": "$text-muted",
-                  "content": "Tue",
+                  "content": "T",
                   "fontFamily": "$font-body",
                   "fontSize": 12,
-                  "fontWeight": "500"
+                  "fontWeight": "600"
                 },
                 {
                   "type": "text",
-                  "id": "kXRea",
-                  "name": "Wed Label",
+                  "id": "m6WFP",
+                  "name": "W Label",
                   "fill": "$text-muted",
-                  "content": "Wed",
+                  "content": "W",
                   "fontFamily": "$font-body",
                   "fontSize": 12,
-                  "fontWeight": "500"
+                  "fontWeight": "600"
                 },
                 {
                   "type": "text",
-                  "id": "nBTiZ",
-                  "name": "Thu Label",
+                  "id": "i7lcxH",
+                  "name": "T Label",
                   "fill": "$text-muted",
-                  "content": "Thu",
+                  "content": "T",
                   "fontFamily": "$font-body",
                   "fontSize": 12,
-                  "fontWeight": "500"
+                  "fontWeight": "600"
                 },
                 {
                   "type": "text",
-                  "id": "IPrI3",
-                  "name": "Fri Label",
+                  "id": "c3P4K",
+                  "name": "F Label",
                   "fill": "$text-muted",
-                  "content": "Fri",
+                  "content": "F",
                   "fontFamily": "$font-body",
                   "fontSize": 12,
-                  "fontWeight": "500"
+                  "fontWeight": "600"
                 },
                 {
                   "type": "text",
-                  "id": "qbHOb",
-                  "name": "Sat Label",
+                  "id": "R1McV",
+                  "name": "S Label",
                   "fill": "$text-muted",
-                  "content": "Sat",
+                  "content": "S",
                   "fontFamily": "$font-body",
                   "fontSize": 12,
-                  "fontWeight": "500"
+                  "fontWeight": "600"
                 },
                 {
                   "type": "text",
-                  "id": "Y21BPc",
-                  "name": "Sun Label",
+                  "id": "lM6TU",
+                  "name": "S Label",
                   "fill": "$text-muted",
-                  "content": "Sun",
+                  "content": "S",
                   "fontFamily": "$font-body",
                   "fontSize": 12,
-                  "fontWeight": "500"
+                  "fontWeight": "600"
                 }
               ]
             },
             {
               "type": "frame",
-              "id": "GolBi",
+              "id": "s8nXvw",
               "name": "Calendar Grid",
               "width": "fill_container",
               "layout": "vertical",
-              "gap": 6,
+              "gap": 4,
               "children": [
                 {
                   "type": "frame",
-                  "id": "RJr70",
+                  "id": "HPZqX",
                   "name": "Week Row 1",
                   "width": "fill_container",
                   "justifyContent": "space_around",
@@ -572,152 +633,175 @@
                   "children": [
                     {
                       "type": "frame",
-                      "id": "WDZ5L",
-                      "name": "Spacer",
+                      "id": "xmpdb",
+                      "name": "Empty 1-1",
+                      "opacity": 0.5,
                       "width": 44,
-                      "height": 44
+                      "height": 50
                     },
                     {
                       "type": "frame",
-                      "id": "nATdi",
-                      "name": "Empty Day 1",
+                      "id": "n8VJ3",
+                      "name": "Empty 1-2",
+                      "opacity": 0.5,
                       "width": 44,
-                      "height": 44,
-                      "layout": "none",
-                      "children": [
-                        {
-                          "type": "ellipse",
-                          "id": "hCiFD",
-                          "x": 8,
-                          "y": 8,
-                          "name": "Empty Ring",
-                          "fill": "#00000000",
-                          "width": 28,
-                          "height": 28,
-                          "stroke": "$glass-border",
-                          "strokeWidth": 1
-                        }
-                      ]
+                      "height": 50
                     },
                     {
                       "type": "frame",
-                      "id": "eNkKt",
-                      "name": "Empty Day 2",
+                      "id": "qeNe7",
+                      "name": "Day 1",
                       "width": 44,
-                      "height": 44,
-                      "layout": "none",
+                      "height": 50,
+                      "layout": "vertical",
+                      "gap": 2,
+                      "justifyContent": "center",
+                      "alignItems": "center",
                       "children": [
-                        {
-                          "type": "ellipse",
-                          "id": "W2xQgo",
-                          "x": 8,
-                          "y": 8,
-                          "name": "Empty Ring",
-                          "fill": "#00000000",
-                          "width": 28,
-                          "height": 28,
-                          "stroke": "$glass-border",
-                          "strokeWidth": 1
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "v2tNu",
-                      "name": "Day 3",
-                      "width": 44,
-                      "height": 44,
-                      "layout": "none",
-                      "children": [
-                        {
-                          "type": "ellipse",
-                          "id": "ODwao",
-                          "x": 0,
-                          "y": 0,
-                          "name": "Day Glow",
-                          "fill": "$glass",
-                          "width": 44,
-                          "height": 44,
-                          "stroke": "$glass-border",
-                          "strokeWidth": 1
-                        },
                         {
                           "type": "text",
-                          "id": "nUL3f",
-                          "x": 10,
-                          "y": 8,
-                          "name": "Emoji 3",
-                          "fill": "$text-primary",
-                          "content": "😊",
+                          "id": "Tietx",
+                          "name": "Num 1",
+                          "fill": "$text-muted",
+                          "content": "1",
                           "fontFamily": "$font-body",
-                          "fontSize": 20,
-                          "fontWeight": "normal"
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "ellipse",
+                          "id": "Vt2Ei",
+                          "name": "Empty Dot 1",
+                          "fill": "#00000000",
+                          "width": 5,
+                          "height": 5
                         }
                       ]
                     },
                     {
                       "type": "frame",
-                      "id": "axdnh",
-                      "name": "Empty Day 4",
+                      "id": "oAQ4n",
+                      "name": "Day 2",
+                      "opacity": 0.5,
                       "width": 44,
-                      "height": 44,
-                      "layout": "none",
+                      "height": 50,
+                      "layout": "vertical",
+                      "gap": 2,
+                      "justifyContent": "center",
+                      "alignItems": "center",
                       "children": [
                         {
+                          "type": "text",
+                          "id": "cQ8gF",
+                          "name": "Num 2",
+                          "fill": "$text-muted",
+                          "content": "2",
+                          "fontFamily": "$font-body",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
                           "type": "ellipse",
-                          "id": "uomBT",
-                          "x": 8,
-                          "y": 8,
-                          "name": "Empty Ring",
+                          "id": "BcOzE",
+                          "name": "Empty Dot 2",
                           "fill": "#00000000",
-                          "width": 28,
-                          "height": 28,
-                          "stroke": "$glass-border",
-                          "strokeWidth": 1
+                          "width": 5,
+                          "height": 5
                         }
                       ]
                     },
                     {
                       "type": "frame",
-                      "id": "jeUSC",
-                      "name": "Empty Day 5",
+                      "id": "uU3yq",
+                      "name": "Day 3",
                       "width": 44,
-                      "height": 44,
-                      "layout": "none",
+                      "height": 50,
+                      "layout": "vertical",
+                      "gap": 2,
+                      "justifyContent": "center",
+                      "alignItems": "center",
                       "children": [
                         {
+                          "type": "text",
+                          "id": "Au4tE",
+                          "name": "Num 3",
+                          "fill": "$text-primary",
+                          "content": "3",
+                          "fontFamily": "$font-body",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
                           "type": "ellipse",
-                          "id": "zxAPb",
-                          "x": 8,
-                          "y": 8,
-                          "name": "Empty Ring",
-                          "fill": "#00000000",
-                          "width": 28,
-                          "height": 28,
-                          "stroke": "$glass-border",
-                          "strokeWidth": 1
+                          "id": "tbUms",
+                          "name": "Mood Dot 3",
+                          "fill": "$mood-dot-joy",
+                          "width": 5,
+                          "height": 5
                         }
                       ]
                     },
                     {
                       "type": "frame",
-                      "id": "Oe9X2",
-                      "name": "Empty Day 6",
+                      "id": "LtqKp",
+                      "name": "Day 4",
+                      "opacity": 0.5,
                       "width": 44,
-                      "height": 44,
-                      "layout": "none",
+                      "height": 50,
+                      "layout": "vertical",
+                      "gap": 2,
+                      "justifyContent": "center",
+                      "alignItems": "center",
                       "children": [
                         {
+                          "type": "text",
+                          "id": "U5Ejs",
+                          "name": "Num 4",
+                          "fill": "$text-muted",
+                          "content": "4",
+                          "fontFamily": "$font-body",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
                           "type": "ellipse",
-                          "id": "QWBp8",
-                          "x": 8,
-                          "y": 8,
-                          "name": "Empty Ring",
+                          "id": "XULvp",
+                          "name": "Empty Dot 4",
                           "fill": "#00000000",
-                          "width": 28,
-                          "height": 28,
-                          "stroke": "$glass-border",
-                          "strokeWidth": 1
+                          "width": 5,
+                          "height": 5
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "f7bLxl",
+                      "name": "Day 5",
+                      "opacity": 0.5,
+                      "width": 44,
+                      "height": 50,
+                      "layout": "vertical",
+                      "gap": 2,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Hw21z",
+                          "name": "Num 5",
+                          "fill": "$text-muted",
+                          "content": "5",
+                          "fontFamily": "$font-body",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "ellipse",
+                          "id": "PwEWc",
+                          "name": "Empty Dot 5",
+                          "fill": "#00000000",
+                          "width": 5,
+                          "height": 5
                         }
                       ]
                     }
@@ -725,7 +809,7 @@
                 },
                 {
                   "type": "frame",
-                  "id": "iAx8n",
+                  "id": "Uz9Yo",
                   "name": "Week Row 2",
                   "width": "fill_container",
                   "justifyContent": "space_around",
@@ -733,179 +817,243 @@
                   "children": [
                     {
                       "type": "frame",
-                      "id": "RnhB7",
+                      "id": "KYa0h",
+                      "name": "Day 6",
+                      "opacity": 0.5,
+                      "width": 44,
+                      "height": 50,
+                      "layout": "vertical",
+                      "gap": 2,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "nYXHD",
+                          "name": "Num 6",
+                          "fill": "$text-muted",
+                          "content": "6",
+                          "fontFamily": "$font-body",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "ellipse",
+                          "id": "n6xwX1",
+                          "name": "Empty Dot 6",
+                          "fill": "#00000000",
+                          "width": 5,
+                          "height": 5
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "wDGaf",
                       "name": "Day 7",
                       "width": 44,
-                      "height": 44,
-                      "layout": "none",
+                      "height": 50,
+                      "layout": "vertical",
+                      "gap": 2,
+                      "justifyContent": "center",
+                      "alignItems": "center",
                       "children": [
-                        {
-                          "type": "ellipse",
-                          "id": "L9qsn",
-                          "x": 0,
-                          "y": 0,
-                          "name": "Day Glow",
-                          "fill": "$glass",
-                          "width": 44,
-                          "height": 44,
-                          "stroke": "$glass-border",
-                          "strokeWidth": 1
-                        },
                         {
                           "type": "text",
-                          "id": "AV3QD",
-                          "x": 10,
-                          "y": 8,
-                          "name": "Emoji 7",
+                          "id": "KfJ47",
+                          "name": "Num 7",
                           "fill": "$text-primary",
-                          "content": "😌",
+                          "content": "7",
                           "fontFamily": "$font-body",
-                          "fontSize": 20,
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "TJdAW",
-                      "name": "Empty Day 8",
-                      "width": 44,
-                      "height": 44,
-                      "layout": "none",
-                      "children": [
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
                         {
                           "type": "ellipse",
-                          "id": "cIE4M",
-                          "x": 8,
-                          "y": 8,
-                          "name": "Empty Ring",
-                          "fill": "#00000000",
-                          "width": 28,
-                          "height": 28,
-                          "stroke": "$glass-border",
-                          "strokeWidth": 1
+                          "id": "U8wpz",
+                          "name": "Mood Dot 7",
+                          "fill": "$mood-dot-calm",
+                          "width": 5,
+                          "height": 5
                         }
                       ]
                     },
                     {
                       "type": "frame",
-                      "id": "zWtmd",
-                      "name": "Empty Day 9",
+                      "id": "iJVYg",
+                      "name": "Day 8",
+                      "opacity": 0.5,
                       "width": 44,
-                      "height": 44,
-                      "layout": "none",
+                      "height": 50,
+                      "layout": "vertical",
+                      "gap": 2,
+                      "justifyContent": "center",
+                      "alignItems": "center",
                       "children": [
                         {
-                          "type": "ellipse",
-                          "id": "L6x2MA",
-                          "x": 8,
-                          "y": 8,
-                          "name": "Empty Ring",
-                          "fill": "#00000000",
-                          "width": 28,
-                          "height": 28,
-                          "stroke": "$glass-border",
-                          "strokeWidth": 1
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "IfwoT",
-                      "name": "Empty Day 10",
-                      "width": 44,
-                      "height": 44,
-                      "layout": "none",
-                      "children": [
+                          "type": "text",
+                          "id": "ddIAy",
+                          "name": "Num 8",
+                          "fill": "$text-muted",
+                          "content": "8",
+                          "fontFamily": "$font-body",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
                         {
                           "type": "ellipse",
-                          "id": "cCYsV",
-                          "x": 8,
-                          "y": 8,
-                          "name": "Empty Ring",
+                          "id": "e2DqC",
+                          "name": "Empty Dot 8",
                           "fill": "#00000000",
-                          "width": 28,
-                          "height": 28,
-                          "stroke": "$glass-border",
-                          "strokeWidth": 1
+                          "width": 5,
+                          "height": 5
                         }
                       ]
                     },
                     {
                       "type": "frame",
-                      "id": "FeYS3",
-                      "name": "Empty Day 11",
+                      "id": "C89rL",
+                      "name": "Day 9",
+                      "opacity": 0.5,
                       "width": 44,
-                      "height": 44,
-                      "layout": "none",
+                      "height": 50,
+                      "layout": "vertical",
+                      "gap": 2,
+                      "justifyContent": "center",
+                      "alignItems": "center",
                       "children": [
                         {
+                          "type": "text",
+                          "id": "vyiQf",
+                          "name": "Num 9",
+                          "fill": "$text-muted",
+                          "content": "9",
+                          "fontFamily": "$font-body",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
                           "type": "ellipse",
-                          "id": "qIwqt",
-                          "x": 8,
-                          "y": 8,
-                          "name": "Empty Ring",
+                          "id": "c1IN8l",
+                          "name": "Empty Dot 9",
                           "fill": "#00000000",
-                          "width": 28,
-                          "height": 28,
-                          "stroke": "$glass-border",
-                          "strokeWidth": 1
+                          "width": 5,
+                          "height": 5
                         }
                       ]
                     },
                     {
                       "type": "frame",
-                      "id": "vBOMd",
+                      "id": "bgBcS",
+                      "name": "Day 10",
+                      "opacity": 0.5,
+                      "width": 44,
+                      "height": 50,
+                      "layout": "vertical",
+                      "gap": 2,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "C6It2",
+                          "name": "Num 10",
+                          "fill": "$text-muted",
+                          "content": "10",
+                          "fontFamily": "$font-body",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "ellipse",
+                          "id": "yWNgw",
+                          "name": "Empty Dot 10",
+                          "fill": "#00000000",
+                          "width": 5,
+                          "height": 5
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "CTGTd",
+                      "name": "Day 11",
+                      "opacity": 0.5,
+                      "width": 44,
+                      "height": 50,
+                      "layout": "vertical",
+                      "gap": 2,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "tomH5",
+                          "name": "Num 11",
+                          "fill": "$text-muted",
+                          "content": "11",
+                          "fontFamily": "$font-body",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "ellipse",
+                          "id": "FNQJA",
+                          "name": "Empty Dot 11",
+                          "fill": "#00000000",
+                          "width": 5,
+                          "height": 5
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "v8RYA",
                       "name": "Day 12",
                       "width": 44,
-                      "height": 44,
-                      "layout": "none",
+                      "height": 50,
+                      "layout": "vertical",
+                      "gap": 2,
+                      "justifyContent": "center",
+                      "alignItems": "center",
                       "children": [
                         {
                           "type": "ellipse",
-                          "id": "uagFG",
-                          "x": 0,
-                          "y": 0,
-                          "name": "Day Glow",
-                          "fill": "$glass",
-                          "width": 44,
-                          "height": 44,
-                          "stroke": "$glass-border",
-                          "strokeWidth": 1
+                          "id": "Yi6I8",
+                          "layoutPosition": "absolute",
+                          "x": 2,
+                          "y": 5,
+                          "name": "Today Ring",
+                          "fill": "$accent-glow-soft",
+                          "width": 40,
+                          "height": 40,
+                          "stroke": "$accent-primary",
+                          "strokeWidth": 1.5,
+                          "effect": {
+                            "type": "shadow",
+                            "shadowType": "outer",
+                            "color": "#818CF840",
+                            "blur": 20,
+                            "spread": 4
+                          }
                         },
                         {
                           "type": "text",
-                          "id": "KJZdQ",
-                          "x": 10,
-                          "y": 8,
-                          "name": "Emoji 12",
-                          "fill": "$text-primary",
-                          "content": "💜",
+                          "id": "w1F9x",
+                          "name": "Num 12",
+                          "fill": "$accent-primary",
+                          "content": "12",
                           "fontFamily": "$font-body",
-                          "fontSize": 20,
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "AIwjr",
-                      "name": "Empty Day 13",
-                      "width": 44,
-                      "height": 44,
-                      "layout": "none",
-                      "children": [
+                          "fontSize": 13,
+                          "fontWeight": "700"
+                        },
                         {
                           "type": "ellipse",
-                          "id": "XsWGR",
-                          "x": 8,
-                          "y": 8,
-                          "name": "Empty Ring",
-                          "fill": "#00000000",
-                          "width": 28,
-                          "height": 28,
-                          "stroke": "$glass-border",
-                          "strokeWidth": 1
+                          "id": "zK3dz",
+                          "name": "Mood Dot 12",
+                          "fill": "$mood-dot-love",
+                          "width": 5,
+                          "height": 5
                         }
                       ]
                     }
@@ -913,7 +1061,7 @@
                 },
                 {
                   "type": "frame",
-                  "id": "ekJKe",
+                  "id": "I3rYRy",
                   "name": "Week Row 3",
                   "width": "fill_container",
                   "justifyContent": "space_around",
@@ -921,179 +1069,223 @@
                   "children": [
                     {
                       "type": "frame",
-                      "id": "Lkzu3",
-                      "name": "Empty Day 14",
+                      "id": "uaEML",
+                      "name": "Day 13",
+                      "opacity": 0.5,
                       "width": 44,
-                      "height": 44,
-                      "layout": "none",
+                      "height": 50,
+                      "layout": "vertical",
+                      "gap": 2,
+                      "justifyContent": "center",
+                      "alignItems": "center",
                       "children": [
                         {
+                          "type": "text",
+                          "id": "PQ7Yt",
+                          "name": "Num 13",
+                          "fill": "$text-muted",
+                          "content": "13",
+                          "fontFamily": "$font-body",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
                           "type": "ellipse",
-                          "id": "cq7O5",
-                          "x": 8,
-                          "y": 8,
-                          "name": "Empty Ring",
+                          "id": "wxMqX",
+                          "name": "Empty Dot 13",
                           "fill": "#00000000",
-                          "width": 28,
-                          "height": 28,
-                          "stroke": "$glass-border",
-                          "strokeWidth": 1
+                          "width": 5,
+                          "height": 5
                         }
                       ]
                     },
                     {
                       "type": "frame",
-                      "id": "U7xOK",
+                      "id": "yEin3",
+                      "name": "Day 14",
+                      "opacity": 0.5,
+                      "width": 44,
+                      "height": 50,
+                      "layout": "vertical",
+                      "gap": 2,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "kyudO",
+                          "name": "Num 14",
+                          "fill": "$text-muted",
+                          "content": "14",
+                          "fontFamily": "$font-body",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "ellipse",
+                          "id": "eSaiD",
+                          "name": "Empty Dot 14",
+                          "fill": "#00000000",
+                          "width": 5,
+                          "height": 5
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ke66n",
                       "name": "Day 15",
                       "width": 44,
-                      "height": 44,
-                      "layout": "none",
+                      "height": 50,
+                      "layout": "vertical",
+                      "gap": 2,
+                      "justifyContent": "center",
+                      "alignItems": "center",
                       "children": [
-                        {
-                          "type": "ellipse",
-                          "id": "UeQYx",
-                          "x": 0,
-                          "y": 0,
-                          "name": "Day Glow",
-                          "fill": "$glass",
-                          "width": 44,
-                          "height": 44,
-                          "stroke": "$glass-border",
-                          "strokeWidth": 1
-                        },
                         {
                           "type": "text",
-                          "id": "SiaG1",
-                          "x": 10,
-                          "y": 8,
-                          "name": "Emoji 15",
+                          "id": "z0Bdj",
+                          "name": "Num 15",
                           "fill": "$text-primary",
-                          "content": "🌟",
+                          "content": "15",
                           "fontFamily": "$font-body",
-                          "fontSize": 20,
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "f269UG",
-                      "name": "Empty Day 16",
-                      "width": 44,
-                      "height": 44,
-                      "layout": "none",
-                      "children": [
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
                         {
                           "type": "ellipse",
-                          "id": "PYxXr",
-                          "x": 8,
-                          "y": 8,
-                          "name": "Empty Ring",
-                          "fill": "#00000000",
-                          "width": 28,
-                          "height": 28,
-                          "stroke": "$glass-border",
-                          "strokeWidth": 1
+                          "id": "hueNz",
+                          "name": "Mood Dot 15",
+                          "fill": "$mood-dot-joy",
+                          "width": 5,
+                          "height": 5
                         }
                       ]
                     },
                     {
                       "type": "frame",
-                      "id": "AshR4",
-                      "name": "Empty Day 17",
+                      "id": "CBQEf",
+                      "name": "Day 16",
+                      "opacity": 0.5,
                       "width": 44,
-                      "height": 44,
-                      "layout": "none",
+                      "height": 50,
+                      "layout": "vertical",
+                      "gap": 2,
+                      "justifyContent": "center",
+                      "alignItems": "center",
                       "children": [
                         {
+                          "type": "text",
+                          "id": "vMwn1",
+                          "name": "Num 16",
+                          "fill": "$text-muted",
+                          "content": "16",
+                          "fontFamily": "$font-body",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
                           "type": "ellipse",
-                          "id": "XmQyF",
-                          "x": 8,
-                          "y": 8,
-                          "name": "Empty Ring",
+                          "id": "Oh2Uu",
+                          "name": "Empty Dot 16",
                           "fill": "#00000000",
-                          "width": 28,
-                          "height": 28,
-                          "stroke": "$glass-border",
-                          "strokeWidth": 1
+                          "width": 5,
+                          "height": 5
                         }
                       ]
                     },
                     {
                       "type": "frame",
-                      "id": "smtaO",
+                      "id": "Be8jA",
+                      "name": "Day 17",
+                      "opacity": 0.5,
+                      "width": 44,
+                      "height": 50,
+                      "layout": "vertical",
+                      "gap": 2,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "x1pnCs",
+                          "name": "Num 17",
+                          "fill": "$text-muted",
+                          "content": "17",
+                          "fontFamily": "$font-body",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "ellipse",
+                          "id": "q8pBo",
+                          "name": "Empty Dot 17",
+                          "fill": "#00000000",
+                          "width": 5,
+                          "height": 5
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "HF16x",
                       "name": "Day 18",
                       "width": 44,
-                      "height": 44,
-                      "layout": "none",
+                      "height": 50,
+                      "layout": "vertical",
+                      "gap": 2,
+                      "justifyContent": "center",
+                      "alignItems": "center",
                       "children": [
-                        {
-                          "type": "ellipse",
-                          "id": "o8QI9B",
-                          "x": 0,
-                          "y": 0,
-                          "name": "Day Glow",
-                          "fill": "$glass",
-                          "width": 44,
-                          "height": 44,
-                          "stroke": "$glass-border",
-                          "strokeWidth": 1
-                        },
                         {
                           "type": "text",
-                          "id": "lKAwQ",
-                          "x": 10,
-                          "y": 8,
-                          "name": "Emoji 18",
+                          "id": "BVV2Q",
+                          "name": "Num 18",
                           "fill": "$text-primary",
-                          "content": "😢",
+                          "content": "18",
                           "fontFamily": "$font-body",
-                          "fontSize": 20,
-                          "fontWeight": "normal"
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "ellipse",
+                          "id": "xy6v9",
+                          "name": "Mood Dot 18",
+                          "fill": "$mood-dot-sadness",
+                          "width": 5,
+                          "height": 5
                         }
                       ]
                     },
                     {
                       "type": "frame",
-                      "id": "Umjsw",
-                      "name": "Empty Day 19",
+                      "id": "FmYxo",
+                      "name": "Day 19",
+                      "opacity": 0.5,
                       "width": 44,
-                      "height": 44,
-                      "layout": "none",
+                      "height": 50,
+                      "layout": "vertical",
+                      "gap": 2,
+                      "justifyContent": "center",
+                      "alignItems": "center",
                       "children": [
                         {
-                          "type": "ellipse",
-                          "id": "d96r1x",
-                          "x": 8,
-                          "y": 8,
-                          "name": "Empty Ring",
-                          "fill": "#00000000",
-                          "width": 28,
-                          "height": 28,
-                          "stroke": "$glass-border",
-                          "strokeWidth": 1
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "S6fVg8",
-                      "name": "Empty Day 20",
-                      "width": 44,
-                      "height": 44,
-                      "layout": "none",
-                      "children": [
+                          "type": "text",
+                          "id": "CUWr6",
+                          "name": "Num 19",
+                          "fill": "$text-muted",
+                          "content": "19",
+                          "fontFamily": "$font-body",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
                         {
                           "type": "ellipse",
-                          "id": "pcnpf",
-                          "x": 8,
-                          "y": 8,
-                          "name": "Empty Ring",
+                          "id": "HeKcw",
+                          "name": "Empty Dot 19",
                           "fill": "#00000000",
-                          "width": 28,
-                          "height": 28,
-                          "stroke": "$glass-border",
-                          "strokeWidth": 1
+                          "width": 5,
+                          "height": 5
                         }
                       ]
                     }
@@ -1101,7 +1293,7 @@
                 },
                 {
                   "type": "frame",
-                  "id": "RslLV",
+                  "id": "bkGRK",
                   "name": "Week Row 4",
                   "width": "fill_container",
                   "justifyContent": "space_around",
@@ -1109,179 +1301,223 @@
                   "children": [
                     {
                       "type": "frame",
-                      "id": "xoUed",
-                      "name": "Empty Day 21",
+                      "id": "T9gXj",
+                      "name": "Day 20",
+                      "opacity": 0.5,
                       "width": 44,
-                      "height": 44,
-                      "layout": "none",
+                      "height": 50,
+                      "layout": "vertical",
+                      "gap": 2,
+                      "justifyContent": "center",
+                      "alignItems": "center",
                       "children": [
                         {
+                          "type": "text",
+                          "id": "vGSS5",
+                          "name": "Num 20",
+                          "fill": "$text-muted",
+                          "content": "20",
+                          "fontFamily": "$font-body",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
                           "type": "ellipse",
-                          "id": "whg9o",
-                          "x": 8,
-                          "y": 8,
-                          "name": "Empty Ring",
+                          "id": "a1Q7Bw",
+                          "name": "Empty Dot 20",
                           "fill": "#00000000",
-                          "width": 28,
-                          "height": 28,
-                          "stroke": "$glass-border",
-                          "strokeWidth": 1
+                          "width": 5,
+                          "height": 5
                         }
                       ]
                     },
                     {
                       "type": "frame",
-                      "id": "NGQiP",
+                      "id": "o040A",
+                      "name": "Day 21",
+                      "opacity": 0.5,
+                      "width": 44,
+                      "height": 50,
+                      "layout": "vertical",
+                      "gap": 2,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Z7Gf0n",
+                          "name": "Num 21",
+                          "fill": "$text-muted",
+                          "content": "21",
+                          "fontFamily": "$font-body",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "ellipse",
+                          "id": "agNIb",
+                          "name": "Empty Dot 21",
+                          "fill": "#00000000",
+                          "width": 5,
+                          "height": 5
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "l0aM1",
                       "name": "Day 22",
                       "width": 44,
-                      "height": 44,
-                      "layout": "none",
+                      "height": 50,
+                      "layout": "vertical",
+                      "gap": 2,
+                      "justifyContent": "center",
+                      "alignItems": "center",
                       "children": [
-                        {
-                          "type": "ellipse",
-                          "id": "Nfijl",
-                          "x": 0,
-                          "y": 0,
-                          "name": "Day Glow",
-                          "fill": "$glass",
-                          "width": 44,
-                          "height": 44,
-                          "stroke": "$glass-border",
-                          "strokeWidth": 1
-                        },
                         {
                           "type": "text",
-                          "id": "FEL2F",
-                          "x": 10,
-                          "y": 8,
-                          "name": "Emoji 22",
+                          "id": "IY9Du",
+                          "name": "Num 22",
                           "fill": "$text-primary",
-                          "content": "😤",
+                          "content": "22",
                           "fontFamily": "$font-body",
-                          "fontSize": 20,
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "a6WZZ",
-                      "name": "Empty Day 23",
-                      "width": 44,
-                      "height": 44,
-                      "layout": "none",
-                      "children": [
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
                         {
                           "type": "ellipse",
-                          "id": "GWqIR",
-                          "x": 8,
-                          "y": 8,
-                          "name": "Empty Ring",
-                          "fill": "#00000000",
-                          "width": 28,
-                          "height": 28,
-                          "stroke": "$glass-border",
-                          "strokeWidth": 1
+                          "id": "Ds7g3",
+                          "name": "Mood Dot 22",
+                          "fill": "$mood-dot-anger",
+                          "width": 5,
+                          "height": 5
                         }
                       ]
                     },
                     {
                       "type": "frame",
-                      "id": "or4o2",
-                      "name": "Empty Day 24",
+                      "id": "G8HMEY",
+                      "name": "Day 23",
+                      "opacity": 0.5,
                       "width": 44,
-                      "height": 44,
-                      "layout": "none",
+                      "height": 50,
+                      "layout": "vertical",
+                      "gap": 2,
+                      "justifyContent": "center",
+                      "alignItems": "center",
                       "children": [
                         {
+                          "type": "text",
+                          "id": "c0zTK8",
+                          "name": "Num 23",
+                          "fill": "$text-muted",
+                          "content": "23",
+                          "fontFamily": "$font-body",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
                           "type": "ellipse",
-                          "id": "plBC4",
-                          "x": 8,
-                          "y": 8,
-                          "name": "Empty Ring",
+                          "id": "WvBWl",
+                          "name": "Empty Dot 23",
                           "fill": "#00000000",
-                          "width": 28,
-                          "height": 28,
-                          "stroke": "$glass-border",
-                          "strokeWidth": 1
+                          "width": 5,
+                          "height": 5
                         }
                       ]
                     },
                     {
                       "type": "frame",
-                      "id": "CUHDT",
+                      "id": "KG4UO",
+                      "name": "Day 24",
+                      "opacity": 0.5,
+                      "width": 44,
+                      "height": 50,
+                      "layout": "vertical",
+                      "gap": 2,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "x50GW",
+                          "name": "Num 24",
+                          "fill": "$text-muted",
+                          "content": "24",
+                          "fontFamily": "$font-body",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "ellipse",
+                          "id": "h5t27",
+                          "name": "Empty Dot 24",
+                          "fill": "#00000000",
+                          "width": 5,
+                          "height": 5
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "cjhlp",
                       "name": "Day 25",
                       "width": 44,
-                      "height": 44,
-                      "layout": "none",
+                      "height": 50,
+                      "layout": "vertical",
+                      "gap": 2,
+                      "justifyContent": "center",
+                      "alignItems": "center",
                       "children": [
-                        {
-                          "type": "ellipse",
-                          "id": "fd0FL",
-                          "x": 0,
-                          "y": 0,
-                          "name": "Day Glow",
-                          "fill": "$glass",
-                          "width": 44,
-                          "height": 44,
-                          "stroke": "$glass-border",
-                          "strokeWidth": 1
-                        },
                         {
                           "type": "text",
-                          "id": "Z9l5p",
-                          "x": 10,
-                          "y": 8,
-                          "name": "Emoji 25",
+                          "id": "vYDGJ",
+                          "name": "Num 25",
                           "fill": "$text-primary",
-                          "content": "😊",
+                          "content": "25",
                           "fontFamily": "$font-body",
-                          "fontSize": 20,
-                          "fontWeight": "normal"
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "ellipse",
+                          "id": "uxC0E",
+                          "name": "Mood Dot 25",
+                          "fill": "$mood-dot-joy",
+                          "width": 5,
+                          "height": 5
                         }
                       ]
                     },
                     {
                       "type": "frame",
-                      "id": "M63G3",
-                      "name": "Empty Day 26",
+                      "id": "V8kNo1",
+                      "name": "Day 26",
+                      "opacity": 0.5,
                       "width": 44,
-                      "height": 44,
-                      "layout": "none",
+                      "height": 50,
+                      "layout": "vertical",
+                      "gap": 2,
+                      "justifyContent": "center",
+                      "alignItems": "center",
                       "children": [
                         {
-                          "type": "ellipse",
-                          "id": "Q6mjEq",
-                          "x": 8,
-                          "y": 8,
-                          "name": "Empty Ring",
-                          "fill": "#00000000",
-                          "width": 28,
-                          "height": 28,
-                          "stroke": "$glass-border",
-                          "strokeWidth": 1
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "h1CGu",
-                      "name": "Empty Day 27",
-                      "width": 44,
-                      "height": 44,
-                      "layout": "none",
-                      "children": [
+                          "type": "text",
+                          "id": "aoNMu",
+                          "name": "Num 26",
+                          "fill": "$text-muted",
+                          "content": "26",
+                          "fontFamily": "$font-body",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
                         {
                           "type": "ellipse",
-                          "id": "PCCzG",
-                          "x": 8,
-                          "y": 8,
-                          "name": "Empty Ring",
+                          "id": "lliSd",
+                          "name": "Empty Dot 26",
                           "fill": "#00000000",
-                          "width": 28,
-                          "height": 28,
-                          "stroke": "$glass-border",
-                          "strokeWidth": 1
+                          "width": 5,
+                          "height": 5
                         }
                       ]
                     }
@@ -1289,7 +1525,7 @@
                 },
                 {
                   "type": "frame",
-                  "id": "FMecz",
+                  "id": "Q1Kxx2",
                   "name": "Week Row 5",
                   "width": "fill_container",
                   "justifyContent": "space_around",
@@ -1297,171 +1533,352 @@
                   "children": [
                     {
                       "type": "frame",
-                      "id": "vMizo",
-                      "name": "Empty Day 28",
+                      "id": "k4LLX",
+                      "name": "Day 27",
+                      "opacity": 0.5,
                       "width": 44,
-                      "height": 44,
-                      "layout": "none",
+                      "height": 50,
+                      "layout": "vertical",
+                      "gap": 2,
+                      "justifyContent": "center",
+                      "alignItems": "center",
                       "children": [
                         {
+                          "type": "text",
+                          "id": "It5I2",
+                          "name": "Num 27",
+                          "fill": "$text-muted",
+                          "content": "27",
+                          "fontFamily": "$font-body",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
                           "type": "ellipse",
-                          "id": "CTf23",
-                          "x": 8,
-                          "y": 8,
-                          "name": "Empty Ring",
+                          "id": "SnpXB",
+                          "name": "Empty Dot 27",
                           "fill": "#00000000",
-                          "width": 28,
-                          "height": 28,
-                          "stroke": "$glass-border",
-                          "strokeWidth": 1
+                          "width": 5,
+                          "height": 5
                         }
                       ]
                     },
                     {
                       "type": "frame",
-                      "id": "mg0jl",
-                      "name": "Empty Day 29",
+                      "id": "u1gso",
+                      "name": "Day 28",
+                      "opacity": 0.5,
                       "width": 44,
-                      "height": 44,
-                      "layout": "none",
+                      "height": 50,
+                      "layout": "vertical",
+                      "gap": 2,
+                      "justifyContent": "center",
+                      "alignItems": "center",
                       "children": [
                         {
+                          "type": "text",
+                          "id": "KMuAv",
+                          "name": "Num 28",
+                          "fill": "$text-muted",
+                          "content": "28",
+                          "fontFamily": "$font-body",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
                           "type": "ellipse",
-                          "id": "yUpyu",
-                          "x": 8,
-                          "y": 8,
-                          "name": "Empty Ring",
+                          "id": "EGyld",
+                          "name": "Empty Dot 28",
                           "fill": "#00000000",
-                          "width": 28,
-                          "height": 28,
-                          "stroke": "$glass-border",
-                          "strokeWidth": 1
+                          "width": 5,
+                          "height": 5
                         }
                       ]
                     },
                     {
                       "type": "frame",
-                      "id": "V8GEE2",
-                      "name": "Empty Day 30",
+                      "id": "B9aJKK",
+                      "name": "Day 29",
+                      "opacity": 0.5,
                       "width": 44,
-                      "height": 44,
-                      "layout": "none",
+                      "height": 50,
+                      "layout": "vertical",
+                      "gap": 2,
+                      "justifyContent": "center",
+                      "alignItems": "center",
                       "children": [
                         {
+                          "type": "text",
+                          "id": "IFAP7",
+                          "name": "Num 29",
+                          "fill": "$text-muted",
+                          "content": "29",
+                          "fontFamily": "$font-body",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
                           "type": "ellipse",
-                          "id": "c4Oxub",
-                          "x": 8,
-                          "y": 8,
-                          "name": "Empty Ring",
+                          "id": "cp6w2",
+                          "name": "Empty Dot 29",
                           "fill": "#00000000",
-                          "width": 28,
-                          "height": 28,
-                          "stroke": "$glass-border",
-                          "strokeWidth": 1
+                          "width": 5,
+                          "height": 5
                         }
                       ]
                     },
                     {
                       "type": "frame",
-                      "id": "fyFwp",
-                      "name": "Empty Day 31",
+                      "id": "zgJuL",
+                      "name": "Day 30",
+                      "opacity": 0.5,
                       "width": 44,
-                      "height": 44,
-                      "layout": "none",
+                      "height": 50,
+                      "layout": "vertical",
+                      "gap": 2,
+                      "justifyContent": "center",
+                      "alignItems": "center",
                       "children": [
                         {
+                          "type": "text",
+                          "id": "GTQIK",
+                          "name": "Num 30",
+                          "fill": "$text-muted",
+                          "content": "30",
+                          "fontFamily": "$font-body",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
                           "type": "ellipse",
-                          "id": "yA8Nk",
-                          "x": 8,
-                          "y": 8,
-                          "name": "Empty Ring",
+                          "id": "rcSiU",
+                          "name": "Empty Dot 30",
                           "fill": "#00000000",
-                          "width": 28,
-                          "height": 28,
-                          "stroke": "$glass-border",
-                          "strokeWidth": 1
+                          "width": 5,
+                          "height": 5
                         }
                       ]
                     },
                     {
                       "type": "frame",
-                      "id": "p5eGGy",
-                      "name": "Spacer",
+                      "id": "yH8zH",
+                      "name": "Day 31",
+                      "opacity": 0.5,
                       "width": 44,
-                      "height": 44
+                      "height": 50,
+                      "layout": "vertical",
+                      "gap": 2,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "m7cx77",
+                          "name": "Num 31",
+                          "fill": "$text-muted",
+                          "content": "31",
+                          "fontFamily": "$font-body",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "ellipse",
+                          "id": "g0obEV",
+                          "name": "Empty Dot 31",
+                          "fill": "#00000000",
+                          "width": 5,
+                          "height": 5
+                        }
+                      ]
                     },
                     {
                       "type": "frame",
-                      "id": "r8A3j",
-                      "name": "Spacer",
+                      "id": "Poo3x",
+                      "name": "Empty 5-6",
                       "width": 44,
-                      "height": 44
+                      "height": 50
                     },
                     {
                       "type": "frame",
-                      "id": "PBN9r",
-                      "name": "Spacer",
+                      "id": "fMPpA",
+                      "name": "Empty 5-7",
                       "width": 44,
-                      "height": 44
+                      "height": 50
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "MEvES",
+              "name": "Mood Summary",
+              "width": "fill_container",
+              "gap": 8,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "l80Te",
+                  "name": "Mood Chip Joy",
+                  "fill": "$glass",
+                  "cornerRadius": "$radius-pill",
+                  "gap": 4,
+                  "padding": [
+                    4,
+                    8
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "ellipse",
+                      "id": "LHcYS",
+                      "name": "Dot Joy",
+                      "fill": "$mood-dot-joy",
+                      "width": 6,
+                      "height": 6
+                    },
+                    {
+                      "type": "text",
+                      "id": "P7pef",
+                      "name": "Label Joy",
+                      "fill": "$text-secondary",
+                      "content": "Joy 3",
+                      "fontFamily": "$font-body",
+                      "fontSize": 11,
+                      "fontWeight": "500"
                     }
                   ]
                 },
                 {
                   "type": "frame",
-                  "id": "roGlE",
-                  "name": "Week Row 6",
-                  "width": "fill_container",
-                  "justifyContent": "space_around",
+                  "id": "BwBWx",
+                  "name": "Mood Chip Calm",
+                  "fill": "$glass",
+                  "cornerRadius": "$radius-pill",
+                  "gap": 4,
+                  "padding": [
+                    4,
+                    8
+                  ],
                   "alignItems": "center",
                   "children": [
                     {
-                      "type": "frame",
-                      "id": "rIz7d",
-                      "name": "Spacer",
-                      "width": 44,
-                      "height": 44
+                      "type": "ellipse",
+                      "id": "v3FFgc",
+                      "name": "Dot Calm",
+                      "fill": "$mood-dot-calm",
+                      "width": 6,
+                      "height": 6
                     },
                     {
-                      "type": "frame",
-                      "id": "ogP6Y",
-                      "name": "Spacer",
-                      "width": 44,
-                      "height": 44
+                      "type": "text",
+                      "id": "FpjDK",
+                      "name": "Label Calm",
+                      "fill": "$text-secondary",
+                      "content": "Calm 1",
+                      "fontFamily": "$font-body",
+                      "fontSize": 11,
+                      "fontWeight": "500"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "w7ef3",
+                  "name": "Mood Chip Love",
+                  "fill": "$glass",
+                  "cornerRadius": "$radius-pill",
+                  "gap": 4,
+                  "padding": [
+                    4,
+                    8
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "ellipse",
+                      "id": "ScQmo",
+                      "name": "Dot Love",
+                      "fill": "$mood-dot-love",
+                      "width": 6,
+                      "height": 6
                     },
                     {
-                      "type": "frame",
-                      "id": "RYRTH",
-                      "name": "Spacer",
-                      "width": 44,
-                      "height": 44
+                      "type": "text",
+                      "id": "f4qdcy",
+                      "name": "Label Love",
+                      "fill": "$text-secondary",
+                      "content": "Love 1",
+                      "fontFamily": "$font-body",
+                      "fontSize": 11,
+                      "fontWeight": "500"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "C2EiIM",
+                  "name": "Mood Chip Sad",
+                  "fill": "$glass",
+                  "cornerRadius": "$radius-pill",
+                  "gap": 4,
+                  "padding": [
+                    4,
+                    8
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "ellipse",
+                      "id": "BgVRt",
+                      "name": "Dot Sad",
+                      "fill": "$mood-dot-sadness",
+                      "width": 6,
+                      "height": 6
                     },
                     {
-                      "type": "frame",
-                      "id": "sGdtk",
-                      "name": "Spacer",
-                      "width": 44,
-                      "height": 44
+                      "type": "text",
+                      "id": "CDTJY",
+                      "name": "Label Sad",
+                      "fill": "$text-secondary",
+                      "content": "Sad 1",
+                      "fontFamily": "$font-body",
+                      "fontSize": 11,
+                      "fontWeight": "500"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "bTm2f",
+                  "name": "Mood Chip Angry",
+                  "fill": "$glass",
+                  "cornerRadius": "$radius-pill",
+                  "gap": 4,
+                  "padding": [
+                    4,
+                    8
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "ellipse",
+                      "id": "g0json",
+                      "name": "Dot Angry",
+                      "fill": "$mood-dot-anger",
+                      "width": 6,
+                      "height": 6
                     },
                     {
-                      "type": "frame",
-                      "id": "K0vE6o",
-                      "name": "Spacer",
-                      "width": 44,
-                      "height": 44
-                    },
-                    {
-                      "type": "frame",
-                      "id": "U60L4",
-                      "name": "Spacer",
-                      "width": 44,
-                      "height": 44
-                    },
-                    {
-                      "type": "frame",
-                      "id": "Gagmi",
-                      "name": "Spacer",
-                      "width": 44,
-                      "height": 44
+                      "type": "text",
+                      "id": "YGmUV",
+                      "name": "Label Angry",
+                      "fill": "$text-secondary",
+                      "content": "Angry 1",
+                      "fontFamily": "$font-body",
+                      "fontSize": 11,
+                      "fontWeight": "500"
                     }
                   ]
                 }
@@ -1469,59 +1886,890 @@
             },
             {
               "type": "frame",
-              "id": "gwg64",
-              "name": "Monthly Report Trigger",
+              "id": "CF7ty",
+              "name": "Tab Bar",
               "width": "fill_container",
               "fill": "$glass-strong",
-              "cornerRadius": "$radius-lg",
+              "cornerRadius": 28,
               "stroke": "$glass-border",
               "strokeWidth": 1,
-              "layout": "vertical",
-              "gap": 8,
-              "padding": 20,
+              "padding": [
+                8,
+                16
+              ],
+              "justifyContent": "space_around",
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon",
-                  "id": "PWdpo",
-                  "name": "Sparkles Icon",
-                  "width": 28,
-                  "height": 28,
-                  "icon": "sparkles",
-                  "library": "lucide",
-                  "fill": "$accent-primary"
+                  "type": "frame",
+                  "id": "O3W9gq",
+                  "name": "Tab Home",
+                  "layout": "vertical",
+                  "gap": 2,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "wixf0",
+                      "name": "Icon Home",
+                      "width": 20,
+                      "height": 20,
+                      "icon": "house",
+                      "library": "lucide",
+                      "fill": "$text-muted"
+                    },
+                    {
+                      "type": "text",
+                      "id": "v9TQ5i",
+                      "name": "Label Home",
+                      "fill": "$text-muted",
+                      "content": "Home",
+                      "fontFamily": "$font-body",
+                      "fontSize": 10
+                    }
+                  ]
                 },
                 {
-                  "type": "text",
-                  "id": "rGiqn",
-                  "name": "Report Title",
-                  "fill": "$text-primary",
-                  "content": "Reveal This Month's Journey",
-                  "fontFamily": "$font-heading",
-                  "fontSize": 18,
-                  "fontWeight": "600"
+                  "type": "frame",
+                  "id": "lDGC2",
+                  "name": "Tab Calendar",
+                  "layout": "vertical",
+                  "gap": 2,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "PO47b",
+                      "name": "Active Pill",
+                      "fill": "$accent-glow-soft",
+                      "cornerRadius": "$radius-pill",
+                      "padding": [
+                        4,
+                        16
+                      ],
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "BnHaX",
+                          "name": "Icon Calendar",
+                          "width": 20,
+                          "height": 20,
+                          "icon": "calendar",
+                          "library": "lucide",
+                          "fill": "$accent-primary"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "Q8siMH",
+                      "name": "Label Calendar",
+                      "fill": "$accent-primary",
+                      "content": "Calendar",
+                      "fontFamily": "$font-body",
+                      "fontSize": 10,
+                      "fontWeight": "600"
+                    }
+                  ]
                 },
                 {
-                  "type": "text",
-                  "id": "dOKoO",
-                  "name": "Report Subtitle",
-                  "fill": "$text-secondary",
-                  "textGrowth": "fixed-width",
-                  "width": "fill_container",
-                  "content": "7 of 31 days journaled — tap to generate insights",
-                  "textAlign": "center",
-                  "fontFamily": "$font-body",
-                  "fontSize": 13,
-                  "fontWeight": "normal"
+                  "type": "frame",
+                  "id": "oyOGs",
+                  "name": "Tab Settings",
+                  "layout": "vertical",
+                  "gap": 2,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "H0WHu",
+                      "name": "Icon Settings",
+                      "width": 20,
+                      "height": 20,
+                      "icon": "settings",
+                      "library": "lucide",
+                      "fill": "$text-muted"
+                    },
+                    {
+                      "type": "text",
+                      "id": "PSrJR",
+                      "name": "Label Settings",
+                      "fill": "$text-muted",
+                      "content": "Settings",
+                      "fontFamily": "$font-body",
+                      "fontSize": 10
+                    }
+                  ]
                 }
               ]
             },
             {
               "type": "frame",
-              "id": "tU2QR",
-              "name": "Bottom Spacer",
+              "id": "qDGkn",
+              "name": "Selected Day Card",
               "width": "fill_container",
-              "height": 80
+              "fill": "$glass",
+              "cornerRadius": "$radius-lg",
+              "stroke": "$accent-primary",
+              "strokeWidth": 1,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#818CF825",
+                "offset": {
+                  "x": 0,
+                  "y": 2
+                },
+                "blur": 16,
+                "spread": 2
+              },
+              "layout": "vertical",
+              "gap": 12,
+              "padding": 16,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "EBLwb",
+                  "name": "Selected Header",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "uAtZS",
+                      "name": "Date Row",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Wvd2B",
+                          "name": "Day Number",
+                          "fill": "$accent-primary",
+                          "content": "12",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 28,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "xN0Z7",
+                          "name": "Date Col",
+                          "layout": "vertical",
+                          "gap": 1,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "jTFxh",
+                              "name": "Day Name",
+                              "fill": "$text-primary",
+                              "content": "Tuesday",
+                              "fontFamily": "$font-body",
+                              "fontSize": 14,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "T6ZmbK",
+                              "name": "Date Full",
+                              "fill": "$text-muted",
+                              "content": "July 12, 2026",
+                              "fontFamily": "$font-body",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ipPY0",
+                      "name": "Mood Pill",
+                      "fill": "$mood-dot-love",
+                      "cornerRadius": "$radius-pill",
+                      "gap": 4,
+                      "padding": [
+                        4,
+                        10
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "QOQyu",
+                          "name": "Mood Emoji",
+                          "fill": "$text-primary",
+                          "content": "💜",
+                          "fontFamily": "$font-body",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Z5U7uL",
+                          "name": "Mood Label",
+                          "fill": "$text-primary",
+                          "content": "Love",
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "rectangle",
+                  "id": "pPj0d",
+                  "name": "Divider",
+                  "fill": "$glass-border",
+                  "width": "fill_container",
+                  "height": 1
+                },
+                {
+                  "type": "text",
+                  "id": "a8rgS",
+                  "name": "Entry Preview",
+                  "fill": "$text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Had a wonderful coffee date with an old friend. We talked for hours about life, dreams, and everything in between. Felt deeply connected...",
+                  "lineHeight": 1.5,
+                  "fontFamily": "$font-body",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "ZnhfM",
+                  "name": "Entry Meta",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "q8Xp0h",
+                      "name": "Word Count",
+                      "fill": "$text-muted",
+                      "content": "247 words · 3 min read",
+                      "fontFamily": "$font-body",
+                      "fontSize": 11,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "irmhP",
+                      "name": "View Entry",
+                      "fill": "$accent-primary",
+                      "content": "View full entry →",
+                      "fontFamily": "$font-body",
+                      "fontSize": 12,
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "pzaKd",
+              "name": "Report Card",
+              "width": "fill_container",
+              "fill": "$glass",
+              "cornerRadius": "$radius-lg",
+              "stroke": "$glass-border",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 12,
+              "padding": 16,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "bLVkS",
+                  "name": "Report Header",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Nmc6B",
+                      "name": "Report Title Row",
+                      "gap": 6,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "PPxjp",
+                          "name": "Sparkles",
+                          "width": 16,
+                          "height": 16,
+                          "icon": "sparkles",
+                          "library": "lucide",
+                          "fill": "$accent-primary"
+                        },
+                        {
+                          "type": "text",
+                          "id": "JEGal",
+                          "name": "Report Title",
+                          "fill": "$text-primary",
+                          "content": "Monthly Insights",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 16,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "RAPtu",
+                      "name": "Report Arrow",
+                      "fill": "$accent-primary",
+                      "content": "See all →",
+                      "fontFamily": "$font-body",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "ldpHB",
+                  "name": "Mood Bar",
+                  "width": "fill_container",
+                  "height": 8,
+                  "cornerRadius": 4,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 4,
+                      "id": "Zg8nM",
+                      "x": 0,
+                      "y": 0,
+                      "name": "Bar Segment",
+                      "fill": "$mood-dot-joy",
+                      "width": 133,
+                      "height": 8
+                    },
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 4,
+                      "id": "wB5pS",
+                      "x": 133,
+                      "y": 0,
+                      "name": "Bar Segment",
+                      "fill": "$mood-dot-calm",
+                      "width": 44,
+                      "height": 8
+                    },
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 4,
+                      "id": "rNHbq",
+                      "x": 177,
+                      "y": 0,
+                      "name": "Bar Segment",
+                      "fill": "$mood-dot-love",
+                      "width": 44,
+                      "height": 8
+                    },
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 4,
+                      "id": "m15Qa4",
+                      "x": 221,
+                      "y": 0,
+                      "name": "Bar Segment",
+                      "fill": "$mood-dot-sadness",
+                      "width": 44,
+                      "height": 8
+                    },
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 4,
+                      "id": "myeba",
+                      "x": 265,
+                      "y": 0,
+                      "name": "Bar Segment",
+                      "fill": "$mood-dot-anger",
+                      "width": 44,
+                      "height": 8
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "u8pvF",
+                  "name": "Mood Breakdown",
+                  "width": "fill_container",
+                  "justifyContent": "space_around",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "V4J9E",
+                      "name": "Breakdown Joy",
+                      "layout": "vertical",
+                      "gap": 2,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "tC9vg",
+                          "name": "Dot Joy",
+                          "fill": "$mood-dot-joy",
+                          "width": 8,
+                          "height": 8
+                        },
+                        {
+                          "type": "text",
+                          "id": "sroeK",
+                          "name": "Count Joy",
+                          "fill": "$text-primary",
+                          "content": "3",
+                          "fontFamily": "$font-body",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "aWnmi",
+                          "name": "Pct Joy",
+                          "fill": "$text-muted",
+                          "content": "43%",
+                          "fontFamily": "$font-body",
+                          "fontSize": 9,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "AYE0J",
+                      "name": "Breakdown Calm",
+                      "layout": "vertical",
+                      "gap": 2,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "fpksB",
+                          "name": "Dot Calm",
+                          "fill": "$mood-dot-calm",
+                          "width": 8,
+                          "height": 8
+                        },
+                        {
+                          "type": "text",
+                          "id": "lD3R8",
+                          "name": "Count Calm",
+                          "fill": "$text-primary",
+                          "content": "1",
+                          "fontFamily": "$font-body",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "LKqae",
+                          "name": "Pct Calm",
+                          "fill": "$text-muted",
+                          "content": "14%",
+                          "fontFamily": "$font-body",
+                          "fontSize": 9,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "adsaB",
+                      "name": "Breakdown Love",
+                      "layout": "vertical",
+                      "gap": 2,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "lcTQS",
+                          "name": "Dot Love",
+                          "fill": "$mood-dot-love",
+                          "width": 8,
+                          "height": 8
+                        },
+                        {
+                          "type": "text",
+                          "id": "GOBcY",
+                          "name": "Count Love",
+                          "fill": "$text-primary",
+                          "content": "1",
+                          "fontFamily": "$font-body",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "SnTD1",
+                          "name": "Pct Love",
+                          "fill": "$text-muted",
+                          "content": "14%",
+                          "fontFamily": "$font-body",
+                          "fontSize": 9,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "FCF03",
+                      "name": "Breakdown Sad",
+                      "layout": "vertical",
+                      "gap": 2,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "zYxeC",
+                          "name": "Dot Sad",
+                          "fill": "$mood-dot-sadness",
+                          "width": 8,
+                          "height": 8
+                        },
+                        {
+                          "type": "text",
+                          "id": "h7tjIu",
+                          "name": "Count Sad",
+                          "fill": "$text-primary",
+                          "content": "1",
+                          "fontFamily": "$font-body",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Y8yRP",
+                          "name": "Pct Sad",
+                          "fill": "$text-muted",
+                          "content": "14%",
+                          "fontFamily": "$font-body",
+                          "fontSize": 9,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "M39tR7",
+                      "name": "Breakdown Angry",
+                      "layout": "vertical",
+                      "gap": 2,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "iOLbi",
+                          "name": "Dot Angry",
+                          "fill": "$mood-dot-anger",
+                          "width": 8,
+                          "height": 8
+                        },
+                        {
+                          "type": "text",
+                          "id": "j3VoB",
+                          "name": "Count Angry",
+                          "fill": "$text-primary",
+                          "content": "1",
+                          "fontFamily": "$font-body",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "TAG2e",
+                          "name": "Pct Angry",
+                          "fill": "$text-muted",
+                          "content": "14%",
+                          "fontFamily": "$font-body",
+                          "fontSize": 9,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "rectangle",
+                  "id": "u7DQb",
+                  "name": "Divider",
+                  "fill": "$glass-border",
+                  "width": "fill_container",
+                  "height": 1
+                },
+                {
+                  "type": "frame",
+                  "id": "D92D2G",
+                  "name": "Insight Row",
+                  "width": "fill_container",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "A25OM",
+                      "name": "Lightbulb",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "lightbulb",
+                      "library": "lucide",
+                      "fill": "$mood-dot-joy"
+                    },
+                    {
+                      "type": "text",
+                      "id": "F5LoJ",
+                      "name": "Insight Text",
+                      "fill": "$text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "You tend to feel most joyful mid-week. Consider scheduling meaningful activities on Wednesdays.",
+                      "fontFamily": "$font-body",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "mzdDE",
+                  "name": "Donut Section",
+                  "width": "fill_container",
+                  "gap": 12,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "mJyXT",
+                      "name": "Donut Chart",
+                      "width": 64,
+                      "height": 64,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "lyFd9",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Donut Seg",
+                          "innerRadius": 0.55,
+                          "startAngle": 90,
+                          "sweepAngle": 154,
+                          "fill": "$mood-dot-joy",
+                          "width": 64,
+                          "height": 64
+                        },
+                        {
+                          "type": "ellipse",
+                          "id": "qGzO2",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Donut Seg",
+                          "innerRadius": 0.55,
+                          "startAngle": 244,
+                          "sweepAngle": 51,
+                          "fill": "$mood-dot-calm",
+                          "width": 64,
+                          "height": 64
+                        },
+                        {
+                          "type": "ellipse",
+                          "id": "S91HNN",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Donut Seg",
+                          "innerRadius": 0.55,
+                          "startAngle": 295,
+                          "sweepAngle": 51,
+                          "fill": "$mood-dot-love",
+                          "width": 64,
+                          "height": 64
+                        },
+                        {
+                          "type": "ellipse",
+                          "id": "MnpSy",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Donut Seg",
+                          "innerRadius": 0.55,
+                          "startAngle": 346,
+                          "sweepAngle": 52,
+                          "fill": "$mood-dot-sadness",
+                          "width": 64,
+                          "height": 64
+                        },
+                        {
+                          "type": "ellipse",
+                          "id": "j0fqK",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Donut Seg",
+                          "innerRadius": 0.55,
+                          "startAngle": 38,
+                          "sweepAngle": 52,
+                          "fill": "$mood-dot-anger",
+                          "width": 64,
+                          "height": 64
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "r9WMaG",
+                      "name": "Donut Legend",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "Llxkp",
+                          "name": "Legend Joy — 43%",
+                          "gap": 6,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "ellipse",
+                              "id": "JYGAx",
+                              "name": "Legend Dot",
+                              "fill": "$mood-dot-joy",
+                              "width": 6,
+                              "height": 6
+                            },
+                            {
+                              "type": "text",
+                              "id": "O8C5b",
+                              "name": "Legend Label",
+                              "fill": "$text-secondary",
+                              "content": "Joy — 43%",
+                              "fontFamily": "$font-body",
+                              "fontSize": 11,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "g5L2g",
+                          "name": "Legend Calm — 14%",
+                          "gap": 6,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "ellipse",
+                              "id": "MIKjQ",
+                              "name": "Legend Dot",
+                              "fill": "$mood-dot-calm",
+                              "width": 6,
+                              "height": 6
+                            },
+                            {
+                              "type": "text",
+                              "id": "aC2Cp",
+                              "name": "Legend Label",
+                              "fill": "$text-secondary",
+                              "content": "Calm — 14%",
+                              "fontFamily": "$font-body",
+                              "fontSize": 11,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "USUmR",
+                          "name": "Legend Love — 14%",
+                          "gap": 6,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "ellipse",
+                              "id": "tto3H",
+                              "name": "Legend Dot",
+                              "fill": "$mood-dot-love",
+                              "width": 6,
+                              "height": 6
+                            },
+                            {
+                              "type": "text",
+                              "id": "RU0oj",
+                              "name": "Legend Label",
+                              "fill": "$text-secondary",
+                              "content": "Love — 14%",
+                              "fontFamily": "$font-body",
+                              "fontSize": 11,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "hNslL",
+                          "name": "Legend Sadness — 14%",
+                          "gap": 6,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "ellipse",
+                              "id": "B2mMys",
+                              "name": "Legend Dot",
+                              "fill": "$mood-dot-sadness",
+                              "width": 6,
+                              "height": 6
+                            },
+                            {
+                              "type": "text",
+                              "id": "DelEy",
+                              "name": "Legend Label",
+                              "fill": "$text-secondary",
+                              "content": "Sadness — 14%",
+                              "fontFamily": "$font-body",
+                              "fontSize": 11,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "O0FhBE",
+                          "name": "Legend Anger — 14%",
+                          "gap": 6,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "ellipse",
+                              "id": "b6BRH",
+                              "name": "Legend Dot",
+                              "fill": "$mood-dot-anger",
+                              "width": 6,
+                              "height": 6
+                            },
+                            {
+                              "type": "text",
+                              "id": "P7wO9",
+                              "name": "Legend Label",
+                              "fill": "$text-secondary",
+                              "content": "Anger — 14%",
+                              "fontFamily": "$font-body",
+                              "fontSize": 11,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
             }
           ]
         }
@@ -2407,6 +3655,7 @@
       "name": "Monthly Report",
       "clip": true,
       "width": 390,
+      "height": 2150,
       "fill": {
         "type": "gradient",
         "gradientType": "linear",
@@ -2497,6 +3746,7 @@
           "id": "qTE5E",
           "name": "Report Content",
           "width": "fill_container",
+          "height": 2050,
           "layout": "vertical",
           "gap": 24,
           "padding": [
@@ -2533,11 +3783,14 @@
                   "fontWeight": "700"
                 },
                 {
-                  "type": "frame",
-                  "id": "g4TZC",
-                  "name": "Spacer",
-                  "width": 24,
-                  "height": 24
+                  "type": "icon",
+                  "id": "J62w30",
+                  "name": "Share Button",
+                  "width": 20,
+                  "height": 20,
+                  "icon": "share-2",
+                  "library": "lucide",
+                  "fill": "$text-secondary"
                 }
               ]
             },
@@ -2546,6 +3799,7 @@
               "id": "B8M6Se",
               "name": "Big Picture",
               "width": "fill_container",
+              "height": 420,
               "fill": {
                 "type": "gradient",
                 "gradientType": "radial",
@@ -2577,10 +3831,20 @@
               "stroke": "$glass-border",
               "strokeWidth": 1,
               "layout": "vertical",
-              "gap": 16,
-              "padding": 28,
+              "gap": 12,
+              "padding": 24,
               "alignItems": "center",
               "children": [
+                {
+                  "type": "text",
+                  "id": "Dezu0",
+                  "name": "Personalized Greeting",
+                  "fill": "$text-secondary",
+                  "content": "Great month, Alex! You found more calm than ever.",
+                  "textAlign": "center",
+                  "fontFamily": "$font-body",
+                  "fontSize": 14
+                },
                 {
                   "type": "text",
                   "id": "R6hgGh",
@@ -2588,8 +3852,9 @@
                   "fill": "$accent-primary",
                   "content": "THE BIG PICTURE",
                   "fontFamily": "$font-body",
-                  "fontSize": 11,
-                  "fontWeight": "600"
+                  "fontSize": 10,
+                  "fontWeight": "600",
+                  "letterSpacing": 1.5
                 },
                 {
                   "type": "text",
@@ -2598,7 +3863,7 @@
                   "fill": "$text-primary",
                   "content": "😌",
                   "fontFamily": "Inter",
-                  "fontSize": 56,
+                  "fontSize": 64,
                   "fontWeight": "normal"
                 },
                 {
@@ -2608,7 +3873,7 @@
                   "fill": "$text-primary",
                   "content": "Calm",
                   "fontFamily": "$font-heading",
-                  "fontSize": 24,
+                  "fontSize": 28,
                   "fontWeight": "700"
                 },
                 {
@@ -2618,12 +3883,388 @@
                   "fill": "$text-secondary",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
-                  "content": "This month, you felt calm on 12 of 31 days.",
+                  "content": "12 of 31 days · 3,847 words",
                   "lineHeight": 1.5,
                   "textAlign": "center",
                   "fontFamily": "$font-body",
-                  "fontSize": 14,
+                  "fontSize": 13,
                   "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "KNohp",
+                  "name": "Trend Pill",
+                  "fill": "$accent-glow-soft",
+                  "cornerRadius": "$radius-pill",
+                  "gap": 4,
+                  "padding": [
+                    4,
+                    10
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "tIxsU",
+                      "name": "Trend Arrow",
+                      "fill": "$accent-primary",
+                      "content": "↑",
+                      "fontFamily": "$font-body",
+                      "fontSize": 11,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "LE5QR",
+                      "name": "Trend Text",
+                      "fill": "$accent-primary",
+                      "content": "15% more calm than June",
+                      "fontFamily": "$font-body",
+                      "fontSize": 11,
+                      "fontWeight": "500"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "rOhf9",
+              "name": "Mood Timeline",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "JPzFn",
+                  "name": "Timeline Label",
+                  "fill": "$accent-primary",
+                  "content": "MOOD TIMELINE",
+                  "fontFamily": "$font-body",
+                  "fontSize": 10,
+                  "fontWeight": "600",
+                  "letterSpacing": 1.5
+                },
+                {
+                  "type": "frame",
+                  "id": "kPmKi",
+                  "name": "Mood Dots Row",
+                  "width": 248,
+                  "height": 20,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "ellipse",
+                      "id": "T6LgL",
+                      "x": 0,
+                      "y": 0,
+                      "name": "Day 1",
+                      "fill": "$mood-dot-joy",
+                      "width": 5,
+                      "height": 5
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "FKrpo",
+                      "x": 8,
+                      "y": 0,
+                      "name": "Day 2",
+                      "fill": "$mood-dot-joy",
+                      "width": 5,
+                      "height": 5
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "dIcZi",
+                      "x": 16,
+                      "y": 0,
+                      "name": "Day 3",
+                      "fill": "$mood-dot-calm",
+                      "width": 5,
+                      "height": 5
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "gyYnX",
+                      "x": 24,
+                      "y": 0,
+                      "name": "Day 4",
+                      "fill": "$mood-dot-joy",
+                      "width": 5,
+                      "height": 5
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "TUShF",
+                      "x": 32,
+                      "y": 0,
+                      "name": "Day 5",
+                      "fill": "$mood-dot-love",
+                      "width": 5,
+                      "height": 5
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "qL0lp",
+                      "x": 40,
+                      "y": 0,
+                      "name": "Day 6",
+                      "fill": "$mood-dot-joy",
+                      "width": 5,
+                      "height": 5
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "DI4eM",
+                      "x": 48,
+                      "y": 0,
+                      "name": "Day 7",
+                      "fill": "$mood-dot-joy",
+                      "width": 5,
+                      "height": 5
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "LUOGn",
+                      "x": 56,
+                      "y": 0,
+                      "name": "Day 8",
+                      "fill": "$mood-dot-sadness",
+                      "width": 5,
+                      "height": 5
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "eVbST",
+                      "x": 64,
+                      "y": 0,
+                      "name": "Day 9",
+                      "fill": "$mood-dot-calm",
+                      "width": 5,
+                      "height": 5
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "J3ilq",
+                      "x": 72,
+                      "y": 0,
+                      "name": "Day 10",
+                      "fill": "$mood-dot-joy",
+                      "width": 5,
+                      "height": 5
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "NNYzI",
+                      "x": 80,
+                      "y": 0,
+                      "name": "Day 11",
+                      "fill": "$mood-dot-anger",
+                      "width": 5,
+                      "height": 5
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "S2gDCE",
+                      "x": 88,
+                      "y": 0,
+                      "name": "Day 12",
+                      "fill": "$mood-dot-joy",
+                      "width": 5,
+                      "height": 5
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "nLNdg",
+                      "x": 96,
+                      "y": 0,
+                      "name": "Day 13",
+                      "fill": "$mood-dot-joy",
+                      "width": 5,
+                      "height": 5
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "KjEMc",
+                      "x": 104,
+                      "y": 0,
+                      "name": "Day 14",
+                      "fill": "$mood-dot-fear",
+                      "width": 5,
+                      "height": 5
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "pnB4B",
+                      "x": 112,
+                      "y": 0,
+                      "name": "Day 15",
+                      "fill": "$mood-dot-calm",
+                      "width": 5,
+                      "height": 5
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "S2xNYK",
+                      "x": 120,
+                      "y": 0,
+                      "name": "Day 16",
+                      "fill": "$mood-dot-joy",
+                      "width": 5,
+                      "height": 5
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "Rn8u1",
+                      "x": 128,
+                      "y": 0,
+                      "name": "Day 17",
+                      "fill": "$mood-dot-love",
+                      "width": 5,
+                      "height": 5
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "aXHT0",
+                      "x": 136,
+                      "y": 0,
+                      "name": "Day 18",
+                      "fill": "$mood-dot-joy",
+                      "width": 5,
+                      "height": 5
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "J34PdO",
+                      "x": 144,
+                      "y": 0,
+                      "name": "Day 19",
+                      "fill": "$mood-dot-joy",
+                      "width": 5,
+                      "height": 5
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "A3qu6",
+                      "x": 152,
+                      "y": 0,
+                      "name": "Day 20",
+                      "fill": "$mood-dot-sadness",
+                      "width": 5,
+                      "height": 5
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "Y4TlLe",
+                      "x": 160,
+                      "y": 0,
+                      "name": "Day 21",
+                      "fill": "$mood-dot-joy",
+                      "width": 5,
+                      "height": 5
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "gCrEq",
+                      "x": 168,
+                      "y": 0,
+                      "name": "Day 22",
+                      "fill": "$mood-dot-calm",
+                      "width": 5,
+                      "height": 5
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "j5QYk",
+                      "x": 176,
+                      "y": 0,
+                      "name": "Day 23",
+                      "fill": "$mood-dot-joy",
+                      "width": 5,
+                      "height": 5
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "D2OBG",
+                      "x": 184,
+                      "y": 0,
+                      "name": "Day 24",
+                      "fill": "$mood-dot-anger",
+                      "width": 5,
+                      "height": 5
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "T2LW9h",
+                      "x": 192,
+                      "y": 0,
+                      "name": "Day 25",
+                      "fill": "$mood-dot-joy",
+                      "width": 5,
+                      "height": 5
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "qRlv3",
+                      "x": 200,
+                      "y": 0,
+                      "name": "Day 26",
+                      "fill": "$mood-dot-love",
+                      "width": 5,
+                      "height": 5
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "P6twJ",
+                      "x": 208,
+                      "y": 0,
+                      "name": "Day 27",
+                      "fill": "$mood-dot-joy",
+                      "width": 5,
+                      "height": 5
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "Nx9nF",
+                      "x": 216,
+                      "y": 0,
+                      "name": "Day 28",
+                      "fill": "$mood-dot-joy",
+                      "width": 5,
+                      "height": 5
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "b1WvW5",
+                      "x": 224,
+                      "y": 0,
+                      "name": "Day 29",
+                      "fill": "$mood-dot-fear",
+                      "width": 5,
+                      "height": 5
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "O6DWDc",
+                      "x": 232,
+                      "y": 0,
+                      "name": "Day 30",
+                      "fill": "$mood-dot-calm",
+                      "width": 5,
+                      "height": 5
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "N5ZNLQ",
+                      "x": 240,
+                      "y": 0,
+                      "name": "Day 31",
+                      "fill": "$mood-dot-joy",
+                      "width": 5,
+                      "height": 5
+                    }
+                  ]
                 }
               ]
             },
@@ -2642,8 +4283,9 @@
                   "fill": "$accent-primary",
                   "content": "PATTERN RECOGNITION",
                   "fontFamily": "$font-body",
-                  "fontSize": 11,
-                  "fontWeight": "600"
+                  "fontSize": 10,
+                  "fontWeight": "600",
+                  "letterSpacing": 1.5
                 },
                 {
                   "type": "frame",
@@ -2652,11 +4294,11 @@
                   "width": "fill_container",
                   "fill": "$glass",
                   "cornerRadius": "$radius-md",
-                  "gap": 14,
+                  "gap": 10,
                   "padding": [
+                    14,
                     16,
-                    16,
-                    16,
+                    14,
                     20
                   ],
                   "children": [
@@ -2681,6 +4323,45 @@
                       "fontFamily": "$font-body",
                       "fontSize": 14,
                       "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "L2hGw",
+                      "name": "Card Meta",
+                      "gap": 6,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "yhBW6",
+                          "name": "Number",
+                          "fill": "$accent-primary",
+                          "content": "01",
+                          "fontFamily": "$font-body",
+                          "fontSize": 10,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "YaIOG",
+                          "name": "Separator",
+                          "fill": "$text-muted",
+                          "content": "·",
+                          "fontFamily": "$font-body",
+                          "fontSize": 10,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "bxkVt",
+                          "name": "Mood Tag",
+                          "fill": "$mood-dot-anger",
+                          "content": "Anxiety",
+                          "fontFamily": "$font-body",
+                          "fontSize": 10,
+                          "fontWeight": "600"
+                        }
+                      ]
                     }
                   ]
                 },
@@ -2691,11 +4372,11 @@
                   "width": "fill_container",
                   "fill": "$glass",
                   "cornerRadius": "$radius-md",
-                  "gap": 14,
+                  "gap": 10,
                   "padding": [
+                    14,
                     16,
-                    16,
-                    16,
+                    14,
                     20
                   ],
                   "children": [
@@ -2720,6 +4401,45 @@
                       "fontFamily": "$font-body",
                       "fontSize": 14,
                       "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "cV7xt",
+                      "name": "Card Meta",
+                      "gap": 6,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "lkF5E",
+                          "name": "Number",
+                          "fill": "$accent-primary",
+                          "content": "02",
+                          "fontFamily": "$font-body",
+                          "fontSize": 10,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "r0rdz",
+                          "name": "Separator",
+                          "fill": "$text-muted",
+                          "content": "·",
+                          "fontFamily": "$font-body",
+                          "fontSize": 10,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "CDtOh",
+                          "name": "Mood Tag",
+                          "fill": "$mood-dot-calm",
+                          "content": "Calm",
+                          "fontFamily": "$font-body",
+                          "fontSize": 10,
+                          "fontWeight": "600"
+                        }
+                      ]
                     }
                   ]
                 },
@@ -2730,11 +4450,11 @@
                   "width": "fill_container",
                   "fill": "$glass",
                   "cornerRadius": "$radius-md",
-                  "gap": 14,
+                  "gap": 10,
                   "padding": [
+                    14,
                     16,
-                    16,
-                    16,
+                    14,
                     20
                   ],
                   "children": [
@@ -2759,6 +4479,45 @@
                       "fontFamily": "$font-body",
                       "fontSize": 14,
                       "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "V87JM",
+                      "name": "Card Meta",
+                      "gap": 6,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "l7r26u",
+                          "name": "Number",
+                          "fill": "$accent-primary",
+                          "content": "03",
+                          "fontFamily": "$font-body",
+                          "fontSize": 10,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "YeGF2",
+                          "name": "Separator",
+                          "fill": "$text-muted",
+                          "content": "·",
+                          "fontFamily": "$font-body",
+                          "fontSize": 10,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "jl70x",
+                          "name": "Mood Tag",
+                          "fill": "$mood-dot-joy",
+                          "content": "Gratitude",
+                          "fontFamily": "$font-body",
+                          "fontSize": 10,
+                          "fontWeight": "600"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -2779,8 +4538,9 @@
                   "fill": "$accent-primary",
                   "content": "ACTIONABLE FRAMEWORKS",
                   "fontFamily": "$font-body",
-                  "fontSize": 11,
-                  "fontWeight": "600"
+                  "fontSize": 10,
+                  "fontWeight": "600",
+                  "letterSpacing": 1.5
                 },
                 {
                   "type": "frame",
@@ -2792,7 +4552,7 @@
                   "stroke": "$glass-border",
                   "strokeWidth": 1,
                   "layout": "vertical",
-                  "gap": 12,
+                  "gap": 10,
                   "padding": 20,
                   "children": [
                     {
@@ -2827,6 +4587,56 @@
                       "fontFamily": "$font-body",
                       "fontSize": 14,
                       "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "H1hRS",
+                      "name": "Rec Tag",
+                      "fill": "$accent-glow-soft",
+                      "cornerRadius": "$radius-pill",
+                      "padding": [
+                        2,
+                        8
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "p1p5U2",
+                          "name": "Tag Label",
+                          "fill": "$accent-primary",
+                          "content": "For: Calm",
+                          "fontFamily": "$font-body",
+                          "fontSize": 9,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Pkxuq",
+                      "name": "CTA Button",
+                      "width": "fill_container",
+                      "fill": "$accent-primary",
+                      "cornerRadius": "$radius-md",
+                      "padding": [
+                        8,
+                        16
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "y0MMpY",
+                          "name": "CTA Text",
+                          "fill": "#FFFFFF",
+                          "content": "Start now →",
+                          "fontFamily": "$font-body",
+                          "fontSize": 13,
+                          "fontWeight": "600"
+                        }
+                      ]
                     }
                   ]
                 },
@@ -2840,7 +4650,7 @@
                   "stroke": "$glass-border",
                   "strokeWidth": 1,
                   "layout": "vertical",
-                  "gap": 12,
+                  "gap": 10,
                   "padding": 20,
                   "children": [
                     {
@@ -2875,6 +4685,56 @@
                       "fontFamily": "$font-body",
                       "fontSize": 14,
                       "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "nVQQa",
+                      "name": "Rec Tag",
+                      "fill": "$accent-glow-soft",
+                      "cornerRadius": "$radius-pill",
+                      "padding": [
+                        2,
+                        8
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "UU6YL",
+                          "name": "Tag Label",
+                          "fill": "$accent-primary",
+                          "content": "For: Sleep",
+                          "fontFamily": "$font-body",
+                          "fontSize": 9,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "TcId0",
+                      "name": "CTA Button",
+                      "width": "fill_container",
+                      "fill": "$accent-primary",
+                      "cornerRadius": "$radius-md",
+                      "padding": [
+                        8,
+                        16
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "r0pbsY",
+                          "name": "CTA Text",
+                          "fill": "#FFFFFF",
+                          "content": "Start now →",
+                          "fontFamily": "$font-body",
+                          "fontSize": 13,
+                          "fontWeight": "600"
+                        }
+                      ]
                     }
                   ]
                 },
@@ -2888,7 +4748,7 @@
                   "stroke": "$glass-border",
                   "strokeWidth": 1,
                   "layout": "vertical",
-                  "gap": 12,
+                  "gap": 10,
                   "padding": 20,
                   "children": [
                     {
@@ -2923,6 +4783,56 @@
                       "fontFamily": "$font-body",
                       "fontSize": 14,
                       "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "L6INl",
+                      "name": "Rec Tag",
+                      "fill": "$accent-glow-soft",
+                      "cornerRadius": "$radius-pill",
+                      "padding": [
+                        2,
+                        8
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "lO7GC",
+                          "name": "Tag Label",
+                          "fill": "$accent-primary",
+                          "content": "For: Gratitude",
+                          "fontFamily": "$font-body",
+                          "fontSize": 9,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "f90SL",
+                      "name": "CTA Button",
+                      "width": "fill_container",
+                      "fill": "$accent-primary",
+                      "cornerRadius": "$radius-md",
+                      "padding": [
+                        8,
+                        16
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "A3TDL",
+                          "name": "CTA Text",
+                          "fill": "#FFFFFF",
+                          "content": "Start now →",
+                          "fontFamily": "$font-body",
+                          "fontSize": 13,
+                          "fontWeight": "600"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -2930,10 +4840,615 @@
             },
             {
               "type": "frame",
-              "id": "L0wp0P",
-              "name": "Bottom Spacer",
+              "id": "tYyT6",
+              "name": "Mood Distribution Card",
               "width": "fill_container",
-              "height": 40
+              "fill": "$glass",
+              "cornerRadius": "$radius-lg",
+              "stroke": "$glass-border",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 12,
+              "padding": 16,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "UDiLd",
+                  "name": "Distribution Label",
+                  "fill": "$accent-primary",
+                  "content": "MOOD DISTRIBUTION",
+                  "fontFamily": "$font-body",
+                  "fontSize": 10,
+                  "fontWeight": "600",
+                  "letterSpacing": 1.5
+                },
+                {
+                  "type": "frame",
+                  "id": "A6AsyR",
+                  "name": "Mood Bar Container",
+                  "width": "fill_container",
+                  "height": 10,
+                  "fill": "$glass",
+                  "cornerRadius": 5,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 5,
+                      "id": "wnMmo",
+                      "x": 0,
+                      "y": 0,
+                      "name": "Bar Segment",
+                      "fill": "$mood-dot-joy",
+                      "width": 133,
+                      "height": 10
+                    },
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 5,
+                      "id": "BoVAW",
+                      "x": 133,
+                      "y": 0,
+                      "name": "Bar Segment",
+                      "fill": "$mood-dot-calm",
+                      "width": 44,
+                      "height": 10
+                    },
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 5,
+                      "id": "ihbej",
+                      "x": 177,
+                      "y": 0,
+                      "name": "Bar Segment",
+                      "fill": "$mood-dot-love",
+                      "width": 44,
+                      "height": 10
+                    },
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 5,
+                      "id": "UwyeO",
+                      "x": 221,
+                      "y": 0,
+                      "name": "Bar Segment",
+                      "fill": "$mood-dot-sadness",
+                      "width": 44,
+                      "height": 10
+                    },
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 5,
+                      "id": "CbddR",
+                      "x": 265,
+                      "y": 0,
+                      "name": "Bar Segment",
+                      "fill": "$mood-dot-anger",
+                      "width": 44,
+                      "height": 10
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "TX5md",
+                  "name": "Mood Chips Row",
+                  "width": "fill_container",
+                  "gap": 6,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "ud8CH",
+                      "name": "Mood Chip Joy",
+                      "fill": "$glass",
+                      "cornerRadius": "$radius-pill",
+                      "gap": 4,
+                      "padding": [
+                        3,
+                        8
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "Cs1lv",
+                          "name": "Dot Joy",
+                          "fill": "$mood-dot-joy",
+                          "width": 6,
+                          "height": 6
+                        },
+                        {
+                          "type": "text",
+                          "id": "OAjkN",
+                          "name": "Label Joy",
+                          "fill": "$text-secondary",
+                          "content": "Joy 43%",
+                          "fontFamily": "$font-body",
+                          "fontSize": 10,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "U7Ee6",
+                      "name": "Mood Chip Calm",
+                      "fill": "$glass",
+                      "cornerRadius": "$radius-pill",
+                      "gap": 4,
+                      "padding": [
+                        3,
+                        8
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "vITDX",
+                          "name": "Dot Calm",
+                          "fill": "$mood-dot-calm",
+                          "width": 6,
+                          "height": 6
+                        },
+                        {
+                          "type": "text",
+                          "id": "q7PTcm",
+                          "name": "Label Calm",
+                          "fill": "$text-secondary",
+                          "content": "Calm 14%",
+                          "fontFamily": "$font-body",
+                          "fontSize": 10,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "aP28Q",
+                      "name": "Mood Chip Love",
+                      "fill": "$glass",
+                      "cornerRadius": "$radius-pill",
+                      "gap": 4,
+                      "padding": [
+                        3,
+                        8
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "U7buq",
+                          "name": "Dot Love",
+                          "fill": "$mood-dot-love",
+                          "width": 6,
+                          "height": 6
+                        },
+                        {
+                          "type": "text",
+                          "id": "bXHzm",
+                          "name": "Label Love",
+                          "fill": "$text-secondary",
+                          "content": "Love 14%",
+                          "fontFamily": "$font-body",
+                          "fontSize": 10,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "VeLK2",
+                      "name": "Mood Chip Sad",
+                      "fill": "$glass",
+                      "cornerRadius": "$radius-pill",
+                      "gap": 4,
+                      "padding": [
+                        3,
+                        8
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "Kpcbg",
+                          "name": "Dot Sad",
+                          "fill": "$mood-dot-sadness",
+                          "width": 6,
+                          "height": 6
+                        },
+                        {
+                          "type": "text",
+                          "id": "B3Exj",
+                          "name": "Label Sad",
+                          "fill": "$text-secondary",
+                          "content": "Sad 14%",
+                          "fontFamily": "$font-body",
+                          "fontSize": 10,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "MTK1a",
+                      "name": "Mood Chip Angry",
+                      "fill": "$glass",
+                      "cornerRadius": "$radius-pill",
+                      "gap": 4,
+                      "padding": [
+                        3,
+                        8
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "VeTAJ",
+                          "name": "Dot Angry",
+                          "fill": "$mood-dot-anger",
+                          "width": 6,
+                          "height": 6
+                        },
+                        {
+                          "type": "text",
+                          "id": "R5j2D",
+                          "name": "Label Angry",
+                          "fill": "$text-secondary",
+                          "content": "Angry 14%",
+                          "fontFamily": "$font-body",
+                          "fontSize": 10,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "FNJjw",
+              "name": "Month Comparison",
+              "width": "fill_container",
+              "fill": "$glass",
+              "cornerRadius": "$radius-lg",
+              "stroke": "$glass-border",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 12,
+              "padding": 16,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "TLhej",
+                  "name": "Comparison Label",
+                  "fill": "$accent-primary",
+                  "content": "VS JUNE",
+                  "fontFamily": "$font-body",
+                  "fontSize": 10,
+                  "fontWeight": "600",
+                  "letterSpacing": 1.5
+                },
+                {
+                  "type": "frame",
+                  "id": "qyX84",
+                  "name": "Comparison Row",
+                  "width": "fill_container",
+                  "justifyContent": "space_around",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "grv7V",
+                      "name": "Comp Calm",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "TwBVf",
+                          "name": "Pill",
+                          "fill": "$mood-dot-calm",
+                          "cornerRadius": "$radius-pill",
+                          "padding": [
+                            2,
+                            6
+                          ],
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "q2nKwp",
+                              "name": "Up",
+                              "width": 12,
+                              "height": 12,
+                              "icon": "trending-up",
+                              "library": "lucide",
+                              "fill": "#FFFFFF"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "M96r8",
+                          "name": "Val",
+                          "fill": "$mood-dot-calm",
+                          "content": "+15%",
+                          "fontFamily": "$font-body",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "pXNln",
+                          "name": "Lbl",
+                          "fill": "$text-muted",
+                          "content": "Calm",
+                          "fontFamily": "$font-body",
+                          "fontSize": 10,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "iY51T",
+                      "name": "Comp Anxiety",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "s6RWs",
+                          "name": "Pill",
+                          "fill": "$mood-dot-anger",
+                          "cornerRadius": "$radius-pill",
+                          "padding": [
+                            2,
+                            6
+                          ],
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "zzOWL",
+                              "name": "Down",
+                              "width": 12,
+                              "height": 12,
+                              "icon": "trending-down",
+                              "library": "lucide",
+                              "fill": "#FFFFFF"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "fChyQ",
+                          "name": "Val",
+                          "fill": "$mood-dot-anger",
+                          "content": "-8%",
+                          "fontFamily": "$font-body",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "iFgoE",
+                          "name": "Lbl",
+                          "fill": "$text-muted",
+                          "content": "Anxiety",
+                          "fontFamily": "$font-body",
+                          "fontSize": 10,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "t3t1m7",
+                      "name": "Comp Joy",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "jJqGj",
+                          "name": "Pill",
+                          "fill": "$mood-dot-joy",
+                          "cornerRadius": "$radius-pill",
+                          "padding": [
+                            2,
+                            6
+                          ],
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "AtVeZ",
+                              "name": "Up2",
+                              "width": 12,
+                              "height": 12,
+                              "icon": "trending-up",
+                              "library": "lucide",
+                              "fill": "#FFFFFF"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "ezNRE",
+                          "name": "Val",
+                          "fill": "$mood-dot-joy",
+                          "content": "+22%",
+                          "fontFamily": "$font-body",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Oc1UL",
+                          "name": "Lbl",
+                          "fill": "$text-muted",
+                          "content": "Joy",
+                          "fontFamily": "$font-body",
+                          "fontSize": 10,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "tlTcT",
+              "name": "Journaling Stats",
+              "width": "fill_container",
+              "fill": "$glass",
+              "cornerRadius": "$radius-lg",
+              "stroke": "$glass-border",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 12,
+              "padding": 16,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "iKIG9",
+                  "name": "Stats Label",
+                  "fill": "$accent-primary",
+                  "content": "JOURNALING STATS",
+                  "fontFamily": "$font-body",
+                  "fontSize": 10,
+                  "fontWeight": "600",
+                  "letterSpacing": 1.5
+                },
+                {
+                  "type": "frame",
+                  "id": "RY9Yy",
+                  "name": "Stats Row",
+                  "width": "fill_container",
+                  "justifyContent": "space_around",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "oTapb",
+                      "name": "Stat Days",
+                      "layout": "vertical",
+                      "gap": 2,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "VakfG",
+                          "name": "Stat Value",
+                          "fill": "$text-primary",
+                          "content": "12",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 24,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "ztmSg",
+                          "name": "Stat Label",
+                          "fill": "$text-muted",
+                          "content": "Days",
+                          "fontFamily": "$font-body",
+                          "fontSize": 10,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "HX5bx",
+                      "name": "Stat Words",
+                      "layout": "vertical",
+                      "gap": 2,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "LaQbR",
+                          "name": "Stat Value",
+                          "fill": "$text-primary",
+                          "content": "3.8K",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 24,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "nhPm5",
+                          "name": "Stat Label",
+                          "fill": "$text-muted",
+                          "content": "Words",
+                          "fontFamily": "$font-body",
+                          "fontSize": 10,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "F2nXsK",
+                      "name": "Stat Streak",
+                      "layout": "vertical",
+                      "gap": 2,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Z29DAR",
+                          "name": "Stat Value",
+                          "fill": "$accent-primary",
+                          "content": "5",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 24,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "W1sA9X",
+                          "name": "Stat Label",
+                          "fill": "$text-muted",
+                          "content": "Best Streak",
+                          "fontFamily": "$font-body",
+                          "fontSize": 10,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "rectangle",
+                  "id": "fcchV",
+                  "name": "Divider",
+                  "fill": "$glass-border",
+                  "width": "fill_container",
+                  "height": 1
+                },
+                {
+                  "type": "text",
+                  "id": "STjJX",
+                  "name": "Streak Note",
+                  "fill": "$text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "You journaled 12 of 31 days — your longest streak was 5 days. Keep it up!",
+                  "fontFamily": "$font-body",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
             }
           ]
         }
@@ -4072,6 +6587,38 @@
     "radius-pill": {
       "type": "number",
       "value": 9999
+    },
+    "mood-dot-joy": {
+      "type": "color",
+      "value": "#F59E0B"
+    },
+    "mood-dot-calm": {
+      "type": "color",
+      "value": "#0EA5E9"
+    },
+    "mood-dot-love": {
+      "type": "color",
+      "value": "#EC4899"
+    },
+    "mood-dot-sadness": {
+      "type": "color",
+      "value": "#3B82F6"
+    },
+    "mood-dot-anger": {
+      "type": "color",
+      "value": "#EF4444"
+    },
+    "mood-dot-fear": {
+      "type": "color",
+      "value": "#8B5CF6"
+    },
+    "mood-dot-anxious": {
+      "type": "color",
+      "value": "#EAB308"
+    },
+    "accent-glow-soft": {
+      "type": "color",
+      "value": "#818CF820"
     }
   },
   "fileToken": "b82db296-84bb-4b25-a7a1-1ca567f4c94e"
