@@ -139,7 +139,9 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Header */}
-      <div className="flex justify-end gap-1 p-5">
+      <div className="flex items-center justify-between p-5">
+        <img src="/logo-horizontal.png" alt="SoulScript" className="h-8" />
+        <div className="flex gap-1">
         <button
           onClick={() => router.push("/calendar")}
           className="p-2 text-text-secondary hover:text-text-primary transition-colors"
@@ -183,6 +185,7 @@ export default function DashboardPage() {
             />
           </svg>
         </button>
+        </div>
       </div>
 
       {/* Content */}
