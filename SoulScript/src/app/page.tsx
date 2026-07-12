@@ -4,6 +4,10 @@ import { useState, useEffect, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import StatsRow from "@/components/StatsRow";
+import AIInsightCard from "@/components/AIInsightCard";
+import RecentEntries from "@/components/RecentEntries";
+import DreamyBackground from "@/components/DreamyBackground";
 
 const MIN_LENGTH = 10;
 const MAX_LENGTH = 5000;
@@ -126,79 +130,31 @@ export default function DashboardPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-6">
-        <div className="w-full max-w-lg space-y-6">
-          <div className="skeleton h-10 w-3/4 rounded-lg" />
-          <div className="skeleton h-5 w-1/2 rounded-lg" />
-          <div className="skeleton h-56 w-full rounded-xl" />
+      <div className="flex min-h-screen items-center justify-center p-6">
+        <div className="w-full max-w-lg space-y-6 sm:max-w-xl lg:max-w-2xl">
+          <div className="skeleton h-10 w-3/4 rounded-lg sm:h-12 lg:h-14" />
+          <div className="skeleton h-5 w-1/2 rounded-lg sm:h-6" />
+          <div className="skeleton h-56 w-full rounded-xl sm:h-64 lg:h-72" />
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
-      {/* Header */}
-      <div className="flex items-center justify-between p-5">
-        <img src="/logo-horizontal.png" alt="SoulScript" className="h-8" />
-        <div className="flex gap-1">
-        <button
-          onClick={() => router.push("/calendar")}
-          className="p-2 text-text-secondary hover:text-text-primary transition-colors"
-          title="View Calendar"
-        >
-          <svg
-            className="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={1.5}
-              d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
-            />
-          </svg>
-        </button>
-        <button
-          onClick={() => router.push("/settings")}
-          className="p-2 text-text-secondary hover:text-text-primary transition-colors"
-        >
-          <svg
-            className="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={1.5}
-              d="M10.343 3.94c.09-.542.56-.94 1.11-.94h1.093c.55 0 1.02.398 1.11.94l.149.894c.07.424.384.764.78.93.398.164.855.142 1.205-.108l.737-.527a1.125 1.125 0 011.45.12l.773.774c.39.389.44 1.002.12 1.45l-.527.737c-.25.35-.272.806-.107 1.204.165.397.505.71.93.78l.893.15c.543.09.94.56.94 1.109v1.094c0 .55-.397 1.02-.94 1.11l-.893.149c-.425.07-.765.383-.93.78-.165.398-.143.854.107 1.204l.527.738c.32.447.269 1.06-.12 1.45l-.774.773a1.125 1.125 0 01-1.449.12l-.738-.527c-.35-.25-.806-.272-1.203-.107-.397.165-.71.505-.781.929l-.149.894c-.09.542-.56.94-1.11.94h-1.094c-.55 0-1.019-.398-1.11-.94l-.148-.894c-.071-.424-.384-.764-.781-.93-.398-.164-.854-.142-1.204.108l-.738.527c-.447.32-1.06.269-1.45-.12l-.773-.774a1.125 1.125 0 01-.12-1.45l.527-.737c.25-.35.273-.806.108-1.204-.165-.397-.505-.71-.93-.78l-.894-.15c-.542-.09-.94-.56-.94-1.109v-1.094c0-.55.398-1.02.94-1.11l.894-.149c.424-.07.765-.383.93-.78.165-.398.143-.854-.108-1.204l-.526-.738a1.125 1.125 0 01.12-1.45l.773-.773a1.125 1.125 0 011.45-.12l.737.527c.35.25.807.272 1.204.107.397-.165.71-.505.78-.929l.15-.894z"
-            />
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={1.5}
-              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-            />
-          </svg>
-        </button>
-        </div>
-      </div>
-
-      {/* Content */}
-      <div className="flex-1 flex flex-col px-5 pb-8 max-w-lg mx-auto w-full gap-7">
-        {/* Greeting */}
-        <div className="space-y-2">
-          <h1 className="font-[family-name:var(--font-playfair)] text-3xl font-bold text-text-primary leading-tight">
-            {getGreeting()}, {userName}.
-          </h1>
-          <p className="text-text-secondary text-base">
-            How does your soul feel {getGreeting().split(" ")[1]}?
-          </p>
-        </div>
+    <div className="flex min-h-screen flex-col">
+      {/* Hero Section with Dreamy Background */}
+      <div className="relative overflow-hidden px-5 pt-6 sm:px-8 md:mx-auto md:w-full md:max-w-2xl lg:max-w-3xl lg:px-10 lg:pt-8">
+        <DreamyBackground />
+        <div className="relative z-10 flex flex-col gap-7 lg:gap-9">
+          {/* Greeting */}
+          <div className="space-y-2">
+            <h1 className="font-[family-name:var(--font-playfair)] text-3xl font-bold leading-tight text-text-primary sm:text-4xl lg:text-[40px]">
+              {getGreeting()}, {userName}.
+            </h1>
+            <p className="text-base text-text-secondary sm:text-lg">
+              How does your soul feel {getGreeting().split(" ")[1]}?
+            </p>
+          </div>
 
         {/* Textarea with Glow */}
         <motion.div
@@ -211,7 +167,7 @@ export default function DashboardPage() {
           transition={{ duration: 0.5, ease: "easeOut" }}
         >
           <div className="absolute inset-0 mood-glow rounded-2xl" />
-          <div className="relative glass rounded-2xl p-5 min-h-[220px]">
+          <div className="relative min-h-[220px] rounded-2xl glass p-5 sm:min-h-[260px] lg:min-h-[280px]">
             <textarea
               value={content}
               onChange={(e) => {
@@ -220,7 +176,7 @@ export default function DashboardPage() {
                 }
               }}
               placeholder="Write your thoughts here..."
-              className="w-full h-full min-h-[180px] bg-transparent text-text-primary text-[15px] leading-relaxed placeholder:text-text-muted focus:outline-none resize-none"
+              className="min-h-[180px] w-full resize-none bg-transparent text-[15px] leading-relaxed text-text-primary placeholder:text-text-muted focus:outline-none sm:min-h-[220px] lg:min-h-[240px]"
             />
           </div>
         </motion.div>
@@ -258,10 +214,10 @@ export default function DashboardPage() {
           <button
             onClick={handleSubmit}
             disabled={!canSubmit}
-            className="flex items-center gap-2.5 px-8 py-3.5 bg-accent text-white font-semibold rounded-full hover:bg-accent-glow transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed"
+            className="flex items-center gap-2.5 rounded-full bg-accent px-8 py-3.5 font-semibold text-white transition-all duration-300 hover:bg-accent-glow disabled:cursor-not-allowed disabled:opacity-40 sm:px-10 sm:py-4"
           >
             <svg
-              className="w-4 h-4"
+              className="h-4 w-4"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -276,6 +232,19 @@ export default function DashboardPage() {
             Release to Calendar
           </button>
         </div>
+        </div>
+      </div>
+
+      {/* Content below dreamy background */}
+      <div className="flex flex-1 flex-col gap-7 px-5 pb-8 sm:px-8 md:mx-auto md:w-full md:max-w-2xl lg:max-w-3xl lg:gap-9 lg:px-10">
+        {/* Stats Row */}
+        <StatsRow />
+
+        {/* AI Insight Card */}
+        <AIInsightCard />
+
+        {/* Recent Entries */}
+        <RecentEntries />
       </div>
 
       {/* Undo Toast */}
