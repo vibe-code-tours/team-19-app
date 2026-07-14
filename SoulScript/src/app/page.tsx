@@ -192,7 +192,7 @@ export default function DashboardPage() {
           <img
             src="/logo-horizontal.png"
             alt="SoulScript"
-            className="h-10 w-auto opacity-90"
+            className="h-10 w-auto mix-blend-screen"
           />
         </div>
 

@@ -47,7 +47,7 @@ export default function LoginPage() {
       <div className="w-full max-w-sm space-y-8">
         {/* Brand */}
         <div className="text-center">
-          <img src="/logo-full.png" alt="SoulScript" className="mx-auto h-40" />
+          <img src="/logo-full.png" alt="SoulScript" className="mx-auto h-40 mix-blend-screen" />
         </div>
 
         {/* Google OAuth */}

@@ -264,7 +264,7 @@ AI returns:  { primary_emotion: "joy", emoji: "😄" }
 
 ---
 
-## How I Built It
+## How It was built
 
 | Tool                              | Role                                                |
 | --------------------------------- | --------------------------------------------------- |

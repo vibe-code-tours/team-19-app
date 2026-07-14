@@ -21,7 +21,18 @@ function parseJsonResponse<T>(content: string): T {
     .replace(/^```\s*/i, "")
     .replace(/\s*```$/i, "")
     .trim();
-  return JSON.parse(cleaned);
+
+  // Try direct parse first
+  try {
+    return JSON.parse(cleaned);
+  } catch {
+    // Reasoning models may embed JSON in explanatory text — extract it
+    const jsonMatch = cleaned.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      return JSON.parse(jsonMatch[0]);
+    }
+    throw new Error(`No valid JSON found in: ${cleaned.slice(0, 200)}`);
+  }
 }
 
 interface AnalysisResult {
@@ -43,11 +54,12 @@ async function callAI(
       { role: "system", content: systemPrompt },
       { role: "user", content },
     ],
-    response_format: { type: "json_object" },
     temperature: 0.7,
-    max_tokens: 300,
+    max_tokens: 1024,
   });
-  return parseJsonResponse<AnalysisResult>(response.choices[0].message.content || "{}");
+
+  const rawContent = response.choices[0].message.content || "{}";
+  return parseJsonResponse<AnalysisResult>(rawContent);
 }
 
 function validateResult(result: Partial<AnalysisResult>): AnalysisResult {
