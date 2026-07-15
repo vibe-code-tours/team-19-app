@@ -541,17 +541,10 @@ if (day && /^\d{4}-\d{2}-\d{2}$/.test(day)) {
 
 **If this table is empty:** All claims in this research were verified or cited — no user confirmation needed.
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **Should the entry list show entries from today only or all recent entries?**
-   - What we know: D-13 says query key `['entries', 'today']` — today only
-   - What's unclear: If user has no entries today, should it show recent entries from yesterday?
-   - Recommendation: Follow D-13 strictly — today only. Empty state message per D-04 handles the no-entries case.
-
-2. **Should optimistic entries show a loading spinner or just appear instantly?**
-   - What we know: D-14 says "insert temporary entry immediately"
-   - What's unclear: Should there be a subtle loading indicator on the temp entry?
-   - Recommendation: Appear instantly with full card. The `onSettled` refetch will replace with server truth. No spinner needed — the optimistic entry looks identical to a real one.
+1. **Entry list scope** — RESOLVED: Today only per D-13 (`['entries', 'today']` query key). Empty state per D-04 handles the no-entries case. No fallback to yesterday's entries.
+2. **Optimistic entry appearance** — RESOLVED: Appear instantly with full card. The `onSettled` refetch replaces with server truth. No spinner needed — the optimistic entry looks identical to a real one.
 
 ## Environment Availability
 

@@ -1,6 +1,7 @@
 # Roadmap
 
 ## Phase 1: Foundation ✅
+
 **Status:** Complete
 **Requirements:** R1, R2, R3, R4, R13
 
@@ -13,6 +14,7 @@
 - [x] Proxy (middleware) for auth
 
 ## Phase 2: Auth + Dashboard ✅
+
 **Status:** Complete
 **Requirements:** R1, R5, R11
 
@@ -25,6 +27,7 @@
 - [x] Skeleton loading states
 
 ## Phase 3: API Routes ✅
+
 **Status:** Complete
 **Requirements:** R6, R8, R9, R11
 
@@ -36,6 +39,7 @@
 - [x] DELETE /api/account
 
 ## Phase 4: Calendar + Report ✅
+
 **Status:** Complete
 **Requirements:** R7, R8
 
@@ -49,6 +53,7 @@
 - [x] Staggered Framer Motion animations
 
 ## Phase 5: Settings + Polish ✅
+
 **Status:** Complete
 **Requirements:** R9, R10
 
@@ -58,6 +63,7 @@
 - [x] 404 page
 
 ## Phase 6: Testing ✅
+
 **Status:** Complete
 **Requirements:** R12
 
@@ -69,11 +75,13 @@
 ---
 
 ## Phase 7: Core Gaps — Language, Navigation, Undo
+
 **Goal:** Fix the 4 critical SPEC compliance gaps
 **Mode:** mvp
 **Requirements:** R4, R5, R7, R9.2
 
 **Success Criteria:**
+
 1. `getSystemPromptLanguage()` function exists and works
 2. AI analysis fetches `preferred_language` from user profile
 3. Dashboard has a link/icon to navigate to calendar
@@ -82,16 +90,19 @@
 6. `npm run build` + `npm run test` pass
 
 **Plans:**
+
 - [ ] 7.1: Implement `getSystemPromptLanguage()` in language.ts + integrate in analyze route
 - [ ] 7.2: Add navigation links (dashboard → calendar gear icon, calendar → back button)
 - [ ] 7.3: Fix undo to preserve and restore draft text
 
 ## Phase 8: Animation & UX Polish
+
 **Goal:** Match SPEC animation and responsive design requirements
 **Mode:** mvp
 **Requirements:** R7, R8, R13
 
 **Success Criteria:**
+
 1. Submission text fades and floats upward (Framer Motion)
 2. Mobile bottom sheet opens for calendar day tap (375px)
 3. Calendar overlay morphs from grid cell using `layoutId`
@@ -100,6 +111,7 @@
 6. Button hover transitions use cubic-bezier scaling
 
 **Plans:**
+
 - [ ] 8.1: Add submission fade-up animation on dashboard
 - [ ] 8.2: Implement mobile bottom sheet for calendar overlay
 - [ ] 8.3: Add `layoutId` to calendar grid cells + overlay for morph transition
@@ -107,17 +119,20 @@
 - [ ] 8.5: Add breathing overlay to calendar empty state
 
 ## Phase 9: Extended Testing + Cleanup
+
 **Goal:** Complete SPEC §11 test coverage + remove dead code
 **Mode:** mvp
 **Requirements:** R12
 
 **Success Criteria:**
+
 1. All 5 API route test files created and passing
 2. `npm run test` passes with all 22+ tests
 3. Unused `ai` package removed from package.json
 4. React Query either integrated or removed
 
 **Plans:**
+
 - [ ] 9.1: Create `__tests__/api/analyze.test.ts`
 - [ ] 9.2: Create `__tests__/api/report.test.ts`
 - [ ] 9.3: Create `__tests__/api/entries.test.ts`
@@ -126,11 +141,13 @@
 - [ ] 9.6: Remove unused `ai` package, decide on React Query (integrate or remove)
 
 ## Phase 10: Calendar Day Entries ✅
+
 **Goal:** Show all journal entries for a day when clicking the calendar emoji
 **Mode:** mvp
 **Requirements:** R7, R8
 
 **Success Criteria:**
+
 1. Calendar grid shows the latest entry's emoji per day (no change)
 2. Clicking a day opens a scrollable list of ALL entries for that day
 3. Each entry shows its own emoji, timestamp, content, and emotion pills
@@ -139,6 +156,7 @@
 6. `npm run build` + `npm run test` pass
 
 **Plans:**
+
 - [x] 10.1: Replace `getEntryForDay()` with `getEntriesForDay()` returning all entries
 - [x] 10.2: Update calendar grid to show last entry's emoji per day
 - [x] 10.3: Change `selectedEntry` state to `JournalEntry[] | null`
@@ -147,12 +165,14 @@
 - [x] 10.6: Verify build + tests pass
 
 ## Phase 11: Dashboard Entry List + Optimistic Updates
+
 **Goal:** Display today's journal entries below the dashboard textarea with instant optimistic updates via TanStack Query
 **Mode:** mvp
 **Requirements:** R7
 **Plans:** 2 plans
 
 **Success Criteria:**
+
 1. Dashboard shows a scrollable list of today's entries below the textarea
 2. Each entry displays emoji, timestamp, content preview, and emotion pills
 3. New entries appear instantly after submission (optimistic update)
@@ -162,5 +182,10 @@
 7. `npm run build` + `npm run test` pass
 
 Plans:
+**Wave 1**
+
 - [ ] 11-01-PLAN.md — TDD: shared types, utils, TanStack Query hooks, API day param
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
 - [ ] 11-02-PLAN.md — EntryCard, EntryList components, dashboard responsive layout + hook integration
