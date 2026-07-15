@@ -4,16 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import MonthlyReport from "./MonthlyReport";
-
-interface JournalEntry {
-  id: string;
-  content: string;
-  primary_emotion: string;
-  emoji: string;
-  secondary_emotions: string[];
-  bg_glow_gradient: string;
-  created_at: string;
-}
+import type { JournalEntry } from "@/lib/types";
 
 const WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const MONTHS = [
