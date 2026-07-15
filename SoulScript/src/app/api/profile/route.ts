@@ -47,23 +47,10 @@ export async function PATCH(request: Request) {
     }
 
     const body = await request.json();
-    const { display_name, preferred_language } = body;
-
-    if (
-      preferred_language &&
-      preferred_language !== "burmese" &&
-      preferred_language !== "english"
-    ) {
-      return NextResponse.json(
-        { error: "preferred_language must be 'burmese' or 'english'" },
-        { status: 400 }
-      );
-    }
+    const { display_name } = body;
 
     const updateData: Record<string, string> = { updated_at: new Date().toISOString() };
     if (display_name !== undefined) updateData.display_name = display_name;
-    if (preferred_language !== undefined)
-      updateData.preferred_language = preferred_language;
 
     const { data, error } = await supabase
       .from("user_profiles")

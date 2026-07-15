@@ -94,14 +94,6 @@ describe("POST /api/analyze", () => {
       count: 0,
     });
 
-    // Mock the profile chain
-    const profileChain = chainable({
-      single: vi.fn().mockResolvedValue({
-        data: { preferred_language: "burmese" },
-        error: null,
-      }),
-    });
-
     // Mock the insert chain
     const insertChain = chainable({
       insert: vi.fn().mockReturnThis(),
@@ -114,7 +106,6 @@ describe("POST /api/analyze", () => {
     mockFrom.mockImplementation(() => {
       callCount++;
       if (callCount === 1) return rateLimitChain; // rate limit query
-      if (callCount === 2) return profileChain; // profile query
       return insertChain; // insert
     });
 

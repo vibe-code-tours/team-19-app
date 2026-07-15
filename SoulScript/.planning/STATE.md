@@ -1,8 +1,8 @@
 # Implementation State
 
-Last updated: 2026-07-09
+Last updated: 2026-07-15
 
-## Current Phase: ALL PHASES COMPLETE ✓
+## Current Phase: Phase 10 Complete ✓
 
 ## What's Done
 
@@ -37,6 +37,13 @@ Last updated: 2026-07-09
 - 52 tests passing across 9 test files
 - Unused `ai` package removed
 
+### Phase 10: Calendar Day Entries ✅
+- Calendar shows latest emoji per day
+- Clicking a day opens scrollable list of all entries
+- Each entry has its own emoji, timestamp, content, emotion pills
+- Per-entry Edit Mood with mood picker
+- 51 tests passing
+
 ## Verification Criteria (from SPEC §12)
 - [x] `npm run build` passes
 - [x] `npm run lint` passes
@@ -55,5 +62,5 @@ Last updated: 2026-07-09
 
 ## Metrics
 - **Test files:** 9
-- **Tests:** 52 passing
+- **Tests:** 51 passing
 - **Spec compliance:** ~100% (code complete, pending manual verification)

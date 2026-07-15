@@ -30,12 +30,93 @@ function getFirstDayOfMonth(year: number, month: number) {
   return day === 0 ? 6 : day - 1; // Monday = 0
 }
 
+function getEntriesForDay(entries: JournalEntry[], day: number): JournalEntry[] {
+  return entries.filter((e) => {
+    const d = new Date(e.created_at);
+    return d.getDate() === day;
+  });
+}
+
+const MOOD_OPTIONS = [
+  { name: "joy", emoji: "😊" },
+  { name: "sadness", emoji: "😢" },
+  { name: "anger", emoji: "😠" },
+  { name: "fear", emoji: "😨" },
+  { name: "surprise", emoji: "😲" },
+  { name: "disgust", emoji: "🤢" },
+  { name: "calm", emoji: "😌" },
+  { name: "love", emoji: "💜" },
+  { name: "anxious", emoji: "😰" },
+  { name: "uncertain", emoji: "💭" },
+];
+
+function EntryCard({
+  entry,
+  onEditMood,
+}: {
+  entry: JournalEntry;
+  onEditMood: () => void;
+}) {
+  return (
+    <div className="glass rounded-xl p-4 space-y-3">
+      {/* Entry Header */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center">
+            <span className="text-xl">{entry.emoji}</span>
+          </div>
+          <div>
+            <p className="text-sm font-medium text-text-primary capitalize">
+              {entry.primary_emotion}
+            </p>
+            <p className="text-xs text-text-secondary">
+              {new Date(entry.created_at).toLocaleTimeString("en-US", {
+                hour: "numeric",
+                minute: "2-digit",
+              })}
+            </p>
+          </div>
+        </div>
+        <button
+          onClick={onEditMood}
+          className="flex items-center gap-1.5 px-3 py-1.5 glass rounded-full text-xs text-text-secondary hover:text-text-primary"
+        >
+          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+          </svg>
+          Edit
+        </button>
+      </div>
+
+      {/* Entry Content */}
+      <p className="text-[14px] text-text-primary leading-relaxed">
+        {entry.content}
+      </p>
+
+      {/* Emotion Pills */}
+      {entry.secondary_emotions.length > 0 && (
+        <div className="flex flex-wrap gap-2">
+          {entry.secondary_emotions.map((emotion) => (
+            <span
+              key={emotion}
+              className="px-2 py-0.5 glass rounded-full text-[11px] font-medium text-text-secondary capitalize"
+            >
+              {emotion}
+            </span>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function MoodCalendar() {
   const router = useRouter();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [entries, setEntries] = useState<JournalEntry[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedEntry, setSelectedEntry] = useState<JournalEntry | null>(null);
+  const [selectedEntries, setSelectedEntries] = useState<JournalEntry[] | null>(null);
+  const [editingEntry, setEditingEntry] = useState<JournalEntry | null>(null);
   const [showMoodPicker, setShowMoodPicker] = useState(false);
   const [moodUpdateSuccess, setMoodUpdateSuccess] = useState(false);
   const [report, setReport] = useState<Record<string, unknown> | null>(null);
@@ -72,13 +153,6 @@ export default function MoodCalendar() {
     setLoading(true);
   }
 
-  function getEntryForDay(day: number): JournalEntry | undefined {
-    return entries.find((e) => {
-      const d = new Date(e.created_at);
-      return d.getDate() === day;
-    });
-  }
-
   async function handleMoodUpdate(
     entryId: string,
     newMood: string,
@@ -94,7 +168,8 @@ export default function MoodCalendar() {
     setTimeout(() => {
       setMoodUpdateSuccess(false);
       setShowMoodPicker(false);
-      setSelectedEntry(null);
+      setEditingEntry(null);
+      // Refresh entries to show updated emoji on calendar
       setCurrentDate(new Date(currentDate));
     }, 1500);
   }
@@ -127,19 +202,6 @@ export default function MoodCalendar() {
       setReportLoading(false);
     }
   }
-
-  const MOOD_OPTIONS = [
-    { name: "joy", emoji: "😊" },
-    { name: "sadness", emoji: "😢" },
-    { name: "anger", emoji: "😠" },
-    { name: "fear", emoji: "😨" },
-    { name: "surprise", emoji: "😲" },
-    { name: "disgust", emoji: "🤢" },
-    { name: "calm", emoji: "😌" },
-    { name: "love", emoji: "💜" },
-    { name: "anxious", emoji: "😰" },
-    { name: "uncertain", emoji: "💭" },
-  ];
 
   if (loading) {
     return (
@@ -209,20 +271,21 @@ export default function MoodCalendar() {
           {/* Day cells */}
           {Array.from({ length: daysInMonth }).map((_, i) => {
             const day = i + 1;
-            const entry = getEntryForDay(day);
+            const dayEntries = getEntriesForDay(entries, day);
+            const latestEntry = dayEntries.length > 0 ? dayEntries[dayEntries.length - 1] : null;
 
             return (
               <button
                 key={day}
-                onClick={() => entry && setSelectedEntry(entry)}
+                onClick={() => dayEntries.length > 0 && setSelectedEntries(dayEntries)}
                 className="aspect-square flex items-center justify-center relative"
               >
-                {entry ? (
+                {latestEntry ? (
                   <motion.div
-                    layoutId={`entry-${entry.id}`}
+                    layoutId={`entry-${latestEntry.id}`}
                     className="w-full h-full rounded-full glass flex items-center justify-center"
                   >
-                    <span className="text-lg">{entry.emoji}</span>
+                    <span className="text-lg">{latestEntry.emoji}</span>
                   </motion.div>
                 ) : (
                   <div className="w-8 h-8 rounded-full border border-dashed border-glass-border" />
@@ -297,16 +360,17 @@ export default function MoodCalendar() {
         )}
       </div>
 
-      {/* Entry Overlay — Bottom Sheet on mobile, centered on sm+ */}
+      {/* Entry Overlay — Bottom Sheet with scrollable entry list */}
       <AnimatePresence>
-        {selectedEntry && (
+        {selectedEntries && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center"
             onClick={() => {
-              setSelectedEntry(null);
+              setSelectedEntries(null);
+              setEditingEntry(null);
               setShowMoodPicker(false);
             }}
           >
@@ -320,107 +384,79 @@ export default function MoodCalendar() {
               dragElastic={0.2}
               onDragEnd={(_, info) => {
                 if (info.offset.y > 100 || info.velocity.y > 500) {
-                  setSelectedEntry(null);
+                  setSelectedEntries(null);
+                  setEditingEntry(null);
                   setShowMoodPicker(false);
                 }
               }}
-              className="glass rounded-t-2xl sm:rounded-2xl p-6 w-full max-w-md space-y-5"
+              className="glass rounded-t-2xl sm:rounded-2xl p-6 w-full max-w-md max-h-[80vh] flex flex-col"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Header */}
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <motion.div
-                    layoutId={`entry-${selectedEntry.id}`}
-                    className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center"
-                  >
-                    <span className="text-2xl">{selectedEntry.emoji}</span>
-                  </motion.div>
-                  <div>
-                    <p className="text-sm font-medium text-text-primary">
-                      {new Date(selectedEntry.created_at).toLocaleDateString(
-                        "en-US",
-                        { month: "long", day: "numeric", year: "numeric" }
-                      )}
-                    </p>
-                    <p className="text-xs text-text-secondary">
-                      {new Date(selectedEntry.created_at).toLocaleTimeString(
-                        "en-US",
-                        { hour: "numeric", minute: "2-digit" }
-                      )}
-                    </p>
-                  </div>
-                </div>
-                <button
-                  onClick={() => setShowMoodPicker(!showMoodPicker)}
-                  className="flex items-center gap-1.5 px-3 py-1.5 glass rounded-full text-xs text-text-secondary hover:text-text-primary"
-                >
-                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                  </svg>
-                  Edit Mood
-                </button>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="font-[family-name:var(--font-playfair)] text-lg font-bold text-text-primary">
+                  {new Date(selectedEntries[0].created_at).toLocaleDateString("en-US", {
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
+                </h3>
+                <p className="text-sm text-text-secondary">
+                  {selectedEntries.length} {selectedEntries.length === 1 ? "entry" : "entries"}
+                </p>
               </div>
 
-              <div className="h-px bg-glass-border" />
+              <div className="h-px bg-glass-border mb-4" />
 
-              {/* Entry Text */}
-              <p className="text-[15px] text-text-primary leading-relaxed">
-                {selectedEntry.content}
-              </p>
+              {/* Scrollable Entry List */}
+              <div className="flex-1 overflow-y-auto space-y-4 -mx-2 px-2">
+                {selectedEntries.map((entry) => (
+                  <div key={entry.id}>
+                    <EntryCard
+                      entry={entry}
+                      onEditMood={() => {
+                        setEditingEntry(entry);
+                        setShowMoodPicker(true);
+                      }}
+                    />
 
-              <div className="h-px bg-glass-border" />
-
-              {/* Emotion Pills */}
-              <div className="flex flex-wrap gap-2">
-                {selectedEntry.secondary_emotions.map((emotion) => (
-                  <span
-                    key={emotion}
-                    className="px-3 py-1 glass rounded-full text-xs font-medium text-text-primary capitalize"
-                  >
-                    {emotion}
-                  </span>
+                    {/* Mood Picker — slides in below the entry being edited */}
+                    <AnimatePresence>
+                      {showMoodPicker && editingEntry?.id === entry.id && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          className="overflow-hidden"
+                        >
+                          {moodUpdateSuccess ? (
+                            <p className="text-center text-sm text-green-400 py-3">
+                              Mood updated ✓
+                            </p>
+                          ) : (
+                            <div className="grid grid-cols-5 gap-2 pt-2 mt-2">
+                              {MOOD_OPTIONS.map((mood) => (
+                                <button
+                                  key={mood.name}
+                                  onClick={() =>
+                                    handleMoodUpdate(editingEntry.id, mood.name, mood.emoji)
+                                  }
+                                  className="flex flex-col items-center gap-1 p-2 rounded-xl hover:bg-white/5 transition-colors"
+                                >
+                                  <span className="text-xl">{mood.emoji}</span>
+                                  <span className="text-[10px] text-text-secondary capitalize">
+                                    {mood.name}
+                                  </span>
+                                </button>
+                              ))}
+                            </div>
+                          )}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
                 ))}
               </div>
-
-              {/* Mood Picker */}
-              <AnimatePresence>
-                {showMoodPicker && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    className="overflow-hidden"
-                  >
-                    {moodUpdateSuccess ? (
-                      <p className="text-center text-sm text-green-400 py-3">
-                        Mood updated ✓
-                      </p>
-                    ) : (
-                      <div className="grid grid-cols-5 gap-2 pt-2">
-                        {MOOD_OPTIONS.map((mood) => (
-                          <button
-                            key={mood.name}
-                            onClick={() =>
-                              handleMoodUpdate(
-                                selectedEntry.id,
-                                mood.name,
-                                mood.emoji
-                              )
-                            }
-                            className="flex flex-col items-center gap-1 p-2 rounded-xl hover:bg-white/5 transition-colors"
-                          >
-                            <span className="text-xl">{mood.emoji}</span>
-                            <span className="text-[10px] text-text-secondary capitalize">
-                              {mood.name}
-                            </span>
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </motion.div>
-                )}
-              </AnimatePresence>
             </motion.div>
           </motion.div>
         )}

@@ -124,3 +124,24 @@
 - [ ] 9.4: Create `__tests__/api/profile.test.ts`
 - [ ] 9.5: Create `__tests__/api/account.test.ts`
 - [ ] 9.6: Remove unused `ai` package, decide on React Query (integrate or remove)
+
+## Phase 10: Calendar Day Entries ✅
+**Goal:** Show all journal entries for a day when clicking the calendar emoji
+**Mode:** mvp
+**Requirements:** R7, R8
+
+**Success Criteria:**
+1. Calendar grid shows the latest entry's emoji per day (no change)
+2. Clicking a day opens a scrollable list of ALL entries for that day
+3. Each entry shows its own emoji, timestamp, content, and emotion pills
+4. "Edit Mood" works on each individual entry
+5. Empty days still show the dashed border placeholder
+6. `npm run build` + `npm run test` pass
+
+**Plans:**
+- [x] 10.1: Replace `getEntryForDay()` with `getEntriesForDay()` returning all entries
+- [x] 10.2: Update calendar grid to show last entry's emoji per day
+- [x] 10.3: Change `selectedEntry` state to `JournalEntry[] | null`
+- [x] 10.4: Redesign bottom sheet as scrollable entry list
+- [x] 10.5: Add per-entry "Edit Mood" with mood picker
+- [x] 10.6: Verify build + tests pass
