@@ -169,7 +169,7 @@
 **Goal:** Display today's journal entries below the dashboard textarea with instant optimistic updates via TanStack Query
 **Mode:** mvp
 **Requirements:** R7
-**Plans:** 2 plans
+**Plans:** 2/2 plans complete
 
 **Success Criteria:**
 
@@ -184,8 +184,8 @@
 Plans:
 **Wave 1**
 
-- [ ] 11-01-PLAN.md — TDD: shared types, utils, TanStack Query hooks, API day param
+- [x] 11-01-PLAN.md — TDD: shared types, utils, TanStack Query hooks, API day param
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 11-02-PLAN.md — EntryCard, EntryList components, dashboard responsive layout + hook integration
+- [x] 11-02-PLAN.md — EntryCard, EntryList components, dashboard responsive layout + hook integration
