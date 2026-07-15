@@ -139,7 +139,7 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
       {/* Left panel — textarea */}
-      <div className="md:w-[40%] md:sticky md:top-0 md:h-screen md:overflow-y-auto">
+      <div className="md:w-1/2 md:sticky md:top-0 md:h-screen md:overflow-y-auto">
         {/* Header — mobile only */}
         <div className="flex md:hidden justify-end gap-1 p-5">
           <button
@@ -315,11 +315,13 @@ export default function DashboardPage() {
       </div>
 
       {/* Right panel — entry list */}
-      <div className="md:w-[60%] md:h-screen md:overflow-y-auto px-5 pb-8">
-        <h2 className="text-lg font-semibold text-text-primary mb-4">
-          Today&apos;s Entries
-        </h2>
-        <EntryList entries={todayEntries} isLoading={entriesLoading} />
+      <div className="md:w-1/2 md:h-screen md:overflow-y-auto border-l border-white/5">
+        <div className="max-w-md mx-auto px-5 py-8 space-y-4">
+          <h2 className="text-lg font-semibold text-text-primary">
+            Today&apos;s Entries
+          </h2>
+          <EntryList entries={todayEntries} isLoading={entriesLoading} />
+        </div>
       </div>
 
       {/* Undo Toast */}
