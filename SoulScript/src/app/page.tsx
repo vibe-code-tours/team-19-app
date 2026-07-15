@@ -140,8 +140,8 @@ export default function DashboardPage() {
     <div className="min-h-screen flex flex-col md:flex-row">
       {/* Left panel — textarea */}
       <div className="md:w-1/2 md:sticky md:top-0 md:h-screen md:overflow-y-auto">
-        {/* Header — mobile only */}
-        <div className="flex md:hidden justify-end gap-1 p-5">
+        {/* Header — nav buttons */}
+        <div className="flex justify-end gap-1 p-5">
           <button
             onClick={() => router.push("/calendar")}
             className="p-2 text-text-secondary hover:text-text-primary transition-colors"
