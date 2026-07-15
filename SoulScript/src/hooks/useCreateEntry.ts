@@ -6,7 +6,7 @@ import type { JournalEntry } from "@/lib/types";
 export function useCreateEntry() {
   const queryClient = useQueryClient();
 
-  return useMutation<JournalEntry, Error, { content: string }>({
+  return useMutation<JournalEntry, Error, { content: string }, { previous: JournalEntry[] | undefined; tempId: string }>({
     mutationFn: async ({ content }) => {
       const res = await fetch("/api/analyze", {
         method: "POST",

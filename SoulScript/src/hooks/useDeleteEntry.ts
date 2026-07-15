@@ -6,7 +6,7 @@ import type { JournalEntry } from "@/lib/types";
 export function useDeleteEntry() {
   const queryClient = useQueryClient();
 
-  return useMutation<void, Error, string>({
+  return useMutation<void, Error, string, { previous: JournalEntry[] | undefined }>({
     mutationFn: async (entryId: string) => {
       const res = await fetch(`/api/entries/${entryId}`, {
         method: "DELETE",
