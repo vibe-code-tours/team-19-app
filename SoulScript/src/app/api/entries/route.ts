@@ -14,16 +14,17 @@ export async function GET(request: Request) {
     }
 
     const { searchParams } = new URL(request.url);
-    const day = searchParams.get("day"); // YYYY-MM-DD format
+    const startParam = searchParams.get("start"); // ISO timestamp
+    const endParam = searchParams.get("end"); // ISO timestamp
     const month = searchParams.get("month"); // YYYY-MM format
 
     let startDate: string;
     let endDate: string;
 
-    if (day && /^\d{4}-\d{2}-\d{2}$/.test(day)) {
-      // Day param takes precedence over month
-      startDate = `${day}T00:00:00`;
-      endDate = `${day}T23:59:59.999`;
+    if (startParam && endParam) {
+      // UTC boundaries from client (timezone-aware)
+      startDate = startParam;
+      endDate = endParam;
     } else if (month && /^\d{4}-\d{2}$/.test(month)) {
       const [year, monthNum] = month.split("-").map(Number);
       startDate = new Date(year, monthNum - 1, 1).toISOString();
@@ -35,14 +36,14 @@ export async function GET(request: Request) {
       );
     }
 
-    // Build query — use lte for day param (end-of-day inclusive), lt for month param
+    // Build query — use lte for start/end param (inclusive), lt for month param
     const baseQuery = supabase
       .from("journal_entries")
       .select("*")
       .eq("user_id", user.id)
       .gte("created_at", startDate);
 
-    const dateQuery = day
+    const dateQuery = startParam
       ? baseQuery.lte("created_at", endDate)
       : baseQuery.lt("created_at", endDate);
 

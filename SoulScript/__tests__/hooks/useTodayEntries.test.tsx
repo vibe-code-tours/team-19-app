@@ -21,7 +21,7 @@ function createWrapper() {
 describe("useTodayEntries", () => {
   beforeEach(() => vi.restoreAllMocks());
 
-  it("calls GET /api/entries with today's date in YYYY-MM-DD format", async () => {
+  it("calls GET /api/entries with UTC start/end ISO timestamps", async () => {
     const mockFetch = vi.fn().mockResolvedValue({
       ok: true,
       json: () => Promise.resolve({ entries: [] }),
@@ -37,7 +37,12 @@ describe("useTodayEntries", () => {
     const calledUrl = mockFetch.mock.calls[0][0] as string;
     const url = new URL(calledUrl, "http://localhost");
     expect(url.pathname).toBe("/api/entries");
-    expect(url.searchParams.get("day")).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+    expect(url.searchParams.get("start")).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/);
+    expect(url.searchParams.get("end")).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/);
+    // end should be exactly 24 hours after start
+    const start = new Date(url.searchParams.get("start")!);
+    const end = new Date(url.searchParams.get("end")!);
+    expect(end.getTime() - start.getTime()).toBe(24 * 60 * 60 * 1000);
   });
 
   it("returns entries array from data.entries", async () => {

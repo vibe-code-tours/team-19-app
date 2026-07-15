@@ -133,38 +133,26 @@ describe("DELETE /api/entries/[id]", () => {
   });
 });
 
-describe("GET /api/entries with day param", () => {
+describe("GET /api/entries with start/end params", () => {
   beforeEach(() => vi.clearAllMocks());
 
   it("returns 401 when not authenticated", async () => {
     mockGetUser.mockResolvedValue({ data: { user: null } });
-    const req = new Request("http://localhost/api/entries?day=2026-07-15");
+    const req = new Request(
+      "http://localhost/api/entries?start=2026-07-15T00:00:00.000Z&end=2026-07-16T00:00:00.000Z"
+    );
     const res = await GET(req);
     expect(res.status).toBe(401);
   });
 
-  it("returns 400 for invalid day format", async () => {
-    mockGetUser.mockResolvedValue({ data: { user: { id: "user-1" } } });
-    const req = new Request("http://localhost/api/entries?day=invalid");
-    const res = await GET(req);
-    expect(res.status).toBe(400);
-  });
-
-  it("returns 400 for partial day format (YYYY-MM)", async () => {
-    mockGetUser.mockResolvedValue({ data: { user: { id: "user-1" } } });
-    const req = new Request("http://localhost/api/entries?day=2026-07");
-    const res = await GET(req);
-    expect(res.status).toBe(400);
-  });
-
-  it("returns 400 when neither valid day nor month provided", async () => {
+  it("returns 400 when neither start/end nor month provided", async () => {
     mockGetUser.mockResolvedValue({ data: { user: { id: "user-1" } } });
     const req = new Request("http://localhost/api/entries");
     const res = await GET(req);
     expect(res.status).toBe(400);
   });
 
-  it("returns entries for valid day", async () => {
+  it("returns entries for valid start/end range", async () => {
     mockGetUser.mockResolvedValue({ data: { user: { id: "user-1" } } });
     const chain = chainable({
       then: function (this: unknown, resolve: (v: unknown) => void) {
@@ -173,14 +161,16 @@ describe("GET /api/entries with day param", () => {
     });
     mockFrom.mockReturnValue(chain);
 
-    const req = new Request("http://localhost/api/entries?day=2026-07-15");
+    const req = new Request(
+      "http://localhost/api/entries?start=2026-07-15T00:00:00.000Z&end=2026-07-16T00:00:00.000Z"
+    );
     const res = await GET(req);
     expect(res.status).toBe(200);
     const body = await res.json();
     expect(body.entries).toHaveLength(1);
   });
 
-  it("day param takes precedence over month when both provided", async () => {
+  it("start/end takes precedence over month when both provided", async () => {
     mockGetUser.mockResolvedValue({ data: { user: { id: "user-1" } } });
     const chain = chainable({
       then: function (this: unknown, resolve: (v: unknown) => void) {
@@ -189,7 +179,9 @@ describe("GET /api/entries with day param", () => {
     });
     mockFrom.mockReturnValue(chain);
 
-    const req = new Request("http://localhost/api/entries?day=2026-07-15&month=2026-07");
+    const req = new Request(
+      "http://localhost/api/entries?start=2026-07-15T00:00:00.000Z&end=2026-07-16T00:00:00.000Z&month=2026-07"
+    );
     const res = await GET(req);
     expect(res.status).toBe(200);
   });
