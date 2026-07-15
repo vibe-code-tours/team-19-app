@@ -3,17 +3,16 @@
 import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function SettingsPage() {
   const [profile, setProfile] = useState<{
     display_name: string;
-    preferred_language: string;
   } | null>(null);
   const [email, setEmail] = useState("");
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState("");
   const [deleting, setDeleting] = useState(false);
@@ -35,7 +34,7 @@ export default function SettingsPage() {
 
       const { data } = await supabase
         .from("user_profiles")
-        .select("display_name, preferred_language")
+        .select("display_name")
         .eq("user_id", user.id)
         .single();
 
@@ -44,17 +43,6 @@ export default function SettingsPage() {
     }
     loadProfile();
   }, [supabase, router]);
-
-  async function updateProfile(updates: Record<string, string>) {
-    setSaving(true);
-    await fetch("/api/profile", {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(updates),
-    });
-    setProfile((prev) => (prev ? { ...prev, ...updates } : null));
-    setSaving(false);
-  }
 
   async function handleDeleteAccount() {
     if (deleteConfirm !== "DELETE") return;
@@ -107,9 +95,11 @@ export default function SettingsPage() {
 
           <div className="flex items-center gap-4">
             {avatarUrl ? (
-              <img
+              <Image
                 src={avatarUrl}
                 alt="Profile"
+                width={56}
+                height={56}
                 className="w-14 h-14 rounded-full object-cover"
               />
             ) : (
@@ -124,27 +114,6 @@ export default function SettingsPage() {
                 {profile?.display_name || "User"}
               </p>
               <p className="text-sm text-text-secondary">{email}</p>
-            </div>
-          </div>
-
-          {/* Language Toggle */}
-          <div className="space-y-2">
-            <p className="text-sm text-text-secondary">Preferred Language</p>
-            <div className="glass rounded-full p-1 flex">
-              {(["burmese", "english"] as const).map((lang) => (
-                <button
-                  key={lang}
-                  onClick={() => updateProfile({ preferred_language: lang })}
-                  disabled={saving}
-                  className={`flex-1 py-2.5 rounded-full text-sm font-medium transition-colors ${
-                    profile?.preferred_language === lang
-                      ? "bg-accent text-white"
-                      : "text-text-muted"
-                  }`}
-                >
-                  {lang === "burmese" ? "Burmese" : "English"}
-                </button>
-              ))}
             </div>
           </div>
         </div>

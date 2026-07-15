@@ -25,6 +25,7 @@ function chainable(overrides: Record<string, unknown> = {}) {
     eq: vi.fn().mockReturnThis(),
     gte: vi.fn().mockReturnThis(),
     lt: vi.fn().mockReturnThis(),
+    lte: vi.fn().mockReturnThis(),
     is: vi.fn().mockReturnThis(),
     order: vi.fn().mockReturnThis(),
     update: vi.fn().mockReturnThis(),
@@ -128,6 +129,74 @@ describe("DELETE /api/entries/[id]", () => {
     mockFrom.mockReturnValue({ update: mockUpdate });
     const req = new Request("http://localhost/api/entries/1", { method: "DELETE" });
     const res = await DELETE(req, { params: Promise.resolve({ id: "1" }) });
+    expect(res.status).toBe(200);
+  });
+});
+
+describe("GET /api/entries with start/end params", () => {
+  beforeEach(() => vi.clearAllMocks());
+
+  it("returns 401 when not authenticated", async () => {
+    mockGetUser.mockResolvedValue({ data: { user: null } });
+    const req = new Request(
+      "http://localhost/api/entries?start=2026-07-15T00:00:00.000Z&end=2026-07-16T00:00:00.000Z"
+    );
+    const res = await GET(req);
+    expect(res.status).toBe(401);
+  });
+
+  it("returns 400 when neither start/end nor month provided", async () => {
+    mockGetUser.mockResolvedValue({ data: { user: { id: "user-1" } } });
+    const req = new Request("http://localhost/api/entries");
+    const res = await GET(req);
+    expect(res.status).toBe(400);
+  });
+
+  it("returns entries for valid start/end range", async () => {
+    mockGetUser.mockResolvedValue({ data: { user: { id: "user-1" } } });
+    const chain = chainable({
+      then: function (this: unknown, resolve: (v: unknown) => void) {
+        resolve({ data: [{ id: "1", content: "encrypted", content_iv: "iv123" }], error: null });
+      },
+    });
+    mockFrom.mockReturnValue(chain);
+
+    const req = new Request(
+      "http://localhost/api/entries?start=2026-07-15T00:00:00.000Z&end=2026-07-16T00:00:00.000Z"
+    );
+    const res = await GET(req);
+    expect(res.status).toBe(200);
+    const body = await res.json();
+    expect(body.entries).toHaveLength(1);
+  });
+
+  it("start/end takes precedence over month when both provided", async () => {
+    mockGetUser.mockResolvedValue({ data: { user: { id: "user-1" } } });
+    const chain = chainable({
+      then: function (this: unknown, resolve: (v: unknown) => void) {
+        resolve({ data: [], error: null });
+      },
+    });
+    mockFrom.mockReturnValue(chain);
+
+    const req = new Request(
+      "http://localhost/api/entries?start=2026-07-15T00:00:00.000Z&end=2026-07-16T00:00:00.000Z&month=2026-07"
+    );
+    const res = await GET(req);
+    expect(res.status).toBe(200);
+  });
+
+  it("month param still works (backward compatible)", async () => {
+    mockGetUser.mockResolvedValue({ data: { user: { id: "user-1" } } });
+    const chain = chainable({
+      then: function (this: unknown, resolve: (v: unknown) => void) {
+        resolve({ data: [{ id: "1", content: "encrypted", content_iv: "iv123" }], error: null });
+      },
+    });
+    mockFrom.mockReturnValue(chain);
+
+    const req = new Request("http://localhost/api/entries?month=2026-07");
+    const res = await GET(req);
     expect(res.status).toBe(200);
   });
 });

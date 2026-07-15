@@ -72,7 +72,7 @@ export default function SignupPage() {
       <div className="w-full max-w-sm space-y-8">
         {/* Brand */}
         <div className="text-center">
-          <img src="/logo-full.png" alt="SoulScript" className="mx-auto h-40" />
+          <img src="/logo-light.png" alt="SoulScript" className="mx-auto h-40" />
         </div>
 
         {/* Google OAuth */}

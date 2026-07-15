@@ -1,12 +1,27 @@
+---
+gsd_state_version: 1.0
+milestone: v1.0
+milestone_name: milestone
+status: Executing Phase 11
+last_updated: "2026-07-15T15:29:27.476Z"
+progress:
+  total_phases: 11
+  completed_phases: 1
+  total_plans: 3
+  completed_plans: 1
+  percent: 9
+---
+
 # Implementation State
 
-Last updated: 2026-07-09
+Last updated: 2026-07-15
 
-## Current Phase: ALL PHASES COMPLETE ✓
+## Current Phase: Phase 10 Complete ✓
 
 ## What's Done
 
 ### Core Features (Phases 1-6) ✅
+
 - Full auth flow (Google OAuth + email/password)
 - Dashboard with greeting, textarea, undo toast
 - All 6 API routes functional (analyze, report, entries/[id], profile, account, entries)
@@ -20,6 +35,7 @@ Last updated: 2026-07-09
 - 4 test files (encryption, mood-themes, language, MonthlyReport)
 
 ### Phase 7: Core Gaps ✅
+
 - `getSystemPromptLanguage()` implemented in language.ts
 - AI analysis fetches `preferred_language` from user_profiles
 - Navigation links: calendar icon on dashboard, back button on calendar
@@ -27,17 +43,28 @@ Last updated: 2026-07-09
 - Submission fade-up animation on textarea
 
 ### Phase 8: Animation & UX Polish ✅
+
 - Mobile bottom sheet with drag-to-dismiss for calendar overlay
 - `layoutId` morph transition between calendar grid and overlay
 - MonthlyReport uses `staggerChildren` variant pattern
 - Breathing glassmorphism overlay on calendar empty state
 
 ### Phase 9: Extended Testing + Cleanup ✅
+
 - 5 API route test files (analyze, report, entries, profile, account)
 - 52 tests passing across 9 test files
 - Unused `ai` package removed
 
+### Phase 10: Calendar Day Entries ✅
+
+- Calendar shows latest emoji per day
+- Clicking a day opens scrollable list of all entries
+- Each entry has its own emoji, timestamp, content, emotion pills
+- Per-entry Edit Mood with mood picker
+- 51 tests passing
+
 ## Verification Criteria (from SPEC §12)
+
 - [x] `npm run build` passes
 - [x] `npm run lint` passes
 - [x] `npm run test` passes (52 tests)
@@ -54,6 +81,7 @@ Last updated: 2026-07-09
 - [ ] Verify: mobile on 375px width
 
 ## Metrics
+
 - **Test files:** 9
-- **Tests:** 52 passing
+- **Tests:** 51 passing
 - **Spec compliance:** ~100% (code complete, pending manual verification)

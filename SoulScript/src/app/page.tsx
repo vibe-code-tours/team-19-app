@@ -4,6 +4,10 @@ import { useState, useEffect, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import EntryList from "@/components/EntryList";
+import { useTodayEntries } from "@/hooks/useTodayEntries";
+import { useCreateEntry } from "@/hooks/useCreateEntry";
+import { useDeleteEntry } from "@/hooks/useDeleteEntry";
 
 const MIN_LENGTH = 10;
 const MAX_LENGTH = 5000;
@@ -20,7 +24,6 @@ export default function DashboardPage() {
   const [content, setContent] = useState("");
   const [userName, setUserName] = useState("");
   const [loading, setLoading] = useState(true);
-  const [submitting, setSubmitting] = useState(false);
   const [toast, setToast] = useState<{
     entryId: string;
     countdown: number;
@@ -30,6 +33,11 @@ export default function DashboardPage() {
   const [justSubmitted, setJustSubmitted] = useState(false);
   const router = useRouter();
   const supabase = createClient();
+
+  const { data: todayEntries = [], isLoading: entriesLoading } =
+    useTodayEntries();
+  const createEntry = useCreateEntry();
+  const deleteEntry = useDeleteEntry();
 
   useEffect(() => {
     async function loadProfile() {
@@ -78,25 +86,15 @@ export default function DashboardPage() {
   }, [toast, savedDraft]);
 
   const handleSubmit = useCallback(async () => {
-    if (content.length < MIN_LENGTH || submitting) return;
-    setSubmitting(true);
+    if (content.length < MIN_LENGTH || createEntry.isPending) return;
     setError("");
     setToast(null);
     setSavedDraft("");
 
     try {
-      const res = await fetch("/api/analyze", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content: content.slice(0, MAX_LENGTH) }),
+      const entry = await createEntry.mutateAsync({
+        content: content.slice(0, MAX_LENGTH),
       });
-
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error || "Failed to save entry");
-      }
-
-      const { entry } = await res.json();
       setSavedDraft(content);
       setJustSubmitted(true);
       setToast({ entryId: entry.id, countdown: 4 });
@@ -106,14 +104,16 @@ export default function DashboardPage() {
       setError(
         err instanceof Error ? err.message : "Something went wrong"
       );
-    } finally {
-      setSubmitting(false);
     }
-  }, [content, submitting]);
+  }, [content, createEntry]);
 
   async function handleUndo() {
     if (!toast) return;
-    await fetch(`/api/entries/${toast.entryId}`, { method: "DELETE" });
+    try {
+      await deleteEntry.mutateAsync(toast.entryId);
+    } catch {
+      // Optimistic rollback already handled by useDeleteEntry
+    }
     setContent(savedDraft);
     setSavedDraft("");
     setToast(null);
@@ -122,7 +122,7 @@ export default function DashboardPage() {
   const charCount = content.length;
   const isOverWarn = charCount >= WARN_LENGTH;
   const isOverMax = charCount >= MAX_LENGTH;
-  const canSubmit = charCount >= MIN_LENGTH && !submitting;
+  const canSubmit = charCount >= MIN_LENGTH && !createEntry.isPending;
 
   if (loading) {
     return (
@@ -137,177 +137,190 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
-      {/* Header */}
-      <div className="flex justify-end gap-1 p-5">
-        <button
-          onClick={() => router.push("/calendar")}
-          className="p-2 text-text-secondary hover:text-text-primary transition-colors"
-          title="View Calendar"
-        >
-          <svg
-            className="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
+    <div className="min-h-screen flex flex-col md:flex-row">
+      {/* Left panel — textarea */}
+      <div className="md:w-1/2 md:sticky md:top-0 md:h-screen md:overflow-y-auto">
+        {/* Header — nav buttons */}
+        <div className="flex justify-end gap-1 p-5">
+          <button
+            onClick={() => router.push("/calendar")}
+            className="p-2 text-text-secondary hover:text-text-primary transition-colors"
+            title="View Calendar"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={1.5}
-              d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
-            />
-          </svg>
-        </button>
-        <button
-          onClick={() => router.push("/settings")}
-          className="p-2 text-text-secondary hover:text-text-primary transition-colors"
-        >
-          <svg
-            className="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1.5}
+                d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
+              />
+            </svg>
+          </button>
+          <button
+            onClick={() => router.push("/settings")}
+            className="p-2 text-text-secondary hover:text-text-primary transition-colors"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={1.5}
-              d="M10.343 3.94c.09-.542.56-.94 1.11-.94h1.093c.55 0 1.02.398 1.11.94l.149.894c.07.424.384.764.78.93.398.164.855.142 1.205-.108l.737-.527a1.125 1.125 0 011.45.12l.773.774c.39.389.44 1.002.12 1.45l-.527.737c-.25.35-.272.806-.107 1.204.165.397.505.71.93.78l.893.15c.543.09.94.56.94 1.109v1.094c0 .55-.397 1.02-.94 1.11l-.893.149c-.425.07-.765.383-.93.78-.165.398-.143.854.107 1.204l.527.738c.32.447.269 1.06-.12 1.45l-.774.773a1.125 1.125 0 01-1.449.12l-.738-.527c-.35-.25-.806-.272-1.203-.107-.397.165-.71.505-.781.929l-.149.894c-.09.542-.56.94-1.11.94h-1.094c-.55 0-1.019-.398-1.11-.94l-.148-.894c-.071-.424-.384-.764-.781-.93-.398.164-.854-.142-1.204.108l-.738.527c-.447.32-1.06.269-1.45-.12l-.773-.774a1.125 1.125 0 01-.12-1.45l.527-.737c.25-.35.273-.806.108-1.204-.165-.397-.505-.71-.93-.78l-.894-.15c-.542-.09-.94-.56-.94-1.109v-1.094c0-.55.398-1.02.94-1.11l.894-.149c.424-.07.765-.383.93-.78.165-.398.143-.854-.108-1.204l-.526-.738a1.125 1.125 0 01.12-1.45l.773-.773a1.125 1.125 0 011.45-.12l.737.527c.35.25.807.272 1.204.107.397-.165.71-.505.78-.929l.15-.894z"
-            />
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={1.5}
-              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-            />
-          </svg>
-        </button>
-      </div>
-
-      {/* Content */}
-      <div className="flex-1 flex flex-col px-5 pb-8 max-w-lg mx-auto w-full gap-7">
-        {/* Logo */}
-        <div className="flex justify-center pt-2">
-          <img
-            src="/logo-horizontal.png"
-            alt="SoulScript"
-            className="h-10 w-auto opacity-90"
-          />
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1.5}
+                d="M10.343 3.94c.09-.542.56-.94 1.11-.94h1.093c.55 0 1.02.398 1.11.94l.149.894c.07.424.384.764.78.93.398.164.855.142 1.205-.108l.737-.527a1.125 1.125 0 011.45.12l.773.774c.39.389.44 1.002.12 1.45l-.527.737c-.25.35-.272.806-.107 1.204.165.397.505.71.93.78l.893.15c.543.09.94.56.94 1.109v1.094c0 .55-.397 1.02-.94 1.11l-.893.149c-.425.07-.765.383-.93.78-.165.398-.143.854.107 1.204l.527.738c.32.447.269 1.06-.12 1.45l-.774.773a1.125 1.125 0 01-1.449.12l-.738-.527c-.35-.25-.806-.272-1.203-.107-.397.165-.71.505-.781.929l-.149.894c-.09.542-.56.94-1.11.94h-1.094c-.55 0-1.019-.398-1.11-.94l-.148-.894c-.071-.424-.384-.764-.781-.93-.398.164-.854-.142-1.204.108l-.738.527c-.447.32-1.06.269-1.45-.12l-.773-.774a1.125 1.125 0 01-.12-1.45l.527-.737c.25-.35.273-.806.108-1.204-.165-.397-.505-.71-.93-.78l-.894-.15c-.542-.09-.94-.56-.94-1.109v-1.094c0-.55.398-1.02.94-1.11l.894-.149c.424-.07.765-.383.93-.78.165-.398.143-.854-.108-1.204l.526-.738a1.125 1.125 0 01.12-1.45l.773-.773a1.125 1.125 0 011.45-.12l.737.527c.35.25.807.272 1.204.107.397-.165.71-.505.78-.929l.15-.894z"
+              />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1.5}
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+              />
+            </svg>
+          </button>
         </div>
 
-        {/* Greeting */}
-        <div className="space-y-2">
-          <h1 className="font-[family-name:var(--font-playfair)] text-3xl font-bold text-text-primary leading-tight">
-            {getGreeting()}, {userName}.
-          </h1>
-          <p className="text-text-secondary text-base">
-            How does your soul feel {getGreeting().split(" ")[1]}?
-          </p>
-        </div>
-
-        {/* Textarea with Glow */}
-        <motion.div
-          className="relative"
-          animate={
-            justSubmitted
-              ? { y: -20, opacity: 0, scale: 0.98 }
-              : { y: 0, opacity: 1, scale: 1 }
-          }
-          transition={{ duration: 0.5, ease: "easeOut" }}
-        >
-          <div className="absolute inset-0 mood-glow rounded-2xl" />
-          <div className="relative glass rounded-2xl p-5 min-h-[220px]">
-            <textarea
-              value={content}
-              onChange={(e) => {
-                if (e.target.value.length <= MAX_LENGTH) {
-                  setContent(e.target.value);
-                }
-              }}
-              placeholder="Write your thoughts here..."
-              className="w-full h-full min-h-[180px] bg-transparent text-text-primary text-[15px] leading-relaxed placeholder:text-text-muted focus:outline-none resize-none"
+        {/* Content */}
+        <div className="flex flex-col px-5 pb-8 max-w-lg mx-auto w-full gap-7">
+          {/* Logo */}
+          <div className="flex justify-center pt-2">
+            <img
+              src="/logo-horizontal.png"
+              alt="SoulScript"
+              className="h-10 w-auto mix-blend-screen"
             />
           </div>
-        </motion.div>
 
-        {/* Character Counter */}
-        <div className="flex justify-end">
-          <span
-            className={`text-xs ${
-              isOverMax
-                ? "text-red-400"
-                : isOverWarn
-                  ? "text-amber-400"
-                  : "text-text-muted"
-            }`}
+          {/* Greeting */}
+          <div className="space-y-2">
+            <h1 className="font-[family-name:var(--font-playfair)] text-3xl font-bold text-text-primary leading-tight">
+              {getGreeting()}, {userName}.
+            </h1>
+            <p className="text-text-secondary text-base">
+              How does your soul feel {getGreeting().split(" ")[1]}?
+            </p>
+          </div>
+
+          {/* Textarea with Glow */}
+          <motion.div
+            className="relative"
+            animate={
+              justSubmitted
+                ? { y: -20, opacity: 0, scale: 0.98 }
+                : { y: 0, opacity: 1, scale: 1 }
+            }
+            transition={{ duration: 0.5, ease: "easeOut" }}
           >
-            {charCount} / {MAX_LENGTH}
-          </span>
-        </div>
+            <div className="absolute inset-0 mood-glow rounded-2xl" />
+            <div className="relative glass rounded-2xl p-5 min-h-[220px]">
+              <textarea
+                value={content}
+                onChange={(e) => {
+                  if (e.target.value.length <= MAX_LENGTH) {
+                    setContent(e.target.value);
+                  }
+                }}
+                placeholder="Write your thoughts here..."
+                className="w-full h-full min-h-[180px] bg-transparent text-text-primary text-[15px] leading-relaxed placeholder:text-text-muted focus:outline-none resize-none"
+              />
+            </div>
+          </motion.div>
 
-        {/* Error */}
-        {error && (
-          <div className="glass rounded-xl p-4 text-center">
-            <p className="text-sm text-red-400">{error}</p>
-            <button
-              onClick={() => setError("")}
-              className="text-xs text-accent mt-2 hover:underline"
+          {/* Character Counter */}
+          <div className="flex justify-end">
+            <span
+              className={`text-xs ${
+                isOverMax
+                  ? "text-red-400"
+                  : isOverWarn
+                    ? "text-amber-400"
+                    : "text-text-muted"
+              }`}
             >
-              Dismiss
+              {charCount} / {MAX_LENGTH}
+            </span>
+          </div>
+
+          {/* Error */}
+          {error && (
+            <div className="glass rounded-xl p-4 text-center">
+              <p className="text-sm text-red-400">{error}</p>
+              <button
+                onClick={() => setError("")}
+                className="text-xs text-accent mt-2 hover:underline"
+              >
+                Dismiss
+              </button>
+            </div>
+          )}
+
+          {/* Submit Button */}
+          <div className="flex justify-center">
+            <button
+              onClick={handleSubmit}
+              disabled={!canSubmit}
+              className="flex items-center gap-2.5 px-8 py-3.5 bg-accent text-white font-semibold rounded-full hover:bg-accent-glow transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              {createEntry.isPending ? (
+                <>
+                  <svg
+                    className="w-4 h-4 animate-spin"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                    />
+                  </svg>
+                  Releasing...
+                </>
+              ) : (
+                <>
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
+                    />
+                  </svg>
+                  Release to Calendar
+                </>
+              )}
             </button>
           </div>
-        )}
+        </div>
+      </div>
 
-        {/* Submit Button */}
-        <div className="flex justify-center">
-          <button
-            onClick={handleSubmit}
-            disabled={!canSubmit}
-            className="flex items-center gap-2.5 px-8 py-3.5 bg-accent text-white font-semibold rounded-full hover:bg-accent-glow transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed"
-          >
-            {submitting ? (
-              <>
-                <svg
-                  className="w-4 h-4 animate-spin"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  />
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                  />
-                </svg>
-                Releasing...
-              </>
-            ) : (
-              <>
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
-                  />
-                </svg>
-                Release to Calendar
-              </>
-            )}
-          </button>
+      {/* Right panel — entry list */}
+      <div className="md:w-1/2 md:h-screen md:overflow-y-auto border-l border-white/5">
+        <div className="max-w-md mx-auto px-5 py-8 space-y-4">
+          <h2 className="text-lg font-semibold text-text-primary">
+            Today&apos;s Entries
+          </h2>
+          <EntryList entries={todayEntries} isLoading={entriesLoading} />
         </div>
       </div>
 

@@ -14,25 +14,40 @@ export async function GET(request: Request) {
     }
 
     const { searchParams } = new URL(request.url);
+    const startParam = searchParams.get("start"); // ISO timestamp
+    const endParam = searchParams.get("end"); // ISO timestamp
     const month = searchParams.get("month"); // YYYY-MM format
 
-    if (!month || !/^\d{4}-\d{2}$/.test(month)) {
+    let startDate: string;
+    let endDate: string;
+
+    if (startParam && endParam) {
+      // UTC boundaries from client (timezone-aware)
+      startDate = startParam;
+      endDate = endParam;
+    } else if (month && /^\d{4}-\d{2}$/.test(month)) {
+      const [year, monthNum] = month.split("-").map(Number);
+      startDate = new Date(year, monthNum - 1, 1).toISOString();
+      endDate = new Date(year, monthNum, 1).toISOString();
+    } else {
       return NextResponse.json(
-        { error: "Invalid month format. Use YYYY-MM" },
+        { error: "Provide day (YYYY-MM-DD) or month (YYYY-MM)" },
         { status: 400 }
       );
     }
 
-    const [year, monthNum] = month.split("-").map(Number);
-    const startDate = new Date(year, monthNum - 1, 1).toISOString();
-    const endDate = new Date(year, monthNum, 1).toISOString();
-
-    const { data: entries, error } = await supabase
+    // Build query — use lte for start/end param (inclusive), lt for month param
+    const baseQuery = supabase
       .from("journal_entries")
       .select("*")
       .eq("user_id", user.id)
-      .gte("created_at", startDate)
-      .lt("created_at", endDate)
+      .gte("created_at", startDate);
+
+    const dateQuery = startParam
+      ? baseQuery.lte("created_at", endDate)
+      : baseQuery.lt("created_at", endDate);
+
+    const { data: entries, error } = await dateQuery
       .is("deleted_at", null)
       .order("created_at", { ascending: true });
 

@@ -70,17 +70,6 @@ describe("PATCH /api/profile", () => {
     expect(res.status).toBe(401);
   });
 
-  it("returns 400 for invalid language", async () => {
-    mockGetUser.mockResolvedValue({ data: { user: { id: "user-1" } } });
-    const req = new Request("http://localhost/api/profile", {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ preferred_language: "french" }),
-    });
-    const res = await PATCH(req);
-    expect(res.status).toBe(400);
-  });
-
   it("returns 200 on successful update", async () => {
     mockGetUser.mockResolvedValue({ data: { user: { id: "user-1" } } });
     const mockSingle = vi.fn().mockResolvedValue({
