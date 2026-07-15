@@ -145,3 +145,22 @@
 - [x] 10.4: Redesign bottom sheet as scrollable entry list
 - [x] 10.5: Add per-entry "Edit Mood" with mood picker
 - [x] 10.6: Verify build + tests pass
+
+## Phase 11: Dashboard Entry List + Optimistic Updates
+**Goal:** Display today's journal entries below the dashboard textarea with instant optimistic updates via TanStack Query
+**Mode:** mvp
+**Requirements:** R7
+**Plans:** 2 plans
+
+**Success Criteria:**
+1. Dashboard shows a scrollable list of today's entries below the textarea
+2. Each entry displays emoji, timestamp, content preview, and emotion pills
+3. New entries appear instantly after submission (optimistic update)
+4. Undo removes the entry from the list immediately
+5. Rate limit (10/day) is reflected in the UI
+6. TanStack Query is used for all data fetching (replacing raw fetch)
+7. `npm run build` + `npm run test` pass
+
+Plans:
+- [ ] 11-01-PLAN.md — TDD: shared types, utils, TanStack Query hooks, API day param
+- [ ] 11-02-PLAN.md — EntryCard, EntryList components, dashboard responsive layout + hook integration
