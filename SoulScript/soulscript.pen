@@ -1925,7 +1925,8 @@
                       "fill": "$text-muted",
                       "content": "Home",
                       "fontFamily": "$font-body",
-                      "fontSize": 10
+                      "fontSize": 10,
+                      "fontWeight": "normal"
                     }
                   ]
                 },
@@ -1997,7 +1998,8 @@
                       "fill": "$text-muted",
                       "content": "Settings",
                       "fontFamily": "$font-body",
-                      "fontSize": 10
+                      "fontSize": 10,
+                      "fontWeight": "normal"
                     }
                   ]
                 }
@@ -3843,7 +3845,8 @@
                   "content": "Great month, Alex! You found more calm than ever.",
                   "textAlign": "center",
                   "fontFamily": "$font-body",
-                  "fontSize": 14
+                  "fontSize": 14,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "text",
@@ -5569,14 +5572,47 @@
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon",
-                  "id": "fb3dG",
-                  "name": "Logo Icon",
+                  "type": "frame",
+                  "id": "UekLW",
+                  "name": "Logo Circles",
                   "width": 48,
-                  "height": 48,
-                  "icon": "book-heart",
-                  "library": "lucide",
-                  "fill": "$accent-primary"
+                  "height": 40,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "ellipse",
+                      "id": "DohJN",
+                      "x": 0,
+                      "y": 4,
+                      "name": "Circle 1",
+                      "opacity": 0.6,
+                      "fill": "#7C3AED",
+                      "width": 32,
+                      "height": 32
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "BMtlH",
+                      "x": 8,
+                      "y": 0,
+                      "name": "Circle 2",
+                      "opacity": 0.5,
+                      "fill": "#A78BFA",
+                      "width": 32,
+                      "height": 32
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "ceJHw",
+                      "x": 16,
+                      "y": 4,
+                      "name": "Circle 3",
+                      "opacity": 0.4,
+                      "fill": "#C4B5FD",
+                      "width": 32,
+                      "height": 32
+                    }
+                  ]
                 },
                 {
                   "type": "text",
@@ -6479,6 +6515,212 @@
               ]
             }
           ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "D2Svl",
+      "x": 4310,
+      "y": 0,
+      "name": "Logo Export",
+      "width": 400,
+      "height": 300,
+      "layout": "vertical",
+      "gap": 16,
+      "justifyContent": "center",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "Ep5Xy",
+          "name": "Circles",
+          "width": 120,
+          "height": 100,
+          "layout": "none",
+          "children": [
+            {
+              "type": "ellipse",
+              "id": "vZmJm",
+              "x": 0,
+              "y": 10,
+              "name": "Circle Left",
+              "opacity": 0.6,
+              "fill": "#7C3AED",
+              "width": 80,
+              "height": 80
+            },
+            {
+              "type": "ellipse",
+              "id": "RN618",
+              "x": 20,
+              "y": 0,
+              "name": "Circle Top",
+              "opacity": 0.5,
+              "fill": "#A78BFA",
+              "width": 80,
+              "height": 80
+            },
+            {
+              "type": "ellipse",
+              "id": "Mcbzf",
+              "x": 40,
+              "y": 10,
+              "name": "Circle Right",
+              "opacity": 0.4,
+              "fill": "#C4B5FD",
+              "width": 80,
+              "height": 80
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "YOMf1",
+          "name": "App Name",
+          "fill": "#E2E8F0",
+          "content": "SoulScript",
+          "fontFamily": "Playfair Display",
+          "fontSize": 32,
+          "fontWeight": "700"
+        },
+        {
+          "type": "text",
+          "id": "XBIZ3",
+          "name": "Tagline",
+          "fill": "#94A3B8",
+          "content": "Your digital sanctuary",
+          "fontFamily": "Inter",
+          "fontSize": 13
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "ETYeP",
+      "x": 4790,
+      "y": 0,
+      "name": "Logo Horizontal",
+      "width": 500,
+      "height": 120,
+      "gap": 16,
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "YPCz0",
+          "name": "H Circles",
+          "width": 60,
+          "height": 50,
+          "layout": "none",
+          "children": [
+            {
+              "type": "ellipse",
+              "id": "EMM7B",
+              "x": 0,
+              "y": 5,
+              "name": "H Circle 1",
+              "opacity": 0.6,
+              "fill": "#7C3AED",
+              "width": 40,
+              "height": 40
+            },
+            {
+              "type": "ellipse",
+              "id": "ImQBn",
+              "x": 10,
+              "y": 0,
+              "name": "H Circle 2",
+              "opacity": 0.5,
+              "fill": "#A78BFA",
+              "width": 40,
+              "height": 40
+            },
+            {
+              "type": "ellipse",
+              "id": "Zmm5A",
+              "x": 20,
+              "y": 5,
+              "name": "H Circle 3",
+              "opacity": 0.4,
+              "fill": "#C4B5FD",
+              "width": 40,
+              "height": 40
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "qzqow",
+          "name": "H Text",
+          "layout": "vertical",
+          "gap": 2,
+          "children": [
+            {
+              "type": "text",
+              "id": "IWXtg",
+              "name": "H App Name",
+              "fill": "#E2E8F0",
+              "content": "SoulScript",
+              "fontFamily": "Playfair Display",
+              "fontSize": 24,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "Jr2ww",
+              "name": "H Tagline",
+              "fill": "#94A3B8",
+              "content": "Your digital sanctuary",
+              "fontFamily": "Inter",
+              "fontSize": 11
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "TH0xs",
+      "x": 5370,
+      "y": 0,
+      "name": "Logo Icon Only",
+      "width": 120,
+      "height": 100,
+      "layout": "none",
+      "children": [
+        {
+          "type": "ellipse",
+          "id": "qqxuG",
+          "x": 0,
+          "y": 10,
+          "name": "Icon Circle 1",
+          "opacity": 0.6,
+          "fill": "#7C3AED",
+          "width": 80,
+          "height": 80
+        },
+        {
+          "type": "ellipse",
+          "id": "FllbJ",
+          "x": 20,
+          "y": 0,
+          "name": "Icon Circle 2",
+          "opacity": 0.5,
+          "fill": "#A78BFA",
+          "width": 80,
+          "height": 80
+        },
+        {
+          "type": "ellipse",
+          "id": "R9J2JZ",
+          "x": 40,
+          "y": 10,
+          "name": "Icon Circle 3",
+          "opacity": 0.4,
+          "fill": "#C4B5FD",
+          "width": 80,
+          "height": 80
         }
       ]
     }
