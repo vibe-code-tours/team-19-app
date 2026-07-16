@@ -25,9 +25,9 @@ function createWrapper() {
 const mockEntry: JournalEntry = {
   id: "server-1",
   content: "Hello world",
-  primary_emotion: "joy",
-  emoji: "😊",
-  secondary_emotions: ["calm"],
+  primary_emotion: "",
+  emoji: "",
+  secondary_emotions: [""],
   bg_glow_gradient: "from-amber-500/20 to-yellow-600/20",
   created_at: new Date().toISOString(),
 };
@@ -42,7 +42,7 @@ describe("useCreateEntry", () => {
     });
     vi.stubGlobal("fetch", mockFetch);
 
-    const { queryClient, Wrapper } = createWrapper();
+    const { Wrapper } = createWrapper();
     const { result } = renderHook(() => useCreateEntry(), { wrapper: Wrapper });
 
     await act(async () => {
@@ -82,8 +82,8 @@ describe("useCreateEntry", () => {
     const tempEntry = cachedData![0];
     expect(tempEntry.id).toMatch(/^temp-/);
     expect(tempEntry.content).toBe("New entry");
-    expect(tempEntry.primary_emotion).toBe("calm");
-    expect(tempEntry.emoji).toBe("😌");
+    expect(tempEntry.primary_emotion).toBe("");
+    expect(tempEntry.emoji).toBe("");
   });
 
   it("onMutate returns context with previous data and tempId", async () => {
@@ -95,7 +95,6 @@ describe("useCreateEntry", () => {
 
     const { result } = renderHook(() => useCreateEntry(), { wrapper: Wrapper });
 
-    let context: unknown;
     await act(async () => {
       // Access the mutation's onMutate through the mutation cache
       result.current.mutate({ content: "New entry" });

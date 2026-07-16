@@ -32,8 +32,8 @@ export function useCreateEntry() {
       const tempEntry: JournalEntry = {
         id: tempId,
         content,
-        primary_emotion: "calm",
-        emoji: "😌",
+        primary_emotion: "",
+        emoji: "",
         secondary_emotions: [],
         bg_glow_gradient: "from-sky-500/20 to-blue-600/20",
         created_at: new Date().toISOString(),

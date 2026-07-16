@@ -89,7 +89,7 @@ export default function SettingsPage() {
       <div className="space-y-7 mt-4">
         {/* Profile Card */}
         <div className="glass rounded-xl p-6 space-y-5">
-          <p className="text-[10px] font-semibold tracking-wider text-accent">
+          <p className="text-xs font-semibold tracking-wider text-accent">
             PROFILE
           </p>
 
@@ -120,7 +120,7 @@ export default function SettingsPage() {
 
         {/* Danger Zone */}
         <div className="glass rounded-xl p-6 space-y-4 border border-red-500/20">
-          <p className="text-[10px] font-semibold tracking-wider text-red-400">
+          <p className="text-xs font-semibold tracking-wider text-red-400">
             DANGER ZONE
           </p>
           <p className="text-sm text-text-secondary leading-relaxed">

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -47,7 +48,9 @@ export default function LoginPage() {
       <div className="w-full max-w-sm space-y-8">
         {/* Brand */}
         <div className="text-center">
-          <img src="/logo-full.png" alt="SoulScript" className="mx-auto h-40 mix-blend-screen" />
+          <div className="relative mx-auto h-40 w-64">
+            <Image src="/logo-full.png" alt="SoulScript" fill className="object-contain" sizes="256px" loading="eager" />
+          </div>
         </div>
 
         {/* Google OAuth */}

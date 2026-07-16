@@ -41,13 +41,13 @@ export default function EntryCard({ entry }: { entry: JournalEntry }) {
             className="overflow-hidden"
           >
             <div className="flex flex-wrap gap-2 mt-3">
-              <span className="px-2 py-0.5 glass rounded-full text-[11px] font-medium text-text-secondary capitalize">
+              <span className="px-2 py-0.5 glass rounded-full text-xs font-medium text-text-secondary capitalize">
                 {entry.primary_emotion}
               </span>
               {(entry.secondary_emotions ?? []).map((emotion) => (
                 <span
                   key={emotion}
-                  className="px-2 py-0.5 glass rounded-full text-[11px] font-medium text-text-secondary capitalize"
+                  className="px-2 py-0.5 glass rounded-full text-xs font-medium text-text-secondary capitalize"
                 >
                   {emotion}
                 </span>
