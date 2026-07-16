@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function NotFound() {
   return (
@@ -12,7 +13,9 @@ export default function NotFound() {
         {/* Card */}
         <div className="relative glass rounded-2xl p-10 text-center space-y-5 max-w-xs">
           <div className="flex justify-center">
-            <img src="/logo-icon.png" alt="SoulScript" className="w-16 h-16" />
+            <div className="relative w-16 h-16">
+              <Image src="/logo-icon.png" alt="SoulScript" fill className="object-contain" sizes="64px" loading="eager" />
+            </div>
           </div>
 
           <h1 className="font-[family-name:var(--font-playfair)] text-2xl font-bold text-text-primary">

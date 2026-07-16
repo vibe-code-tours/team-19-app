@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import MonthlyReport from "./MonthlyReport";
 import type { JournalEntry } from "@/lib/types";
 
@@ -80,7 +81,7 @@ function EntryCard({
       </div>
 
       {/* Entry Content */}
-      <p className="text-[14px] text-text-primary leading-relaxed">
+      <p className="text-sm text-text-primary leading-relaxed">
         {entry.content}
       </p>
 
@@ -90,7 +91,7 @@ function EntryCard({
           {entry.secondary_emotions.map((emotion) => (
             <span
               key={emotion}
-              className="px-2 py-0.5 glass rounded-full text-[11px] font-medium text-text-secondary capitalize"
+              className="px-2 py-0.5 glass rounded-full text-xs font-medium text-text-secondary capitalize"
             >
               {emotion}
             </span>
@@ -223,7 +224,9 @@ export default function MoodCalendar() {
             </svg>
             Journal
           </button>
-          <img src="/logo-horizontal.png" alt="SoulScript" className="h-6" />
+          <div className="relative h-6 w-24">
+            <Image src="/logo-horizontal.png" alt="SoulScript" fill className="object-contain" sizes="96px" />
+          </div>
         </div>
 
         {/* Month Header */}
@@ -435,7 +438,7 @@ export default function MoodCalendar() {
                                   className="flex flex-col items-center gap-1 p-2 rounded-xl hover:bg-white/5 transition-colors"
                                 >
                                   <span className="text-xl">{mood.emoji}</span>
-                                  <span className="text-[10px] text-text-secondary capitalize">
+                                  <span className="text-xs text-text-secondary capitalize">
                                     {mood.name}
                                   </span>
                                 </button>

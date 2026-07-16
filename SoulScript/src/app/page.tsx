@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import EntryList from "@/components/EntryList";
+import Image from "next/image";
 import { useTodayEntries } from "@/hooks/useTodayEntries";
 import { useCreateEntry } from "@/hooks/useCreateEntry";
 import { useDeleteEntry } from "@/hooks/useDeleteEntry";
@@ -191,16 +192,18 @@ export default function DashboardPage() {
         <div className="flex flex-col px-5 pb-8 max-w-lg mx-auto w-full gap-7">
           {/* Logo */}
           <div className="flex justify-center pt-2">
-            <img
+            <Image
               src="/logo-horizontal.png"
               alt="SoulScript"
               className="h-10 w-auto mix-blend-screen"
+              width={160}
+              height={40}
             />
           </div>
 
           {/* Greeting */}
           <div className="space-y-2">
-            <h1 className="font-[family-name:var(--font-playfair)] text-3xl font-bold text-text-primary leading-tight">
+            <h1 className="font-(family-name:--font-playfair) text-3xl font-bold text-text-primary leading-tight">
               {getGreeting()}, {userName}.
             </h1>
             <p className="text-text-secondary text-base">
@@ -219,7 +222,7 @@ export default function DashboardPage() {
             transition={{ duration: 0.5, ease: "easeOut" }}
           >
             <div className="absolute inset-0 mood-glow rounded-2xl" />
-            <div className="relative glass rounded-2xl p-5 min-h-[220px]">
+            <div className="relative glass rounded-2xl p-5 min-h-55">
               <textarea
                 value={content}
                 onChange={(e) => {
@@ -228,7 +231,7 @@ export default function DashboardPage() {
                   }
                 }}
                 placeholder="Write your thoughts here..."
-                className="w-full h-full min-h-[180px] bg-transparent text-text-primary text-[15px] leading-relaxed placeholder:text-text-muted focus:outline-none resize-none"
+                className="w-full h-full min-h-45 bg-transparent text-text-primary text-[15px] leading-relaxed placeholder:text-text-muted focus:outline-none resize-none"
               />
             </div>
           </motion.div>

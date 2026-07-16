@@ -113,7 +113,7 @@ export default function MonthlyReport({
       {/* Stage 1: The Big Picture */}
       <motion.div variants={itemVariants}>
         <div className="glass rounded-2xl p-7 text-center space-y-4">
-          <p className="text-[10px] font-semibold tracking-wider text-accent">
+          <p className="text-xs font-semibold tracking-wider text-accent">
             THE BIG PICTURE
           </p>
           <div className="text-5xl">{emoji}</div>
@@ -130,14 +130,14 @@ export default function MonthlyReport({
       {/* Stage 2: Pattern Recognition */}
       <motion.div variants={itemVariants}>
         <div className="space-y-3">
-          <p className="text-[10px] font-semibold tracking-wider text-accent px-1">
+          <p className="text-xs font-semibold tracking-wider text-accent px-1">
             PATTERN RECOGNITION
           </p>
           <div className="glass rounded-2xl p-5 space-y-4">
             {insights.map((insight, i) => (
               <div key={i} className="flex gap-3.5">
-                <div className="w-[3px] shrink-0 rounded-full bg-accent" />
-                <p className="text-[14px] text-text-primary leading-relaxed">
+                <div className="w-0.5 shrink-0 rounded-full bg-accent" />
+                <p className="text-sm text-text-primary leading-relaxed">
                   {insight}
                 </p>
               </div>
@@ -149,7 +149,7 @@ export default function MonthlyReport({
       {/* Stage 3: Actionable Frameworks */}
       <motion.div variants={itemVariants}>
         <div className="space-y-3">
-          <p className="text-[10px] font-semibold tracking-wider text-accent px-1">
+          <p className="text-xs font-semibold tracking-wider text-accent px-1">
             ACTIONABLE FRAMEWORKS
           </p>
           <div className="space-y-3">

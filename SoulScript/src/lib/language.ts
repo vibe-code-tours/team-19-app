@@ -10,6 +10,7 @@ export function detectLanguage(text: string): "burmese" | "english" {
  */
 export function getSystemPromptLanguage(
   entryText: string,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- part of public API, kept for future use
   userDefault: "burmese" | "english"
 ): "burmese" | "english" {
   const detected = detectLanguage(entryText);

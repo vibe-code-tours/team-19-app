@@ -13,7 +13,7 @@ describe("mood-themes", () => {
     });
 
     it("has valid Tailwind gradient classes", () => {
-      for (const [key, value] of Object.entries(MOOD_THEMES)) {
+      for (const [, value] of Object.entries(MOOD_THEMES)) {
         expect(value).toMatch(/^from-\w+-\d+\/\d+ to-\w+-\d+\/\d+$/);
       }
     });

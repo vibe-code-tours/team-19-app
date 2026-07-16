@@ -4,6 +4,7 @@ import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function SignupPage() {
   const [displayName, setDisplayName] = useState("");
@@ -72,7 +73,9 @@ export default function SignupPage() {
       <div className="w-full max-w-sm space-y-8">
         {/* Brand */}
         <div className="text-center">
-          <img src="/logo-light.png" alt="SoulScript" className="mx-auto h-40" />
+          <div className="relative mx-auto h-40 w-64">
+            <Image src="/logo-light.png" alt="SoulScript" fill className="object-contain" sizes="256px" loading="eager" />
+          </div>
         </div>
 
         {/* Google OAuth */}
