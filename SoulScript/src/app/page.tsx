@@ -4,11 +4,11 @@ import { useState, useEffect, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import EntryList from "@/components/EntryList";
-import Image from "next/image";
+import NavBar from "@/components/NavBar";
 import { useTodayEntries } from "@/hooks/useTodayEntries";
 import { useCreateEntry } from "@/hooks/useCreateEntry";
 import { useDeleteEntry } from "@/hooks/useDeleteEntry";
+import { useDashboardStats } from "@/hooks/useDashboardStats";
 
 const MIN_LENGTH = 10;
 const MAX_LENGTH = 5000;
@@ -39,6 +39,7 @@ export default function DashboardPage() {
     useTodayEntries();
   const createEntry = useCreateEntry();
   const deleteEntry = useDeleteEntry();
+  const { stats } = useDashboardStats();
 
   useEffect(() => {
     async function loadProfile() {
@@ -75,7 +76,6 @@ export default function DashboardPage() {
     return () => clearTimeout(timer);
   }, [toast]);
 
-  // Clear draft when toast expires (entry is permanent)
   useEffect(() => {
     if (!toast && savedDraft) {
       const timer = setTimeout(() => {
@@ -138,80 +138,25 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row">
-      {/* Left panel — textarea */}
-      <div className="md:w-1/2 md:sticky md:top-0 md:h-screen md:overflow-y-auto">
-        {/* Header — nav buttons */}
-        <div className="flex justify-end gap-1 p-5">
-          <button
-            onClick={() => router.push("/calendar")}
-            className="p-2 text-text-secondary hover:text-text-primary transition-colors"
-            title="View Calendar"
-          >
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
-                d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
-              />
-            </svg>
-          </button>
-          <button
-            onClick={() => router.push("/settings")}
-            className="p-2 text-text-secondary hover:text-text-primary transition-colors"
-          >
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
-                d="M10.343 3.94c.09-.542.56-.94 1.11-.94h1.093c.55 0 1.02.398 1.11.94l.149.894c.07.424.384.764.78.93.398.164.855.142 1.205-.108l.737-.527a1.125 1.125 0 011.45.12l.773.774c.39.389.44 1.002.12 1.45l-.527.737c-.25.35-.272.806-.107 1.204.165.397.505.71.93.78l.893.15c.543.09.94.56.94 1.109v1.094c0 .55-.397 1.02-.94 1.11l-.893.149c-.425.07-.765.383-.93.78-.165.398-.143.854.107 1.204l.527.738c.32.447.269 1.06-.12 1.45l-.774.773a1.125 1.125 0 01-1.449.12l-.738-.527c-.35-.25-.806-.272-1.203-.107-.397.165-.71.505-.781.929l-.149.894c-.09.542-.56.94-1.11.94h-1.094c-.55 0-1.019-.398-1.11-.94l-.148-.894c-.071-.424-.384-.764-.781-.93-.398.164-.854-.142-1.204.108l-.738.527c-.447.32-1.06.269-1.45-.12l-.773-.774a1.125 1.125 0 01-.12-1.45l.527-.737c.25-.35.273-.806.108-1.204-.165-.397-.505-.71-.93-.78l-.894-.15c-.542-.09-.94-.56-.94-1.109v-1.094c0-.55.398-1.02.94-1.11l.894-.149c.424-.07.765-.383.93-.78.165-.398.143-.854-.108-1.204l.526-.738a1.125 1.125 0 01.12-1.45l.773-.773a1.125 1.125 0 011.45-.12l.737.527c.35.25.807.272 1.204.107.397-.165.71-.505.78-.929l.15-.894z"
-              />
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
-                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-              />
-            </svg>
-          </button>
-        </div>
+    <div className="min-h-screen flex flex-col">
+      {/* Top Navigation */}
+      <NavBar active="dashboard" />
 
-        {/* Content */}
-        <div className="flex flex-col px-5 pb-8 max-w-lg mx-auto w-full gap-7">
-          {/* Logo */}
-          <div className="flex justify-center pt-2">
-            <Image
-              src="/logo-horizontal.png"
-              alt="SoulScript"
-              className="h-10 w-auto mix-blend-screen"
-              width={160}
-              height={40}
-            />
-          </div>
-
-          {/* Greeting */}
-          <div className="space-y-2">
-            <h1 className="font-(family-name:--font-playfair) text-3xl font-bold text-text-primary leading-tight">
-              {getGreeting()}, {userName}.
+      {/* Content */}
+      <div className="flex-1 px-5 md:px-10 lg:px-20 pb-8 max-w-5xl mx-auto w-full">
+        {/* Mobile / Tablet: single column */}
+        <div className="lg:hidden space-y-7">
+          {/* Hero Greeting */}
+          <div className="space-y-2 pt-2">
+            <h1 className="font-(family-name:--font-playfair) text-[28px] font-bold text-text-primary leading-tight tracking-[-1px]">
+              {getGreeting()}, {userName} ✨
             </h1>
-            <p className="text-text-secondary text-base">
-              How does your soul feel {getGreeting().split(" ")[1]}?
+            <p className="text-text-secondary text-[15px]">
+              Your mind is a universe. Let it out.
             </p>
           </div>
 
-          {/* Textarea with Glow */}
+          {/* Journal Card */}
           <motion.div
             className="relative"
             animate={
@@ -221,109 +166,311 @@ export default function DashboardPage() {
             }
             transition={{ duration: 0.5, ease: "easeOut" }}
           >
-            <div className="absolute inset-0 mood-glow rounded-2xl" />
-            <div className="relative glass rounded-2xl p-5 min-h-55">
-              <textarea
-                value={content}
-                onChange={(e) => {
-                  if (e.target.value.length <= MAX_LENGTH) {
-                    setContent(e.target.value);
-                  }
-                }}
-                placeholder="Write your thoughts here..."
-                className="w-full h-full min-h-45 bg-transparent text-text-primary text-[15px] leading-relaxed placeholder:text-text-muted focus:outline-none resize-none"
-              />
+            <div className="glass rounded-[20px] p-4 space-y-3.5 shadow-[0_1px_2px_rgba(255,255,255,0.03)_inset]">
+              <div className="flex items-center justify-between">
+                <h2 className="text-sm font-semibold text-text-primary">Today&apos;s Journal</h2>
+                <span className="text-xs text-text-muted">
+                  {new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}
+                </span>
+              </div>
+              <div className="bg-white/[0.025] border border-white/[0.05] rounded-xl p-3 min-h-[160px]">
+                <textarea
+                  value={content}
+                  onChange={(e) => {
+                    if (e.target.value.length <= MAX_LENGTH) {
+                      setContent(e.target.value);
+                    }
+                  }}
+                  placeholder="What's on your mind today? Write freely — your thoughts are encrypted and safe."
+                  className="w-full h-full min-h-[140px] bg-transparent text-text-primary text-[15px] leading-relaxed placeholder:text-text-muted focus:outline-none resize-none"
+                />
+              </div>
+              <div className="flex justify-end">
+                <span className={`text-xs ${isOverMax ? "text-red-400" : isOverWarn ? "text-amber-400" : "text-text-muted"}`}>
+                  {charCount} / {MAX_LENGTH}
+                </span>
+              </div>
+              {error && (
+                <div className="rounded-xl p-3 text-center bg-red-500/10 border border-red-500/20">
+                  <p className="text-sm text-red-400">{error}</p>
+                  <button onClick={() => setError("")} className="text-xs text-accent mt-1 hover:underline">Dismiss</button>
+                </div>
+              )}
+              <div className="flex justify-center">
+                <button
+                  onClick={handleSubmit}
+                  disabled={!canSubmit}
+                  className="flex items-center gap-2.5 px-8 py-3.5 bg-cta text-white font-semibold rounded-full shadow-[0_4px_16px_rgba(217,119,6,0.35)] hover:bg-cta-glow transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed"
+                >
+                  {createEntry.isPending ? (
+                    <>
+                      <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                      </svg>
+                      Releasing...
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+                      </svg>
+                      Release to SoulScript ✨
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
           </motion.div>
 
-          {/* Character Counter */}
-          <div className="flex justify-end">
-            <span
-              className={`text-xs ${
-                isOverMax
-                  ? "text-red-400"
-                  : isOverWarn
-                    ? "text-amber-400"
-                    : "text-text-muted"
-              }`}
-            >
-              {charCount} / {MAX_LENGTH}
-            </span>
-          </div>
-
-          {/* Error */}
-          {error && (
-            <div className="glass rounded-xl p-4 text-center">
-              <p className="text-sm text-red-400">{error}</p>
-              <button
-                onClick={() => setError("")}
-                className="text-xs text-accent mt-2 hover:underline"
-              >
-                Dismiss
-              </button>
-            </div>
+          {!entriesLoading && todayEntries.length === 0 && (
+            <p className="text-xs text-text-muted text-center">
+              No entries yet today — your thoughts are safe here, encrypted &amp; private.
+            </p>
           )}
 
-          {/* Submit Button */}
-          <div className="flex justify-center">
-            <button
-              onClick={handleSubmit}
-              disabled={!canSubmit}
-              className="flex items-center gap-2.5 px-8 py-3.5 bg-accent text-white font-semibold rounded-full hover:bg-accent-glow transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed"
-            >
-              {createEntry.isPending ? (
-                <>
-                  <svg
-                    className="w-4 h-4 animate-spin"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    />
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                    />
-                  </svg>
-                  Releasing...
-                </>
-              ) : (
-                <>
-                  <svg
-                    className="w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
-                    />
-                  </svg>
-                  Release to Calendar
-                </>
-              )}
-            </button>
+          {/* Stat Cards */}
+          <div className="grid grid-cols-3 gap-2">
+            <div className="glass rounded-[14px] p-3 text-center space-y-1.5 shadow-[0_1px_3px_rgba(255,255,255,0.04)_inset]">
+              <svg className="w-4 h-4 mx-auto text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z" />
+              </svg>
+              <p className="text-[11px] text-text-muted">Current Streak</p>
+              <p className="text-lg font-bold text-text-primary">
+                {stats.streak} day{stats.streak !== 1 ? "s" : ""}
+              </p>
+            </div>
+            <div className="glass rounded-[14px] p-3 text-center space-y-1.5 shadow-[0_1px_3px_rgba(255,255,255,0.04)_inset]">
+              <svg className="w-4 h-4 mx-auto text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+              </svg>
+              <p className="text-[11px] text-text-muted">This Month</p>
+              <p className="text-lg font-bold text-text-primary">
+                {stats.monthEntryCount} entries
+              </p>
+            </div>
+            <div className="glass rounded-[14px] p-3 text-center space-y-1.5 shadow-[0_1px_3px_rgba(255,255,255,0.04)_inset]">
+              <span className="text-lg">{stats.lastMood?.emoji || "💭"}</span>
+              <p className="text-[11px] text-text-muted">Last Mood</p>
+              <p className="text-sm font-semibold text-text-primary capitalize">
+                {stats.lastMood?.emotion || "—"}
+              </p>
+            </div>
+          </div>
+
+          {/* AI Insight Preview */}
+          <div className="glass rounded-[20px] p-4 space-y-3.5 shadow-[0_1px_3px_rgba(255,255,255,0.04)_inset]">
+            <div className="flex items-start gap-3.5">
+              <div className="w-14 h-14 rounded-[28px] bg-gradient-to-br from-accent/40 via-accent/15 to-transparent shadow-[0_0_20px_rgba(124,92,252,0.3)] flex items-center justify-center shrink-0">
+                <span className="text-2xl">✨</span>
+              </div>
+              <div className="space-y-1.5">
+                <p className="text-xs font-semibold tracking-wider text-accent">AI INSIGHT PREVIEW</p>
+                <p className="text-sm text-text-primary leading-relaxed">
+                  Your emotions are trending toward clarity this week. Mindfulness will help maintain your focus.
+                </p>
+                <button onClick={() => router.push("/report")} className="text-xs font-medium text-accent hover:underline">
+                  View Insights →
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Mood Calendar Preview */}
+          <div className="glass rounded-[20px] p-4 space-y-3.5 shadow-[0_1px_3px_rgba(255,255,255,0.04)_inset]">
+            <div className="space-y-1">
+              <p className="text-xs font-semibold tracking-wider text-accent">YOUR MOOD CALENDAR</p>
+              <p className="text-xs text-text-muted">Last 7 days — see your emotions at a glance</p>
+            </div>
+            <div className="flex items-center justify-between">
+              {stats.last7Days.map((day) => (
+                <div key={day.dayLabel + day.isToday} className="flex flex-col items-center gap-1.5">
+                  <span className="text-[10px] text-text-muted">{day.dayLabel}</span>
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                    day.emoji ? "glass" : day.isToday ? "ring-1 ring-accent/50" : "border border-dashed border-glass-border"
+                  }`}>
+                    {day.emoji && <span className="text-xs">{day.emoji}</span>}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="flex justify-center">
+              <button onClick={() => router.push("/calendar")} className="text-xs font-medium text-accent hover:underline">
+                View Calendar →
+              </button>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Right panel — entry list */}
-      <div className="md:w-1/2 md:h-screen md:overflow-y-auto border-l border-white/5">
-        <div className="max-w-md mx-auto px-5 py-8 space-y-4">
-          <h2 className="text-lg font-semibold text-text-primary">
-            Today&apos;s Entries
-          </h2>
-          <EntryList entries={todayEntries} isLoading={entriesLoading} />
+        {/* Desktop: two-column layout */}
+        <div className="hidden lg:block pt-2">
+          {/* Hero Greeting */}
+          <div className="space-y-2 mb-6">
+            <h1 className="font-(family-name:--font-playfair) text-[28px] font-bold text-text-primary leading-tight tracking-[-1px]">
+              {getGreeting()}, {userName} ✨
+            </h1>
+            <p className="text-text-secondary text-[15px]">
+              Your mind is a universe. Let it out.
+            </p>
+          </div>
+
+          <div className="flex gap-8">
+            {/* Left: Journal */}
+            <div className="flex-1 min-w-0">
+              <motion.div
+                className="relative"
+                animate={
+                  justSubmitted
+                    ? { y: -20, opacity: 0, scale: 0.98 }
+                    : { y: 0, opacity: 1, scale: 1 }
+                }
+                transition={{ duration: 0.5, ease: "easeOut" }}
+              >
+                <div className="glass rounded-[20px] p-5 space-y-4 shadow-[0_1px_2px_rgba(255,255,255,0.03)_inset]">
+                  <div className="flex items-center justify-between">
+                    <h2 className="text-sm font-semibold text-text-primary">Today&apos;s Journal</h2>
+                    <span className="text-xs text-text-muted">
+                      {new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}
+                    </span>
+                  </div>
+                  <div className="bg-white/[0.025] border border-white/[0.05] rounded-xl p-3 min-h-[240px]">
+                    <textarea
+                      value={content}
+                      onChange={(e) => {
+                        if (e.target.value.length <= MAX_LENGTH) {
+                          setContent(e.target.value);
+                        }
+                      }}
+                      placeholder="What's on your mind today? Write freely — your thoughts are encrypted and safe."
+                      className="w-full h-full min-h-[220px] bg-transparent text-text-primary text-[15px] leading-relaxed placeholder:text-text-muted focus:outline-none resize-none"
+                    />
+                  </div>
+                  <div className="flex justify-end">
+                    <span className={`text-xs ${isOverMax ? "text-red-400" : isOverWarn ? "text-amber-400" : "text-text-muted"}`}>
+                      {charCount} / {MAX_LENGTH}
+                    </span>
+                  </div>
+                  {error && (
+                    <div className="rounded-xl p-3 text-center bg-red-500/10 border border-red-500/20">
+                      <p className="text-sm text-red-400">{error}</p>
+                      <button onClick={() => setError("")} className="text-xs text-accent mt-1 hover:underline">Dismiss</button>
+                    </div>
+                  )}
+                  <div className="flex justify-center">
+                    <button
+                      onClick={handleSubmit}
+                      disabled={!canSubmit}
+                      className="flex items-center gap-2.5 px-8 py-3.5 bg-cta text-white font-semibold rounded-full shadow-[0_4px_16px_rgba(217,119,6,0.35)] hover:bg-cta-glow transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed"
+                    >
+                      {createEntry.isPending ? (
+                        <>
+                          <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                          </svg>
+                          Releasing...
+                        </>
+                      ) : (
+                        <>
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+                          </svg>
+                          Release to SoulScript ✨
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+
+              {!entriesLoading && todayEntries.length === 0 && (
+                <p className="text-xs text-text-muted text-center mt-3">
+                  No entries yet today — your thoughts are safe here, encrypted &amp; private.
+                </p>
+              )}
+            </div>
+
+            {/* Right: Stats + Insight + Calendar */}
+            <div className="w-[340px] shrink-0 space-y-5">
+              {/* Stat Cards — stacked vertically on desktop */}
+              <div className="space-y-3">
+                <div className="glass rounded-[14px] p-4 flex items-center gap-3 shadow-[0_1px_3px_rgba(255,255,255,0.04)_inset]">
+                  <svg className="w-5 h-5 text-accent shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z" />
+                  </svg>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[11px] text-text-muted">Current Streak</p>
+                    <p className="text-lg font-bold text-text-primary">
+                      {stats.streak} day{stats.streak !== 1 ? "s" : ""}
+                    </p>
+                  </div>
+                </div>
+                <div className="glass rounded-[14px] p-4 flex items-center gap-3 shadow-[0_1px_3px_rgba(255,255,255,0.04)_inset]">
+                  <svg className="w-5 h-5 text-accent shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+                  </svg>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[11px] text-text-muted">This Month</p>
+                    <p className="text-lg font-bold text-text-primary">
+                      {stats.monthEntryCount} entries
+                    </p>
+                  </div>
+                </div>
+                <div className="glass rounded-[14px] p-4 flex items-center gap-3 shadow-[0_1px_3px_rgba(255,255,255,0.04)_inset]">
+                  <span className="text-xl shrink-0">{stats.lastMood?.emoji || "💭"}</span>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[11px] text-text-muted">Last Mood</p>
+                    <p className="text-sm font-semibold text-text-primary capitalize">
+                      {stats.lastMood?.emotion || "—"}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* AI Insight Preview */}
+              <div className="glass rounded-[20px] p-4 space-y-3 shadow-[0_1px_3px_rgba(255,255,255,0.04)_inset]">
+                <div className="flex items-start gap-3">
+                  <div className="w-11 h-11 rounded-full bg-gradient-to-br from-accent/40 via-accent/15 to-transparent shadow-[0_0_16px_rgba(124,92,252,0.3)] flex items-center justify-center shrink-0">
+                    <span className="text-lg">✨</span>
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-[11px] font-semibold tracking-wider text-accent">AI INSIGHT PREVIEW</p>
+                    <p className="text-[13px] text-text-primary leading-relaxed">
+                      Your emotions are trending toward clarity this week. Mindfulness will help maintain your focus.
+                    </p>
+                    <button onClick={() => router.push("/report")} className="text-xs font-medium text-accent hover:underline">
+                      View Insights →
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Mood Calendar Preview */}
+              <div className="glass rounded-[20px] p-4 space-y-3 shadow-[0_1px_3px_rgba(255,255,255,0.04)_inset]">
+                <div className="space-y-1">
+                  <p className="text-[11px] font-semibold tracking-wider text-accent">YOUR MOOD CALENDAR</p>
+                  <p className="text-[11px] text-text-muted">Last 7 days</p>
+                </div>
+                <div className="flex items-center justify-between">
+                  {stats.last7Days.map((day) => (
+                    <div key={day.dayLabel + day.isToday} className="flex flex-col items-center gap-1.5">
+                      <span className="text-[10px] text-text-muted">{day.dayLabel}</span>
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                        day.emoji ? "glass" : day.isToday ? "ring-1 ring-accent/50" : "border border-dashed border-glass-border"
+                      }`}>
+                        {day.emoji && <span className="text-xs">{day.emoji}</span>}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex justify-center">
+                  <button onClick={() => router.push("/calendar")} className="text-xs font-medium text-accent hover:underline">
+                    View Calendar →
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -334,7 +481,7 @@ export default function DashboardPage() {
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 100, opacity: 0 }}
-            className="fixed bottom-6 left-4 right-4 mx-auto max-w-sm glass-strong rounded-xl p-4 flex items-center justify-between"
+            className="fixed bottom-6 left-4 right-4 mx-auto max-w-sm glass-strong rounded-xl p-4 flex items-center justify-between z-50"
           >
             <div className="flex items-center gap-2">
               <span className="text-green-400 text-sm">✓</span>

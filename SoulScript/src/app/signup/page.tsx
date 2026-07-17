@@ -4,7 +4,6 @@ import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 
 export default function SignupPage() {
   const [displayName, setDisplayName] = useState("");
@@ -69,19 +68,26 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6">
-      <div className="w-full max-w-sm space-y-8">
-        {/* Brand */}
-        <div className="text-center">
-          <div className="relative mx-auto h-40 w-64">
-            <Image src="/logo-light.png" alt="SoulScript" fill className="object-contain" sizes="256px" loading="eager" />
-          </div>
+    <div className="min-h-screen flex items-center justify-center p-6 relative overflow-hidden">
+      {/* Decorative streak elements */}
+      <div className="streak w-[300px] h-[3px] top-[180px] left-[40px] bg-gradient-to-r from-transparent via-accent/50 to-transparent" style={{ filter: "blur(25px)" }} />
+      <div className="streak w-[260px] h-[3px] top-[420px] -left-[10px] bg-gradient-to-r from-transparent via-fuchsia-500/40 to-transparent" style={{ filter: "blur(20px)" }} />
+
+      <div className="w-full max-w-sm space-y-8 relative z-10">
+        {/* Brand — text-based */}
+        <div className="text-center space-y-2">
+          <h1 className="font-(family-name:--font-playfair) text-[32px] font-bold text-text-primary tracking-tight">
+            SoulScript
+          </h1>
+          <p className="text-text-secondary text-[13px] tracking-wide">
+            Your digital sanctuary for reflection
+          </p>
         </div>
 
         {/* Google OAuth */}
         <button
           onClick={handleGoogleSignup}
-          className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-white text-gray-900 font-medium rounded-xl hover:bg-gray-100 transition-colors"
+          className="w-full flex items-center justify-center gap-3 px-4 py-[14px] bg-white text-gray-900 font-medium rounded-xl hover:bg-gray-100 transition-colors shadow-[0_2px_8px_rgba(0,0,0,0.12),0_1px_2px_rgba(255,255,255,0.4)_inset]"
         >
           <svg className="w-5 h-5" viewBox="0 0 24 24">
             <path
@@ -109,8 +115,8 @@ export default function SignupPage() {
           <div className="absolute inset-0 flex items-center">
             <div className="w-full border-t border-glass-border" />
           </div>
-          <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-background px-2 text-text-muted">
+          <div className="relative flex justify-center">
+            <span className="bg-background px-3 text-text-muted text-[11px] font-(family-name:--font-geist-mono) uppercase tracking-[0.8px]">
               or sign up with email
             </span>
           </div>
@@ -118,7 +124,7 @@ export default function SignupPage() {
 
         {/* Email Form */}
         <form onSubmit={handleEmailSignup} className="space-y-4">
-          <div className="glass rounded-xl p-5 space-y-4">
+          <div className="glass rounded-2xl p-6 space-y-4 shadow-[0_1px_2px_rgba(255,255,255,0.02)_inset]">
             <div className="space-y-1.5">
               <label className="text-xs font-medium text-text-secondary">
                 Display Name
@@ -128,47 +134,62 @@ export default function SignupPage() {
                 value={displayName}
                 onChange={(e) => setDisplayName(e.target.value)}
                 placeholder="Your name"
-                className="w-full px-3 py-2.5 bg-glass border border-glass-border rounded-lg text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-1 focus:ring-accent"
+                className="w-full px-3 py-2.5 bg-white/4 border border-glass-border rounded-lg text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-1 focus:ring-accent"
               />
             </div>
             <div className="space-y-1.5">
               <label className="text-xs font-medium text-text-secondary">
                 Email
               </label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@example.com"
-                required
-                className="w-full px-3 py-2.5 bg-glass border border-glass-border rounded-lg text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-1 focus:ring-accent"
-              />
+              <div className="relative">
+                <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                </svg>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="you@example.com"
+                  required
+                  className="w-full pl-10 pr-3 py-2.5 bg-white/4 border border-glass-border rounded-lg text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-1 focus:ring-accent"
+                />
+              </div>
             </div>
             <div className="space-y-1.5">
               <label className="text-xs font-medium text-text-secondary">
                 Password
               </label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                required
-                className="w-full px-3 py-2.5 bg-glass border border-glass-border rounded-lg text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-1 focus:ring-accent"
-              />
+              <div className="relative">
+                <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+                </svg>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  required
+                  className="w-full pl-10 pr-3 py-2.5 bg-white/4 border border-glass-border rounded-lg text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-1 focus:ring-accent"
+                />
+              </div>
             </div>
             <div className="space-y-1.5">
               <label className="text-xs font-medium text-text-secondary">
                 Confirm Password
               </label>
-              <input
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="••••••••"
-                required
-                className="w-full px-3 py-2.5 bg-glass border border-glass-border rounded-lg text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-1 focus:ring-accent"
-              />
+              <div className="relative">
+                <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+                </svg>
+                <input
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder="••••••••"
+                  required
+                  className="w-full pl-10 pr-3 py-2.5 bg-white/4 border border-glass-border rounded-lg text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-1 focus:ring-accent"
+                />
+              </div>
             </div>
           </div>
 
@@ -179,14 +200,14 @@ export default function SignupPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 bg-accent text-white font-semibold rounded-xl hover:bg-accent-glow transition-colors disabled:opacity-50"
+            className="w-full py-3.5 bg-gradient-to-b from-accent to-accent-glow text-white font-semibold rounded-xl shadow-[0_4px_16px_rgba(88,44,255,0.35),0_1px_2px_rgba(124,92,252,0.5)_inset] hover:shadow-[0_6px_24px_rgba(88,44,255,0.45)] transition-all disabled:opacity-50"
           >
             {loading ? "Creating account..." : "Create Account"}
           </button>
         </form>
 
         {/* Login Link */}
-        <p className="text-center text-sm text-text-secondary">
+        <p className="text-center text-[13px] text-text-secondary">
           Already have an account?{" "}
           <Link href="/login" className="font-semibold text-accent hover:underline">
             Sign in

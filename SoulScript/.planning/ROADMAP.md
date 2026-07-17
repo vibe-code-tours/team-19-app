@@ -189,3 +189,30 @@ Plans:
 **Wave 2** *(blocked on Wave 1 completion)*
 
 - [x] 11-02-PLAN.md — EntryCard, EntryList components, dashboard responsive layout + hook integration
+
+## Phase 12: Report Page Dynamic Stats
+
+**Goal:** Replace all hardcoded stats on the report page with real data calculated from the database
+**Mode:** mvp
+**Requirements:** R7, R8
+
+**Plans:** 2 plans
+
+**Success Criteria:**
+
+1. Report page fetches entry count, days journaled, and mood distribution from DB
+2. Mood distribution percentages calculated from actual journal entries
+3. Pattern insights and recommendations come from AI-generated report data
+4. Streak stats (current and best) derived from real entry timestamps
+5. When <10 entries, partial stats show but AI sections are hidden
+6. `npm run build` + `npm run test` pass
+
+Plans:
+
+**Wave 1**
+
+- [x] 12-01-PLAN.md — Stats computation utilities + GET /api/report endpoint + API tests
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [ ] 12-02-PLAN.md — useReport hook + report page refactor with dynamic data + hook tests

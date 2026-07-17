@@ -117,7 +117,7 @@ export default function MonthlyReport({
             THE BIG PICTURE
           </p>
           <div className="text-5xl">{emoji}</div>
-          <h3 className="font-[family-name:var(--font-playfair)] text-2xl font-bold text-text-primary capitalize">
+          <h3 className="font-(family-name:--font-playfair) text-2xl font-bold text-text-primary capitalize">
             {report.dominant_mood}
           </h3>
           <p className="text-sm text-text-secondary leading-relaxed max-w-xs mx-auto">
@@ -172,7 +172,7 @@ export default function MonthlyReport({
                     </svg>
                   </div>
                   <div className="space-y-1">
-                    <h4 className="font-[family-name:var(--font-playfair)] text-base font-semibold text-text-primary">
+                    <h4 className="font-(family-name:--font-playfair) text-base font-semibold text-text-primary">
                       {rec.title}
                     </h4>
                     {rec.description && (
