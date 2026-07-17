@@ -75,19 +75,28 @@ export default function CalendarGrid({
           </svg>
         </button>
 
-        <div className="flex items-center gap-1.5">
-          <h2 className="font-[family-name:var(--font-heading)] text-xl font-bold text-text-primary tracking-tight">
-            {MONTHS[month]} {year}
-          </h2>
-        </div>
+        <h2 className="font-[family-name:var(--font-heading)] text-xl font-bold text-text-primary tracking-tight text-center">
+          {MONTHS[month]} {year}
+        </h2>
 
-        <button
-          onClick={onGoToToday}
-          className="flex items-center gap-1 px-3.5 py-1.5 rounded-full bg-white/[0.05] border border-white/[0.08] text-xs font-medium text-text-primary hover:bg-white/[0.08] transition-colors"
-        >
-          <span className="w-2 h-2 rounded-full bg-accent" />
-          Today
-        </button>
+        <div className="flex items-center gap-1.5">
+          <button
+            onClick={onNextMonth}
+            className="w-8 h-8 rounded-16 bg-white/[0.05] flex items-center justify-center text-text-secondary hover:text-text-primary transition-colors"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+
+          <button
+            onClick={onGoToToday}
+            className="flex items-center gap-1 px-3.5 py-1.5 rounded-full bg-white/[0.05] border border-white/[0.08] text-xs font-medium text-text-primary hover:bg-white/[0.08] transition-colors"
+          >
+            <span className="w-2 h-2 rounded-full bg-accent" />
+            Today
+          </button>
+        </div>
       </div>
 
       {/* Weekday Header */}

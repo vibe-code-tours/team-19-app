@@ -8,7 +8,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import NavBar from "@/components/NavBar";
 import { useReport } from "@/hooks/useReport";
 import { MOOD_EMOJIS } from "@/lib/mood-themes";
-import { Sparkles, Shield, TrendingUp, Brain, Heart, ArrowRight, BarChart, Loader2, Download } from "lucide-react";
+import { Sparkles, Shield, TrendingUp, Brain, Heart, ArrowLeft, BarChart, Loader2, Download } from "lucide-react";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -313,8 +313,9 @@ function ReportContent() {
     <div className="min-h-screen flex flex-col">
       <NavBar active="report" />
 
-      <div className="flex-1 px-5 md:px-10 lg:px-20 pb-10 max-w-4xl mx-auto w-full">
-        <div ref={reportRef}>
+      <div className="flex-1 px-5 md:px-10 lg:px-10 pb-10 max-w-4xl mx-auto w-full">
+        <div ref={reportRef} className="p-6 md:p-10 rounded-2xl">
+          <div className="bg-[#0f0a1f] rounded-2xl p-6 md:p-8">
         <motion.div
           className="space-y-7"
           variants={containerVariants}
@@ -544,35 +545,36 @@ function ReportContent() {
               </p>
             </div>
           </motion.div>
-
-          {/* Report Actions */}
-          <motion.div variants={itemVariants} className="space-y-3 pt-2">
-            <button
-              onClick={handleSavePng}
-              disabled={saving}
-              className="w-full py-3.5 bg-gradient-to-b from-accent to-accent-glow text-white font-semibold rounded-full shadow-[0_4px_16px_rgba(88,44,255,0.35)] hover:shadow-[0_6px_24px_rgba(88,44,255,0.45)] transition-all flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
-            >
-              {saving ? (
-                <>
-                  <Loader2 size={16} className="animate-spin" />
-                  Saving...
-                </>
-              ) : (
-                <>
-                  <Download size={16} />
-                  Save Reflection
-                </>
-              )}
-            </button>
-            <button
-              onClick={() => router.push("/calendar")}
-              className="w-full py-3 glass rounded-full text-sm font-medium text-text-secondary hover:text-text-primary border border-glass-border transition-colors flex items-center justify-center gap-2"
-            >
-              Back to Calendar
-              <ArrowRight size={14} />
-            </button>
-          </motion.div>
         </motion.div>
+          </div>
+        </div>
+
+        {/* Report Actions — outside export wrapper so they are excluded from the PNG */}
+        <div className="space-y-3 pt-2">
+          <button
+            onClick={handleSavePng}
+            disabled={saving}
+            className="w-full h-12 px-6 bg-accent/90 hover:bg-accent text-white text-sm font-semibold rounded-full shadow-[0_2px_8px_rgba(124,92,252,0.2)] hover:scale-105 hover:shadow-[0_6px_24px_rgba(124,92,252,0.45)] transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+          >
+            {saving ? (
+              <>
+                <Loader2 size={14} className="animate-spin" />
+                <span>Saving reflection...</span>
+              </>
+            ) : (
+              <>
+                <Download size={14} />
+                <span>Save Reflection</span>
+              </>
+            )}
+          </button>
+          <button
+            onClick={() => router.push("/calendar")}
+            className="w-full py-3 glass rounded-full text-sm font-medium text-text-secondary hover:text-text-primary border border-glass-border hover:scale-105 hover:shadow-[0_6px_24px_rgba(124,92,252,0.45)] transition-all duration-300 flex items-center justify-center gap-2"
+          >
+            <ArrowLeft size={14} />
+            Back to Calendar
+          </button>
         </div>
       </div>
     </div>
