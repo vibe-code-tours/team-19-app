@@ -19,6 +19,9 @@ export default function SettingsPage() {
   const [deleteConfirm, setDeleteConfirm] = useState("");
   const [deleting, setDeleting] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [showEditNameModal, setShowEditNameModal] = useState(false);
+  const [editName, setEditName] = useState("");
+  const [savingName, setSavingName] = useState(false);
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const router = useRouter();
@@ -64,6 +67,21 @@ export default function SettingsPage() {
   async function handleLogout() {
     await supabase.auth.signOut();
     router.push("/login");
+  }
+
+  async function handleSaveName() {
+    if (!editName.trim()) return;
+    setSavingName(true);
+    const res = await fetch("/api/profile", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ display_name: editName.trim() }),
+    });
+    if (res.ok) {
+      setProfile((prev) => prev ? { ...prev, display_name: editName.trim() } : prev);
+      setShowEditNameModal(false);
+    }
+    setSavingName(false);
   }
 
   const initials = profile?.display_name
@@ -121,12 +139,23 @@ export default function SettingsPage() {
                 </span>
               </div>
             )}
-            <div>
+            <div className="flex-1 min-w-0">
               <p className="font-medium text-text-primary text-base">
                 {profile?.display_name || "User"}
               </p>
               <p className="text-sm text-text-secondary">{email}</p>
             </div>
+            <button
+              onClick={() => {
+                setEditName(profile?.display_name || "");
+                setShowEditNameModal(true);
+              }}
+              className="w-9 h-9 shrink-0 rounded-full bg-white/[0.03] border border-white/[0.07] flex items-center justify-center hover:bg-white/[0.08] transition-colors"
+            >
+              <svg className="w-4 h-4 text-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+              </svg>
+            </button>
           </div>
         </div>
 
@@ -338,6 +367,54 @@ export default function SettingsPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                   </svg>
                   Log Out
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Edit Name Modal */}
+      <AnimatePresence>
+        {showEditNameModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            onClick={() => setShowEditNameModal(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="glass rounded-2xl p-6 w-full max-w-sm space-y-5"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h3 className="font-(family-name:--font-playfair) text-lg font-bold text-text-primary text-center">
+                Edit Display Name
+              </h3>
+              <input
+                type="text"
+                value={editName}
+                onChange={(e) => setEditName(e.target.value)}
+                placeholder="Your name"
+                maxLength={30}
+                className="w-full px-3 py-2.5 bg-white/4 border border-glass-border rounded-lg text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-1 focus:ring-accent text-center"
+              />
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setShowEditNameModal(false)}
+                  className="flex-1 py-2.5 glass rounded-xl text-sm font-medium text-text-secondary hover:text-text-primary"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleSaveName}
+                  disabled={!editName.trim() || savingName}
+                  className="flex-1 py-2.5 bg-gradient-to-b from-accent to-accent-glow text-white rounded-xl text-sm font-semibold disabled:opacity-40 disabled:cursor-not-allowed hover:shadow-[0_6px_24px_rgba(88,44,255,0.45)] transition-all"
+                >
+                  {savingName ? "Saving..." : "Save"}
                 </button>
               </div>
             </motion.div>
