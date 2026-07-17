@@ -2,6 +2,11 @@ import { createClient } from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
 import { decrypt } from "@/lib/encryption";
 import { callAIForReport } from "@/lib/ai";
+import {
+  computeMoodDistribution,
+  computeDaysJournaled,
+  computeStreak,
+} from "@/lib/report-stats";
 
 export async function POST(request: Request) {
   try {
@@ -85,6 +90,85 @@ export async function POST(request: Request) {
     console.error("Report error:", error);
     return NextResponse.json(
       { error: "Failed to generate report" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function GET(request: Request) {
+  try {
+    const supabase = await createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const { searchParams } = new URL(request.url);
+    const month = searchParams.get("month");
+
+    if (!month || !/^\d{4}-\d{2}$/.test(month)) {
+      return NextResponse.json(
+        { error: "Invalid month format. Use YYYY-MM" },
+        { status: 400 }
+      );
+    }
+
+    const [year, monthNum] = month.split("-").map(Number);
+    const startDate = new Date(year, monthNum - 1, 1).toISOString();
+    const endDate = new Date(year, monthNum, 1).toISOString();
+
+    // Fetch entries for stats (no content needed)
+    const { data: entries, error: entriesError } = await supabase
+      .from("journal_entries")
+      .select("primary_emotion, emoji, created_at, secondary_emotions")
+      .eq("user_id", user.id)
+      .gte("created_at", startDate)
+      .lt("created_at", endDate)
+      .is("deleted_at", null);
+
+    if (entriesError) throw entriesError;
+
+    // Fetch existing AI report (may be null)
+    const { data: report, error: reportError } = await supabase
+      .from("monthly_reports")
+      .select(
+        "summary_overview, dominant_mood, pattern_insights, actionable_recommendations"
+      )
+      .eq("user_id", user.id)
+      .eq("month_year", month)
+      .single();
+
+    // Ignore "not found" errors for report (PGRST116 = no rows)
+    if (reportError && reportError.code !== "PGRST116") throw reportError;
+
+    const entryCount = entries?.length || 0;
+    const moodDistribution = computeMoodDistribution(entries || []);
+    const daysJournaled = computeDaysJournaled(entries || []);
+    const streak = computeStreak(entries || []);
+
+    return NextResponse.json({
+      stats: {
+        entryCount,
+        daysJournaled,
+        moodDistribution,
+        streak,
+      },
+      report: report
+        ? {
+            summary: report.summary_overview,
+            dominantMood: report.dominant_mood,
+            insights: report.pattern_insights,
+            recommendations: report.actionable_recommendations,
+          }
+        : null,
+    });
+  } catch (error) {
+    console.error("Report fetch error:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch report" },
       { status: 500 }
     );
   }
