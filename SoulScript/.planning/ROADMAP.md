@@ -211,7 +211,7 @@ Plans:
 
 **Wave 1**
 
-- [ ] 12-01-PLAN.md — Stats computation utilities + GET /api/report endpoint + API tests
+- [x] 12-01-PLAN.md — Stats computation utilities + GET /api/report endpoint + API tests
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
