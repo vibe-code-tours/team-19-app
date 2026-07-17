@@ -1,12 +1,14 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useRef, useCallback, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
+import { toPng } from "html-to-image";
+import { useQueryClient } from "@tanstack/react-query";
 import NavBar from "@/components/NavBar";
 import { useReport } from "@/hooks/useReport";
 import { MOOD_EMOJIS } from "@/lib/mood-themes";
-import { Sparkles, Shield, TrendingUp, Brain, Heart, ArrowRight } from "lucide-react";
+import { Sparkles, Shield, TrendingUp, Brain, Heart, ArrowRight, BarChart, Loader2, Download } from "lucide-react";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -123,19 +125,116 @@ function ReportContent() {
   const searchParams = useSearchParams();
   const month =
     searchParams.get("month") || new Date().toISOString().slice(0, 7);
+  const reportRef = useRef<HTMLDivElement>(null);
+  const generatedRef = useRef(false);
+  const queryClient = useQueryClient();
 
   const { data, isLoading, error } = useReport(month);
   const stats = data?.stats;
   const report = data?.report;
 
+  const [generating, setGenerating] = useState(false);
+  const [saving, setSaving] = useState(false);
+
   const hasEnoughEntries = (stats?.entryCount ?? 0) >= 10;
+
+  // Auto-generate report on load — fire POST silently (no spinner)
+  // Server returns cached:true if no new entries; only shows spinner for fresh generation
+  useEffect(() => {
+    if (isLoading || !hasEnoughEntries || generatedRef.current) return;
+    generatedRef.current = true;
+
+    let cancelled = false;
+    async function generate() {
+      try {
+        const res = await fetch("/api/report", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ month }),
+        });
+        if (!res.ok || cancelled) return;
+
+        const body = await res.json();
+        const raw = body.report;
+
+        if (!body.cached) {
+          // Fresh report — show spinner until data arrives
+          if (!cancelled) setGenerating(true);
+        }
+
+        // Write to cache (works for both cached and fresh)
+        if (raw) {
+          queryClient.setQueryData(["report", month], (old: any) => ({
+            stats: old?.stats ?? stats,
+            report: {
+              summary: raw.summary_overview,
+              dominantMood: raw.dominant_mood,
+              insights: raw.pattern_insights,
+              recommendations: raw.actionable_recommendations,
+            },
+          }));
+        }
+      } catch (err) {
+        console.error("Failed to generate report:", err);
+      }
+    }
+    generate();
+    return () => { cancelled = true; };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Dismiss generating spinner once report data arrives
+  useEffect(() => {
+    if (generating && data?.report) {
+      setGenerating(false);
+    }
+  }, [generating, data?.report]);
+
+  // Save report as PNG
+  const handleSavePng = useCallback(async () => {
+    if (!reportRef.current || saving) return;
+    setSaving(true);
+    try {
+      const dataUrl = await toPng(reportRef.current, {
+        backgroundColor: "#0f0a1f",
+        pixelRatio: 2,
+      });
+      const link = document.createElement("a");
+      link.download = `soulscript-reflection-${month}.png`;
+      link.href = dataUrl;
+      link.click();
+    } catch (err) {
+      console.error("Failed to save PNG:", err);
+    } finally {
+      setSaving(false);
+    }
+  }, [month, saving]);
+
+  // Generating state (auto-generating report)
+  if (generating) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <NavBar active="report" />
+        <div className="flex-1 px-5 md:px-10 lg:px-20 pb-10 max-w-4xl mx-auto w-full flex items-center justify-center">
+          <div className="glass rounded-2xl p-8 text-center space-y-4">
+            <Loader2 size={32} className="text-accent animate-spin mx-auto" />
+            <h2 className="font-(family-name:--font-playfair) text-lg font-bold text-text-primary">
+              Generating your reflection...
+            </h2>
+            <p className="text-sm text-text-secondary">
+              AI is analyzing your journal entries. This may take a moment.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   // Loading skeleton
   if (isLoading) {
     return (
       <div className="min-h-screen flex flex-col">
         <NavBar active="report" />
-        <div className="flex-1 px-5 md:px-10 lg:px-20 pb-10 max-w-2xl mx-auto w-full">
+        <div className="flex-1 px-5 md:px-10 lg:px-20 pb-10 max-w-4xl mx-auto w-full">
           <div className="space-y-7">
             {/* Header skeleton */}
             <div className="text-center space-y-3 pt-2">
@@ -180,7 +279,7 @@ function ReportContent() {
     return (
       <div className="min-h-screen flex flex-col">
         <NavBar active="report" />
-        <div className="flex-1 px-5 md:px-10 lg:px-20 pb-10 max-w-2xl mx-auto w-full flex items-center justify-center">
+        <div className="flex-1 px-5 md:px-10 lg:px-20 pb-10 max-w-4xl mx-auto w-full flex items-center justify-center">
           <div className="glass rounded-2xl p-8 text-center space-y-4">
             <div className="text-4xl">😔</div>
             <h2 className="font-(family-name:--font-playfair) text-lg font-bold text-text-primary">
@@ -201,7 +300,7 @@ function ReportContent() {
     );
   }
 
-  const dominantMood = report?.dominantMood || "uncertain";
+  const dominantMood = (report?.dominantMood || "uncertain").toLowerCase();
   const dominantEmoji = MOOD_EMOJIS[dominantMood] || "💭";
   const insights = report ? splitInsights(report.insights) : [];
   const recommendations = report ? parseRecommendations(report.recommendations) : [];
@@ -214,7 +313,8 @@ function ReportContent() {
     <div className="min-h-screen flex flex-col">
       <NavBar active="report" />
 
-      <div className="flex-1 px-5 md:px-10 lg:px-20 pb-10 max-w-2xl mx-auto w-full">
+      <div className="flex-1 px-5 md:px-10 lg:px-20 pb-10 max-w-4xl mx-auto w-full">
+        <div ref={reportRef}>
         <motion.div
           className="space-y-7"
           variants={containerVariants}
@@ -250,152 +350,159 @@ function ReportContent() {
           {/* Glow Divider */}
           <div className="h-px bg-gradient-to-r from-transparent via-violet-500/40 to-transparent" />
 
-          {/* THE BIG PICTURE */}
-          <motion.div variants={itemVariants} className="space-y-3">
-            <p className="text-[11px] font-semibold tracking-[2.5px] text-text-muted">
-              THE BIG PICTURE
-            </p>
-            <div className="glass rounded-2xl p-8 text-center space-y-4 bg-gradient-to-b from-violet-500/[0.08] via-cyan-500/[0.04] to-transparent">
-              <div className="text-5xl">{dominantEmoji}</div>
-              <h3 className="font-(family-name:--font-playfair) text-2xl font-bold text-text-primary capitalize">
-                {dominantMood}
-              </h3>
-              <p className="text-sm text-text-secondary leading-relaxed max-w-xs mx-auto">
-                {report?.summary ||
-                  `This month, your emotional landscape is taking shape. Keep journaling to unlock deeper insights.`}
+          {/* TOP SECTION — Two columns on desktop */}
+          <div className="grid grid-cols-1 md:grid-cols-2 md:items-start gap-5">
+            {/* THE BIG PICTURE */}
+            <motion.div variants={itemVariants} className="space-y-3">
+              <p className="text-[11px] font-semibold tracking-[2.5px] text-text-muted">
+                THE BIG PICTURE
               </p>
-            </div>
-          </motion.div>
-
-          {/* EMOTIONAL LANDSCAPE */}
-          <motion.div variants={itemVariants} className="space-y-3">
-            <p className="text-[11px] font-semibold tracking-[2.5px] text-text-muted">
-              EMOTIONAL LANDSCAPE
-            </p>
-            <div className="glass rounded-2xl p-5 space-y-4">
-              {stats?.moodDistribution && stats.moodDistribution.length > 0 ? (
-                stats.moodDistribution.map((item) => (
-                  <div key={item.emotion} className="space-y-1.5">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm">{item.emoji}</span>
-                        <span className="text-sm text-text-primary">{item.emotion}</span>
-                      </div>
-                      <span className="text-sm font-semibold text-text-primary">{item.percentage}%</span>
-                    </div>
-                    <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
-                      <div
-                        className={`h-full ${getBarColor(item.emotion)} rounded-full`}
-                        style={{ width: `${item.percentage}%` }}
-                      />
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <p className="text-sm text-text-muted text-center py-4">
-                  No entries yet this month. Start journaling to see your emotional landscape.
+              <div className="glass rounded-2xl p-8 text-center space-y-4 bg-gradient-to-b from-violet-500/[0.08] via-cyan-500/[0.04] to-transparent">
+                <div className="text-5xl">{dominantEmoji}</div>
+                <h3 className="font-(family-name:--font-playfair) text-2xl font-bold text-text-primary capitalize">
+                  {dominantMood}
+                </h3>
+                <p className="text-sm text-text-secondary leading-relaxed">
+                  {report?.summary ||
+                    `This month, your emotional landscape is taking shape. Keep journaling to unlock deeper insights.`}
                 </p>
+              </div>
+            </motion.div>
+
+            {/* EMOTIONAL LANDSCAPE */}
+            <motion.div variants={itemVariants} className="space-y-3">
+              <p className="text-[11px] font-semibold tracking-[2.5px] text-text-muted">
+                EMOTIONAL LANDSCAPE
+              </p>
+              <div className="glass rounded-2xl p-5 space-y-4">
+                {stats?.moodDistribution && stats.moodDistribution.length > 0 ? (
+                  stats.moodDistribution.map((item) => (
+                    <div key={item.emotion} className="space-y-1.5">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm">{item.emoji}</span>
+                          <span className="text-sm text-text-primary">{item.emotion}</span>
+                        </div>
+                        <span className="text-sm font-semibold text-text-primary">{item.percentage}%</span>
+                      </div>
+                      <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                        <div
+                          className={`h-full ${getBarColor(item.emotion)} rounded-full`}
+                          style={{ width: `${item.percentage}%` }}
+                        />
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-sm text-text-muted text-center py-4">
+                    No entries yet this month. Start journaling to see your emotional landscape.
+                  </p>
+                )}
+              </div>
+            </motion.div>
+          </div>
+
+          {/* BOTTOM SECTION — Two columns on desktop */}
+          {hasEnoughEntries && report && (
+            <div className="grid grid-cols-1 md:grid-cols-2 md:items-start gap-5">
+              {/* PATTERN RECOGNITION — Left column */}
+              {insights.length > 0 && (
+                <motion.div variants={itemVariants} className="space-y-3">
+                  <p className="text-[11px] font-semibold tracking-[2.5px] text-text-muted">
+                    PATTERN RECOGNITION
+                  </p>
+                  <div className="glass rounded-2xl p-5 space-y-5">
+                    {insights.map((insight, i) => (
+                      <div key={i} className="flex gap-3.5">
+                        <div className="w-0.5 shrink-0 rounded-full bg-accent" />
+                        <div className="space-y-1">
+                          <div className="flex items-center gap-2">
+                            {i === 0 && <TrendingUp size={14} className="text-accent" />}
+                            {i === 1 && <Brain size={14} className="text-accent" />}
+                            {i === 2 && <Heart size={14} className="text-accent" />}
+                            <h4 className="text-sm font-semibold text-text-primary">
+                              {i === 0 ? "Trend" : i === 1 ? "Insight" : "Pattern"}
+                            </h4>
+                          </div>
+                          <p className="text-sm text-text-secondary leading-relaxed">{insight}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </motion.div>
               )}
+
+              {/* RIGHT COLUMN — Emotional Rhythm + Moment Worth Noting */}
+              <div className="space-y-5">
+                {/* YOUR EMOTIONAL RHYTHM */}
+                <motion.div variants={itemVariants} className="space-y-3">
+                  <p className="text-[11px] font-semibold tracking-[2.5px] text-text-muted">
+                    YOUR EMOTIONAL RHYTHM
+                  </p>
+                  <div className="space-y-2.5">
+                    {stats?.streak && (
+                      <div className="glass rounded-xl p-4 border-l-[3px] border-l-accent">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="text-xs text-text-muted">Journaling Streak</p>
+                            <p className="text-sm font-medium text-text-primary">
+                              {stats.streak.current} day{stats.streak.current !== 1 ? "s" : ""} current
+                              {stats.streak.best > 0 && ` · ${stats.streak.best} day best`}
+                            </p>
+                          </div>
+                          <span className="text-xl">🔥</span>
+                        </div>
+                      </div>
+                    )}
+                    {stats?.moodDistribution && stats.moodDistribution.length > 0 && (
+                      <div className="glass rounded-xl p-4 border-l-[3px] border-l-sky-400">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="text-xs text-text-muted">Dominant Emotion</p>
+                            <p className="text-sm font-medium text-text-primary capitalize">
+                              {dominantMood} ({stats.moodDistribution[0]?.percentage ?? 0}%)
+                            </p>
+                          </div>
+                          <span className="text-xl">{dominantEmoji}</span>
+                        </div>
+                      </div>
+                    )}
+                    {stats?.daysJournaled !== undefined && stats.daysJournaled > 0 && (
+                      <div className="glass rounded-xl p-4 border-l-[3px] border-l-pink-400">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="text-xs text-text-muted">Consistency</p>
+                            <p className="text-sm font-medium text-text-primary">
+                              {stats.daysJournaled} of 30 days ({Math.round((stats.daysJournaled / 30) * 100)}%)
+                            </p>
+                          </div>
+                          <span className="text-xl"><BarChart/></span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
+
+                {/* A MOMENT WORTH NOTING */}
+                <motion.div variants={itemVariants} className="space-y-3">
+                  <p className="text-[11px] font-semibold tracking-[2.5px] text-text-muted">
+                    A MOMENT WORTH NOTING
+                  </p>
+                  <div className="glass rounded-2xl p-6 space-y-3">
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg">✨</span>
+                      <span className="text-xs text-text-muted">AI Reflection</span>
+                    </div>
+                    <p className="text-sm text-text-primary leading-relaxed italic">
+                      &ldquo;{report.summary}&rdquo;
+                    </p>
+                    <p className="text-xs text-text-muted">
+                      This month&apos;s emotional synthesis from your journal entries.
+                    </p>
+                  </div>
+                </motion.div>
+              </div>
             </div>
-          </motion.div>
-
-          {/* PATTERN RECOGNITION — only when enough entries + report exists */}
-          {hasEnoughEntries && report && insights.length > 0 && (
-            <motion.div variants={itemVariants} className="space-y-3">
-              <p className="text-[11px] font-semibold tracking-[2.5px] text-text-muted">
-                PATTERN RECOGNITION
-              </p>
-              <div className="glass rounded-2xl p-5 space-y-5">
-                {insights.map((insight, i) => (
-                  <div key={i} className="flex gap-3.5">
-                    <div className="w-0.5 shrink-0 rounded-full bg-accent" />
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-2">
-                        {i === 0 && <TrendingUp size={14} className="text-accent" />}
-                        {i === 1 && <Brain size={14} className="text-accent" />}
-                        {i === 2 && <Heart size={14} className="text-accent" />}
-                        <h4 className="text-sm font-semibold text-text-primary">
-                          {i === 0 ? "Trend" : i === 1 ? "Insight" : "Pattern"}
-                        </h4>
-                      </div>
-                      <p className="text-sm text-text-secondary leading-relaxed">{insight}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          )}
-
-          {/* YOUR EMOTIONAL RHYTHM — only when enough entries + report exists */}
-          {hasEnoughEntries && report && (
-            <motion.div variants={itemVariants} className="space-y-3">
-              <p className="text-[11px] font-semibold tracking-[2.5px] text-text-muted">
-                YOUR EMOTIONAL RHYTHM
-              </p>
-              <div className="space-y-2.5">
-                {stats?.streak && (
-                  <div className="glass rounded-xl p-4 border-l-[3px] border-l-accent">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-xs text-text-muted">Journaling Streak</p>
-                        <p className="text-sm font-medium text-text-primary">
-                          {stats.streak.current} day{stats.streak.current !== 1 ? "s" : ""} current
-                          {stats.streak.best > 0 && ` · ${stats.streak.best} day best`}
-                        </p>
-                      </div>
-                      <span className="text-xl">🔥</span>
-                    </div>
-                  </div>
-                )}
-                {stats?.moodDistribution && stats.moodDistribution.length > 0 && (
-                  <div className="glass rounded-xl p-4 border-l-[3px] border-l-sky-400">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-xs text-text-muted">Dominant Emotion</p>
-                        <p className="text-sm font-medium text-text-primary capitalize">
-                          {dominantMood} ({stats.moodDistribution[0]?.percentage ?? 0}%)
-                        </p>
-                      </div>
-                      <span className="text-xl">{dominantEmoji}</span>
-                    </div>
-                  </div>
-                )}
-                {stats?.daysJournaled !== undefined && stats.daysJournaled > 0 && (
-                  <div className="glass rounded-xl p-4 border-l-[3px] border-l-pink-400">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-xs text-text-muted">Consistency</p>
-                        <p className="text-sm font-medium text-text-primary">
-                          {stats.daysJournaled} of 30 days ({Math.round((stats.daysJournaled / 30) * 100)}%)
-                        </p>
-                      </div>
-                      <span className="text-xl">📊</span>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </motion.div>
-          )}
-
-          {/* A MOMENT WORTH NOTING — only when enough entries + report exists */}
-          {hasEnoughEntries && report && (
-            <motion.div variants={itemVariants} className="space-y-3">
-              <p className="text-[11px] font-semibold tracking-[2.5px] text-text-muted">
-                A MOMENT WORTH NOTING
-              </p>
-              <div className="glass rounded-2xl p-6 space-y-3">
-                <div className="flex items-center gap-2">
-                  <span className="text-lg">✨</span>
-                  <span className="text-xs text-text-muted">AI Reflection</span>
-                </div>
-                <p className="text-sm text-text-primary leading-relaxed italic">
-                  &ldquo;{report.summary}&rdquo;
-                </p>
-                <p className="text-xs text-text-muted">
-                  This month&apos;s emotional synthesis from your journal entries.
-                </p>
-              </div>
-            </motion.div>
           )}
 
           {/* ACTIONABLE FRAMEWORKS — only when enough entries + report exists */}
@@ -441,11 +548,21 @@ function ReportContent() {
           {/* Report Actions */}
           <motion.div variants={itemVariants} className="space-y-3 pt-2">
             <button
-              onClick={() => router.push("/")}
-              className="w-full py-3.5 bg-gradient-to-b from-accent to-accent-glow text-white font-semibold rounded-full shadow-[0_4px_16px_rgba(88,44,255,0.35)] hover:shadow-[0_6px_24px_rgba(88,44,255,0.45)] transition-all flex items-center justify-center gap-2"
+              onClick={handleSavePng}
+              disabled={saving}
+              className="w-full py-3.5 bg-gradient-to-b from-accent to-accent-glow text-white font-semibold rounded-full shadow-[0_4px_16px_rgba(88,44,255,0.35)] hover:shadow-[0_6px_24px_rgba(88,44,255,0.45)] transition-all flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              <Sparkles size={16} />
-              Save Reflection
+              {saving ? (
+                <>
+                  <Loader2 size={16} className="animate-spin" />
+                  Saving...
+                </>
+              ) : (
+                <>
+                  <Download size={16} />
+                  Save Reflection
+                </>
+              )}
             </button>
             <button
               onClick={() => router.push("/calendar")}
@@ -456,6 +573,7 @@ function ReportContent() {
             </button>
           </motion.div>
         </motion.div>
+        </div>
       </div>
     </div>
   );

@@ -3,22 +3,22 @@ status: testing
 phase: 12-report-page-dynamic-stats
 source: [12-VERIFICATION.md]
 started: 2026-07-17T12:30:00Z
-updated: 2026-07-17T12:30:00Z
+updated: 2026-07-17T12:35:00Z
 ---
 
 ## Current Test
 
-number: 1
-name: Loading Skeleton Visual
+number: 2
+name: Month URL Parameter
 expected: |
-  Skeleton loading UI appears briefly while data fetches, then transitions to real content
+  Navigate to /report?month=2026-07. Heading displays "July 2026" and data corresponds to that month.
 awaiting: user response
 
 ## Tests
 
 ### 1. Loading Skeleton Visual
 expected: Navigate to /report in the browser with a user who has journal entries. Skeleton loading UI appears briefly while data fetches, then transitions to real content showing stats (entry count, days journaled, mood distribution).
-result: [pending]
+result: pass
 
 ### 2. Month URL Parameter
 expected: Navigate to /report?month=2026-07. Heading displays "July 2026" and data corresponds to that month.
@@ -35,9 +35,9 @@ result: [pending]
 ## Summary
 
 total: 4
-passed: 0
+passed: 1
 issues: 0
-pending: 4
+pending: 3
 skipped: 0
 blocked: 0
 

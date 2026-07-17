@@ -55,6 +55,7 @@ export function useCreateEntry() {
     onSettled: () => {
       // Invalidate to refetch server truth
       queryClient.invalidateQueries({ queryKey: ["entries", "today"] });
+      queryClient.invalidateQueries({ queryKey: ["entries", "month"] });
     },
   });
 }

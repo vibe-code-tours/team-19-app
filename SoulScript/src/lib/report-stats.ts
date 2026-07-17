@@ -33,7 +33,7 @@ export function computeMoodDistribution(
   const groups: Record<string, { emoji: string; count: number }> = {};
 
   for (const entry of entries) {
-    const emotion = entry.primary_emotion;
+    const emotion = entry.primary_emotion.toLowerCase();
     if (!groups[emotion]) {
       groups[emotion] = { emoji: entry.emoji, count: 0 };
     }

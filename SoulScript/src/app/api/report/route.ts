@@ -32,14 +32,15 @@ export async function POST(request: Request) {
     const startDate = new Date(year, monthNum - 1, 1).toISOString();
     const endDate = new Date(year, monthNum, 1).toISOString();
 
-    // Fetch entries for the month
+    // Fetch entries for the month (newest first)
     const { data: entries, error } = await supabase
       .from("journal_entries")
       .select("*")
       .eq("user_id", user.id)
       .gte("created_at", startDate)
       .lt("created_at", endDate)
-      .is("deleted_at", null);
+      .is("deleted_at", null)
+      .order("created_at", { ascending: false });
 
     if (error) throw error;
 
@@ -52,6 +53,34 @@ export async function POST(request: Request) {
         },
         { status: 400 }
       );
+    }
+
+    // Check if an existing report is already up-to-date
+    const { data: existingReport } = await supabase
+      .from("monthly_reports")
+      .select("created_at")
+      .eq("user_id", user.id)
+      .eq("month_year", month)
+      .single();
+
+    if (existingReport) {
+      const latestEntry = entries[0]; // entries are sorted by created_at desc
+      const reportTime = new Date(existingReport.created_at).getTime();
+      const latestEntryTime = new Date(latestEntry.created_at).getTime();
+
+      // If no new entries since last report, return existing
+      if (latestEntryTime <= reportTime) {
+        const { data: fullReport } = await supabase
+          .from("monthly_reports")
+          .select("summary_overview, dominant_mood, pattern_insights, actionable_recommendations")
+          .eq("user_id", user.id)
+          .eq("month_year", month)
+          .single();
+
+        if (fullReport) {
+          return NextResponse.json({ report: fullReport, cached: true });
+        }
+      }
     }
 
     // Decrypt entries for AI analysis

@@ -1,33 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
-import MonthlyReport from "./MonthlyReport";
+import NavBar from "./NavBar";
+import StatCards from "./StatCards";
+import CalendarGrid from "./CalendarGrid";
+import RecentEntries from "./RecentEntries";
+import MoodTrend from "./MoodTrend";
+import { useCalendar } from "@/hooks/useCalendar";
 import type { JournalEntry } from "@/lib/types";
-
-const WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-const MONTHS = [
-  "January","February","March","April","May","June",
-  "July","August","September","October","November","December",
-];
-
-function getDaysInMonth(year: number, month: number) {
-  return new Date(year, month + 1, 0).getDate();
-}
-
-function getFirstDayOfMonth(year: number, month: number) {
-  const day = new Date(year, month, 1).getDay();
-  return day === 0 ? 6 : day - 1; // Monday = 0
-}
-
-function getEntriesForDay(entries: JournalEntry[], day: number): JournalEntry[] {
-  return entries.filter((e) => {
-    const d = new Date(e.created_at);
-    return d.getDate() === day;
-  });
-}
 
 const MOOD_OPTIONS = [
   { name: "joy", emoji: "😊" },
@@ -51,7 +33,6 @@ function EntryCard({
 }) {
   return (
     <div className="glass rounded-xl p-4 space-y-3">
-      {/* Entry Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center">
@@ -79,13 +60,7 @@ function EntryCard({
           Edit
         </button>
       </div>
-
-      {/* Entry Content */}
-      <p className="text-sm text-text-primary leading-relaxed">
-        {entry.content}
-      </p>
-
-      {/* Emotion Pills */}
+      <p className="text-sm text-text-primary leading-relaxed">{entry.content}</p>
       {entry.secondary_emotions.length > 0 && (
         <div className="flex flex-wrap gap-2">
           {entry.secondary_emotions.map((emotion) => (
@@ -104,52 +79,26 @@ function EntryCard({
 
 export default function MoodCalendar() {
   const router = useRouter();
-  const [currentDate, setCurrentDate] = useState(new Date());
-  const [entries, setEntries] = useState<JournalEntry[]>([]);
-  const [loading, setLoading] = useState(true);
+  const {
+    entries,
+    loading,
+    currentDate,
+    year,
+    month,
+    daysInMonth,
+    firstDay,
+    stats,
+    prevMonth,
+    nextMonth,
+    goToToday,
+  } = useCalendar();
+
   const [selectedEntries, setSelectedEntries] = useState<JournalEntry[] | null>(null);
   const [editingEntry, setEditingEntry] = useState<JournalEntry | null>(null);
   const [showMoodPicker, setShowMoodPicker] = useState(false);
   const [moodUpdateSuccess, setMoodUpdateSuccess] = useState(false);
-  const [report, setReport] = useState<Record<string, unknown> | null>(null);
-  const [reportLoading, setReportLoading] = useState(false);
-  const [reportError, setReportError] = useState("");
 
-  const year = currentDate.getFullYear();
-  const month = currentDate.getMonth();
-  const daysInMonth = getDaysInMonth(year, month);
-  const firstDay = getFirstDayOfMonth(year, month);
-
-  useEffect(() => {
-    let cancelled = false;
-    async function load() {
-      const monthStr = `${year}-${String(month + 1).padStart(2, "0")}`;
-      const res = await fetch(`/api/entries?month=${monthStr}`);
-      const data = await res.json();
-      if (!cancelled && data.entries) {
-        setEntries(data.entries);
-        setLoading(false);
-      }
-    }
-    load();
-    return () => { cancelled = true; };
-  }, [year, month]);
-
-  function prevMonth() {
-    setCurrentDate(new Date(year, month - 1));
-    setLoading(true);
-  }
-
-  function nextMonth() {
-    setCurrentDate(new Date(year, month + 1));
-    setLoading(true);
-  }
-
-  async function handleMoodUpdate(
-    entryId: string,
-    newMood: string,
-    newEmoji: string
-  ) {
+  async function handleMoodUpdate(entryId: string, newMood: string, newEmoji: string) {
     await fetch(`/api/entries/${entryId}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -161,38 +110,23 @@ export default function MoodCalendar() {
       setMoodUpdateSuccess(false);
       setShowMoodPicker(false);
       setEditingEntry(null);
-      // Refresh entries to show updated emoji on calendar
-      setCurrentDate(new Date(currentDate));
+      // Force refetch by toggling date
+      goToToday();
     }, 1500);
   }
 
-  async function handleGenerateReport() {
-    if (reportLoading) return;
-    setReportLoading(true);
-    setReportError("");
+  function handleEntryClick(entry: JournalEntry) {
+    setSelectedEntries([entry]);
+  }
 
-    const monthStr = `${year}-${String(month + 1).padStart(2, "0")}`;
+  function handleDayClick(dayEntries: JournalEntry[]) {
+    setSelectedEntries(dayEntries);
+  }
 
-    try {
-      const res = await fetch("/api/report", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ month: monthStr }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        setReportError(data.error || "Failed to generate report");
-        return;
-      }
-
-      setReport(data.report);
-    } catch {
-      setReportError("Something went wrong. Please try again.");
-    } finally {
-      setReportLoading(false);
-    }
+  function closeModal() {
+    setSelectedEntries(null);
+    setEditingEntry(null);
+    setShowMoodPicker(false);
   }
 
   if (loading) {
@@ -200,11 +134,12 @@ export default function MoodCalendar() {
       <div className="min-h-screen p-5">
         <div className="max-w-lg mx-auto space-y-4">
           <div className="skeleton h-8 w-40 rounded-lg mx-auto" />
-          <div className="grid grid-cols-7 gap-2">
-            {Array.from({ length: 35 }).map((_, i) => (
-              <div key={i} className="skeleton aspect-square rounded-full" />
+          <div className="grid grid-cols-3 gap-3">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="skeleton h-20 rounded-[14px]" />
             ))}
           </div>
+          <div className="skeleton h-[400px] rounded-[20px]" />
         </div>
       </div>
     );
@@ -212,149 +147,96 @@ export default function MoodCalendar() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <div className="flex-1 px-5 pb-8 max-w-lg mx-auto w-full">
-        {/* Back to Dashboard */}
-        <div className="flex items-center justify-between pt-4 pb-2">
-          <button
-            onClick={() => router.push("/")}
-            className="flex items-center gap-1.5 text-text-secondary hover:text-text-primary transition-colors text-sm"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-            Journal
-          </button>
-          <div className="relative h-6 w-24">
-            <Image src="/logo-horizontal.png" alt="SoulScript" fill className="object-contain" sizes="96px" />
+      <NavBar active="calendar" />
+
+      <div className="flex-1 px-5 md:px-10 lg:px-20 pb-8 max-w-5xl mx-auto w-full space-y-5">
+        {/* Page Header */}
+        <div className="space-y-1">
+          <h1 className="font-[family-name:var(--font-heading)] text-[28px] font-bold text-text-primary tracking-[-0.8px]">
+            Mood Calendar
+          </h1>
+          <p className="text-[15px] text-text-secondary">
+            Track your emotions. Understand your journey.
+          </p>
+        </div>
+
+        {/* Stat Cards */}
+        <StatCards
+          entryCount={stats.uniqueDays}
+          streak={stats.streak}
+          positivePercentage={stats.positivePercentage}
+        />
+
+        {/* Content Row */}
+        <div className="flex flex-col lg:flex-row gap-6">
+          {/* Left: Calendar */}
+          <div className="lg:flex-1">
+            <CalendarGrid
+              entries={entries}
+              year={year}
+              month={month}
+              daysInMonth={daysInMonth}
+              firstDay={firstDay}
+              onPrevMonth={prevMonth}
+              onNextMonth={nextMonth}
+              onGoToToday={goToToday}
+              onDayClick={handleDayClick}
+            />
           </div>
-        </div>
 
-        {/* Month Header */}
-        <div className="flex items-center justify-between py-4">
-          <button onClick={prevMonth} className="p-2 text-text-secondary hover:text-text-primary">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-          <h2 className="font-[family-name:var(--font-playfair)] text-xl font-bold text-text-primary">
-            {MONTHS[month]} {year}
-          </h2>
-          <button onClick={nextMonth} className="p-2 text-text-secondary hover:text-text-primary">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
-        </div>
-
-        {/* Weekday Labels */}
-        <div className="grid grid-cols-7 mb-2">
-          {WEEKDAYS.map((day) => (
-            <div key={day} className="text-center text-xs font-medium text-text-muted py-1">
-              {day}
-            </div>
-          ))}
-        </div>
-
-        {/* Calendar Grid */}
-        <div className="grid grid-cols-7 gap-1.5">
-          {/* Empty cells before first day */}
-          {Array.from({ length: firstDay }).map((_, i) => (
-            <div key={`empty-${i}`} className="aspect-square" />
-          ))}
-
-          {/* Day cells */}
-          {Array.from({ length: daysInMonth }).map((_, i) => {
-            const day = i + 1;
-            const dayEntries = getEntriesForDay(entries, day);
-            const latestEntry = dayEntries.length > 0 ? dayEntries[dayEntries.length - 1] : null;
-
-            return (
-              <button
-                key={day}
-                onClick={() => dayEntries.length > 0 && setSelectedEntries(dayEntries)}
-                className="aspect-square flex items-center justify-center relative"
-              >
-                {latestEntry ? (
-                  <motion.div
-                    layoutId={`entry-${latestEntry.id}`}
-                    className="w-full h-full rounded-full glass flex items-center justify-center"
-                  >
-                    <span className="text-lg">{latestEntry.emoji}</span>
-                  </motion.div>
-                ) : (
-                  <div className="w-8 h-8 rounded-full border border-dashed border-glass-border" />
-                )}
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Monthly Report Trigger / Loading / Error / Report */}
-        {entries.length > 0 && !report && !reportLoading && !reportError && (
-          <button
-            onClick={handleGenerateReport}
-            className="mt-6 w-full glass rounded-2xl p-5 text-center space-y-2 hover:bg-white/[0.08] transition-colors"
-          >
-            <span className="text-2xl">✨</span>
-            <h3 className="font-[family-name:var(--font-playfair)] text-lg font-semibold text-text-primary">
-              Reveal This Month&apos;s Journey
-            </h3>
-            <p className="text-sm text-text-secondary">
-              {entries.length} of {daysInMonth} days journaled — tap to generate
-              insights
-            </p>
-          </button>
-        )}
-
-        {reportLoading && (
-          <div className="mt-6 space-y-4">
-            <div className="skeleton h-48 w-full rounded-2xl" />
-            <div className="skeleton h-32 w-full rounded-2xl" />
-            <div className="skeleton h-24 w-full rounded-xl" />
-          </div>
-        )}
-
-        {reportError && (
-          <div className="mt-6 glass rounded-2xl p-5 text-center space-y-3">
-            <p className="text-sm text-red-400">{reportError}</p>
-            <button
-              onClick={handleGenerateReport}
-              className="text-sm font-medium text-accent hover:underline"
-            >
-              Try again
-            </button>
-          </div>
-        )}
-
-        {report && (
-          <div className="mt-6">
-            <MonthlyReport
-              report={report as never}
-              entryCount={entries.length}
+          {/* Right: Recent Entries + Mood Trend */}
+          <div className="lg:w-[340px] space-y-6">
+            <RecentEntries
+              entries={stats.recentEntries}
+              onEntryClick={handleEntryClick}
+            />
+            <MoodTrend
+              entries={entries}
+              moodDistribution={stats.moodDistribution}
               daysInMonth={daysInMonth}
             />
           </div>
-        )}
+        </div>
 
-        {/* Empty State — breathing glassmorphism overlay */}
+        {/* Empty State */}
         {entries.length === 0 && (
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mt-8 glass-strong rounded-2xl p-6 text-center space-y-3"
+            className="glass-strong rounded-2xl p-6 text-center space-y-3"
           >
             <div className="breathe mx-auto w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center mb-2">
               <span className="text-2xl">✨</span>
             </div>
             <p className="text-text-secondary text-sm leading-relaxed">
-              Your mood constellation awaits. Start journaling to see your
-              emotions map.
+              Your mood constellation awaits. Start journaling to see your emotions map.
             </p>
           </motion.div>
         )}
+
+        {/* Generate AI Report CTA */}
+        {entries.length > 0 && (
+          <div className="space-y-2 text-center">
+            <button
+              onClick={() => router.push("/report")}
+              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-b from-accent to-accent-glow text-white font-semibold rounded-full shadow-[0_4px_16px_rgba(124,92,252,0.3)] hover:shadow-[0_6px_24px_rgba(124,92,252,0.45)] transition-all"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+              </svg>
+              Generate AI Report
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+            <p className="text-xs text-text-muted">
+              AI will analyze your month and reveal emotional patterns
+            </p>
+          </div>
+        )}
       </div>
 
-      {/* Entry Overlay — Bottom Sheet with scrollable entry list */}
+      {/* Entry Overlay */}
       <AnimatePresence>
         {selectedEntries && (
           <motion.div
@@ -362,11 +244,7 @@ export default function MoodCalendar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center"
-            onClick={() => {
-              setSelectedEntries(null);
-              setEditingEntry(null);
-              setShowMoodPicker(false);
-            }}
+            onClick={closeModal}
           >
             <motion.div
               initial={{ y: "100%", opacity: 0 }}
@@ -378,9 +256,7 @@ export default function MoodCalendar() {
               dragElastic={0.2}
               onDragEnd={(_, info) => {
                 if (info.offset.y > 100 || info.velocity.y > 500) {
-                  setSelectedEntries(null);
-                  setEditingEntry(null);
-                  setShowMoodPicker(false);
+                  closeModal();
                 }
               }}
               className="glass rounded-t-2xl sm:rounded-2xl p-6 w-full max-w-md max-h-[80vh] flex flex-col"
@@ -388,15 +264,15 @@ export default function MoodCalendar() {
             >
               {/* Header */}
               <div className="flex items-center justify-between mb-4">
-                <h3 className="font-[family-name:var(--font-playfair)] text-lg font-bold text-text-primary">
-                  {new Date(selectedEntries[0].created_at).toLocaleDateString("en-US", {
-                    month: "long",
-                    day: "numeric",
-                    year: "numeric",
-                  })}
+                <h3 className="font-[family-name:var(--font-heading)] text-lg font-bold text-text-primary">
+                  {new Date(selectedEntries[0].created_at).toLocaleDateString(
+                    "en-US",
+                    { month: "long", day: "numeric", year: "numeric" }
+                  )}
                 </h3>
                 <p className="text-sm text-text-secondary">
-                  {selectedEntries.length} {selectedEntries.length === 1 ? "entry" : "entries"}
+                  {selectedEntries.length}{" "}
+                  {selectedEntries.length === 1 ? "entry" : "entries"}
                 </p>
               </div>
 
@@ -414,7 +290,7 @@ export default function MoodCalendar() {
                       }}
                     />
 
-                    {/* Mood Picker — slides in below the entry being edited */}
+                    {/* Mood Picker */}
                     <AnimatePresence>
                       {showMoodPicker && editingEntry?.id === entry.id && (
                         <motion.div
@@ -433,7 +309,11 @@ export default function MoodCalendar() {
                                 <button
                                   key={mood.name}
                                   onClick={() =>
-                                    handleMoodUpdate(editingEntry.id, mood.name, mood.emoji)
+                                    handleMoodUpdate(
+                                      editingEntry.id,
+                                      mood.name,
+                                      mood.emoji
+                                    )
                                   }
                                   className="flex flex-col items-center gap-1 p-2 rounded-xl hover:bg-white/5 transition-colors"
                                 >
