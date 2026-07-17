@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTheme } from "next-themes";
 import NavBar from "@/components/NavBar";
 
 export default function SettingsPage() {
@@ -18,9 +19,12 @@ export default function SettingsPage() {
   const [deleteConfirm, setDeleteConfirm] = useState("");
   const [deleting, setDeleting] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
-  const [notifications, setNotifications] = useState(true);
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
   const router = useRouter();
   const supabase = createClient();
+
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     async function loadProfile() {
@@ -134,20 +138,23 @@ export default function SettingsPage() {
 
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-text-primary">Notifications</p>
+              <p className="text-sm font-medium text-text-primary">Appearance</p>
+              <p className="text-xs text-text-muted">{theme === "dark" ? "Dark mode" : "Light mode"}</p>
             </div>
-            <button
-              onClick={() => setNotifications(!notifications)}
-              className={`relative w-11 h-6 rounded-full transition-colors ${
-                notifications ? "bg-accent" : "bg-white/10"
-              }`}
-            >
-              <div
-                className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${
-                  notifications ? "translate-x-[22px]" : "translate-x-0.5"
+            {mounted && (
+              <button
+                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                className={`relative w-11 h-6 rounded-full transition-colors ${
+                  theme === "dark" ? "bg-[#6366F1]" : "bg-[#E0D6FF]"
                 }`}
-              />
-            </button>
+              >
+                <div
+                  className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${
+                    theme === "dark" ? "translate-x-[22px]" : "translate-x-0.5"
+                  }`}
+                />
+              </button>
+            )}
           </div>
         </div>
 
