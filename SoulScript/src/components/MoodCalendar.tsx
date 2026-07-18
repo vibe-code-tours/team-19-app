@@ -218,13 +218,8 @@ export default function MoodCalendar() {
         {entries.length > 0 && (
           <div className="space-y-2 text-center">
             <button
-<<<<<<< HEAD
-              onClick={() => router.push("/report")}
-              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-b from-accent to-accent-glow text-white font-semibold rounded-full shadow-[0_4px_16px_rgba(124,92,252,0.3)] hover:shadow-[0_6px_24px_rgba(124,92,252,0.45)] transition-all cursor-pointer"
-=======
               onClick={() => router.push(`/report?month=${year}-${String(month + 1).padStart(2, '0')}`)}
               className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-b from-accent to-accent-glow text-white font-semibold rounded-full shadow-[0_4px_16px_rgba(124,92,252,0.3)] hover:shadow-[0_6px_24px_rgba(124,92,252,0.45)] transition-all"
->>>>>>> feat/dev-updates
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
