@@ -550,11 +550,11 @@ function ReportContent() {
         </div>
 
         {/* Report Actions — outside export wrapper so they are excluded from the PNG */}
-        <div className="space-y-3 pt-2">
+        <div className="space-y-3 pt-2 flex flex-col justify-center w-fit">
           <button
             onClick={handleSavePng}
             disabled={saving}
-            className="w-full h-12 px-6 bg-accent/90 hover:bg-accent text-white text-sm font-semibold rounded-full shadow-[0_2px_8px_rgba(124,92,252,0.2)] hover:scale-105 hover:shadow-[0_6px_24px_rgba(124,92,252,0.45)] transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+            className="h-12 px-6 bg-accent/90 hover:bg-accent text-white text-sm font-semibold rounded-full shadow-[0_2px_8px_rgba(124,92,252,0.2)] hover:shadow-[0_6px_24px_rgba(124,92,252,0.45)] transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed  focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
           >
             {saving ? (
               <>
@@ -570,7 +570,7 @@ function ReportContent() {
           </button>
           <button
             onClick={() => router.push("/calendar")}
-            className="w-full py-3 glass rounded-full text-sm font-medium text-text-secondary hover:text-text-primary border border-glass-border hover:scale-105 hover:shadow-[0_6px_24px_rgba(124,92,252,0.45)] transition-all duration-300 flex items-center justify-center gap-2"
+            className="p-3 glass rounded-full text-sm font-medium text-text-secondary hover:text-text-primary border border-glass-border hover:shadow-[0_6px_24px_rgba(124,92,252,0.45)] transition-all duration-300 flex items-center justify-center gap-2"
           >
             <ArrowLeft size={14} />
             Back to Calendar
