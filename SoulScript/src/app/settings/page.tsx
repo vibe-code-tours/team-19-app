@@ -83,7 +83,7 @@ export default function SettingsPage() {
     <div className="min-h-screen px-5 pb-8 max-w-lg mx-auto w-full md:max-w-[712px] lg:max-w-[848px]">
       {/* Header */}
       <div className="flex items-center justify-between py-4">
-        <button onClick={() => router.push("/")} className="p-2 text-text-secondary hover:text-text-primary">
+        <button onClick={() => router.push("/")} className="p-2 text-text-secondary hover:text-white hover:bg-accent/20 hover:border-accent/50 rounded-lg border border-transparent transition-all cursor-pointer">
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
@@ -138,7 +138,7 @@ export default function SettingsPage() {
             </div>
             <button
               onClick={() => setNotifications(!notifications)}
-              className={`relative w-11 h-6 rounded-full transition-colors ${
+              className={`relative w-11 h-6 rounded-full transition-colors cursor-pointer ${
                 notifications ? "bg-accent" : "bg-white/10"
               }`}
             >
@@ -157,14 +157,11 @@ export default function SettingsPage() {
             PRIVACY
           </p>
 
-          <button className="w-full flex items-center justify-between py-1">
+          <button className="w-full flex items-center justify-between py-1 cursor-pointer">
             <div className="text-left">
               <p className="text-sm font-medium text-text-primary">Journal Privacy</p>
               <p className="text-xs text-text-muted">Your entries are always encrypted</p>
-            </div>
-            <svg className="w-4 h-4 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
+            </div>           
           </button>
         </div>
 
@@ -174,14 +171,11 @@ export default function SettingsPage() {
             EXPORT DATA
           </p>
 
-          <button className="w-full flex items-center justify-between py-1">
+          <button className="w-full flex items-center justify-between py-1 cursor-pointer">
             <div className="text-left">
               <p className="text-sm font-medium text-text-primary">Export my journal</p>
               <p className="text-xs text-text-muted">Download all your entries as JSON</p>
             </div>
-            <svg className="w-4 h-4 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
           </button>
         </div>
 
@@ -195,7 +189,7 @@ export default function SettingsPage() {
           </p>
           <button
             onClick={() => setShowDeleteModal(true)}
-            className="w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-red-500 text-red-400 font-medium hover:bg-red-500/10 transition-colors"
+            className="w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-red-500 text-red-400 font-medium hover:bg-red-500/10 transition-colors cursor-pointer"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -218,7 +212,7 @@ export default function SettingsPage() {
           </div>
           <button
             onClick={() => setShowLogoutModal(true)}
-            className="w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-glass-border text-text-primary font-medium hover:bg-white/[0.06] transition-colors"
+            className="w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-glass-border text-text-primary font-medium hover:bg-accent/20 hover:border-accent/50 transition-colors cursor-pointer"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -268,7 +262,7 @@ export default function SettingsPage() {
                     setShowDeleteModal(false);
                     setDeleteConfirm("");
                   }}
-                  className="flex-1 py-2.5 glass rounded-xl text-sm font-medium text-text-secondary hover:text-text-primary"
+                  className="flex-1 py-2.5 glass rounded-xl text-sm font-medium text-text-secondary hover:text-text-primary cursor-pointer"
                 >
                   Cancel
                 </button>

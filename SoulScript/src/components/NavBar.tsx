@@ -26,10 +26,10 @@ function NavButton({
     <button
       onClick={onClick}
       aria-label={label}
-      className={`w-[44px] h-[44px] rounded-[22px] flex items-center justify-center transition-all duration-200 ${
+      className={`w-[44px] h-[44px] rounded-[22px] flex items-center justify-center transition-all duration-200 cursor-pointer ${
         isActive
           ? "bg-accent/25 border border-accent/50 text-accent shadow-[0_0_12px_rgba(124,92,252,0.3)]"
-          : "bg-white/[0.05] border border-white/[0.08] text-text-secondary hover:text-white hover:bg-white/[0.12] hover:border-accent/40 hover:shadow-[0_0_16px_rgba(124,92,252,0.25)] hover:scale-110"
+          : "bg-white/[0.05] border border-white/[0.08] text-text-secondary hover:text-white hover:bg-accent/20 hover:border-accent/50 hover:shadow-[0_0_16px_rgba(124,92,252,0.4)] hover:scale-110"
       }`}
     >
       <Icon size={20} />
