@@ -200,7 +200,7 @@ export default function DashboardPage() {
                 <button
                   onClick={handleSubmit}
                   disabled={!canSubmit}
-                  className="flex items-center gap-2.5 px-8 py-3.5 bg-cta text-white font-semibold rounded-full shadow-[0_4px_16px_rgba(217,119,6,0.35)] hover:bg-cta-glow transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed"
+                  className="flex items-center gap-2.5 px-8 py-3.5 bg-gradient-to-b from-accent to-accent-glow text-white font-semibold rounded-full shadow-[0_4px_16px_rgba(124,92,252,0.3)] hover:shadow-[0_6px_24px_rgba(124,92,252,0.45)] hover:scale-105 transition-all duration-300 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   {createEntry.isPending ? (
                     <>
@@ -360,7 +360,7 @@ export default function DashboardPage() {
                     <button
                       onClick={handleSubmit}
                       disabled={!canSubmit}
-                      className="flex items-center gap-2.5 px-8 py-3.5 bg-cta text-white font-semibold rounded-full shadow-[0_4px_16px_rgba(217,119,6,0.35)] hover:bg-cta-glow transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed"
+                      className="flex items-center gap-2.5 px-8 py-3.5 bg-gradient-to-b from-accent to-accent-glow text-white font-semibold rounded-full shadow-[0_4px_16px_rgba(124,92,252,0.3)] hover:shadow-[0_6px_24px_rgba(124,92,252,0.45)] hover:scale-105 transition-all duration-300 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                     >
                       {createEntry.isPending ? (
                         <>
