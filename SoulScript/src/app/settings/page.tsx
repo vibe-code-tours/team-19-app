@@ -1,12 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "next-themes";
-import NavBar from "@/components/NavBar";
 
 export default function SettingsPage() {
   const [profile, setProfile] = useState<{
@@ -15,41 +13,54 @@ export default function SettingsPage() {
   const [email, setEmail] = useState("");
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState("");
   const [deleting, setDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [logoutError, setLogoutError] = useState<string | null>(null);
   const [showEditNameModal, setShowEditNameModal] = useState(false);
   const [editName, setEditName] = useState("");
   const [savingName, setSavingName] = useState(false);
+  const [saveNameError, setSaveNameError] = useState<string | null>(null);
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const router = useRouter();
-  const supabase = createClient();
+  const supabase = useMemo(() => createClient(), []);
 
   useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     async function loadProfile() {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      if (!user) {
-        router.push("/login");
-        return;
+      try {
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+        if (!user) {
+          router.push("/login");
+          return;
+        }
+
+        setEmail(user.email || "");
+        setAvatarUrl(user.user_metadata?.avatar_url || null);
+
+        const { data, error: profileError } = await supabase
+          .from("user_profiles")
+          .select("display_name")
+          .eq("user_id", user.id)
+          .single();
+
+        if (profileError) {
+          console.error("Failed to load profile:", profileError.message);
+        }
+        if (data) setProfile(data);
+      } catch (err) {
+        console.error("Failed to load profile:", err);
+        setError("Failed to load profile. Please try again.");
+      } finally {
+        setLoading(false);
       }
-
-      setEmail(user.email || "");
-      setAvatarUrl(user.user_metadata?.avatar_url || null);
-
-      const { data } = await supabase
-        .from("user_profiles")
-        .select("display_name")
-        .eq("user_id", user.id)
-        .single();
-
-      if (data) setProfile(data);
-      setLoading(false);
     }
     loadProfile();
   }, [supabase, router]);
@@ -57,31 +68,52 @@ export default function SettingsPage() {
   async function handleDeleteAccount() {
     if (deleteConfirm !== "DELETE") return;
     setDeleting(true);
-    const res = await fetch("/api/account", { method: "DELETE" });
-    if (res.ok) {
-      router.push("/login");
+    setDeleteError(null);
+    try {
+      const res = await fetch("/api/account", { method: "DELETE" });
+      if (res.ok) {
+        router.push("/login");
+      } else {
+        setDeleteError("Failed to delete account. Please try again.");
+      }
+    } catch {
+      setDeleteError("Network error. Please try again.");
+    } finally {
+      setDeleting(false);
     }
-    setDeleting(false);
   }
 
   async function handleLogout() {
-    await supabase.auth.signOut();
-    router.push("/login");
+    setLogoutError(null);
+    try {
+      await supabase.auth.signOut();
+      router.push("/login");
+    } catch {
+      setLogoutError("Failed to log out. Please try again.");
+    }
   }
 
   async function handleSaveName() {
     if (!editName.trim()) return;
     setSavingName(true);
-    const res = await fetch("/api/profile", {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ display_name: editName.trim() }),
-    });
-    if (res.ok) {
-      setProfile((prev) => prev ? { ...prev, display_name: editName.trim() } : prev);
-      setShowEditNameModal(false);
+    setSaveNameError(null);
+    try {
+      const res = await fetch("/api/profile", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ display_name: editName.trim() }),
+      });
+      if (res.ok) {
+        setProfile((prev) => prev ? { ...prev, display_name: editName.trim() } : prev);
+        setShowEditNameModal(false);
+      } else {
+        setSaveNameError("Failed to save name. Please try again.");
+      }
+    } catch {
+      setSaveNameError("Network error. Please try again.");
+    } finally {
+      setSavingName(false);
     }
-    setSavingName(false);
   }
 
   const initials = profile?.display_name
@@ -97,6 +129,22 @@ export default function SettingsPage() {
     return (
       <div className="min-h-screen flex items-center justify-center p-6">
         <div className="skeleton h-64 w-full max-w-sm rounded-xl" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-6">
+        <div className="text-center space-y-3">
+          <p className="text-red-400 text-sm">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="text-sm text-accent hover:underline"
+          >
+            Retry
+          </button>
+        </div>
       </div>
     );
   }
@@ -125,7 +173,7 @@ export default function SettingsPage() {
 
           <div className="flex items-center gap-4">
             {avatarUrl ? (
-              <Image
+              <img
                 src={avatarUrl}
                 alt="Profile"
                 width={56}
@@ -198,14 +246,11 @@ export default function SettingsPage() {
               <p className="text-sm font-medium text-text-primary">Journal Privacy</p>
               <p className="text-xs text-text-muted">Your entries are always encrypted</p>
             </div>
-            <svg className="w-4 h-4 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
           </button>
         </div>
 
         {/* Export Data */}
-        <div className="glass rounded-xl p-6 space-y-4">
+        {/* <div className="glass rounded-xl p-6 space-y-4">
           <p className="text-xs font-semibold tracking-wider text-accent">
             EXPORT DATA
           </p>
@@ -215,11 +260,8 @@ export default function SettingsPage() {
               <p className="text-sm font-medium text-text-primary">Export my journal</p>
               <p className="text-xs text-text-muted">Download all your entries as JSON</p>
             </div>
-            <svg className="w-4 h-4 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
           </button>
-        </div>
+        </div> */}
 
         {/* Danger Zone */}
         <div className="glass rounded-xl p-6 space-y-4 border border-red-500/20">
@@ -298,6 +340,9 @@ export default function SettingsPage() {
                 placeholder='Type "DELETE"'
                 className="w-full px-3 py-2.5 bg-white/4 border border-glass-border rounded-lg text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-1 focus:ring-red-500 text-center"
               />
+              {deleteError && (
+                <p className="text-xs text-red-400 text-center">{deleteError}</p>
+              )}
               <div className="flex gap-3">
                 <button
                   onClick={() => {
@@ -351,6 +396,9 @@ export default function SettingsPage() {
               <p className="text-sm text-text-secondary">
                 Your journal will be here when you return.
               </p>
+              {logoutError && (
+                <p className="text-xs text-red-400">{logoutError}</p>
+              )}
 
               <div className="flex gap-3">
                 <button
@@ -402,6 +450,9 @@ export default function SettingsPage() {
                 maxLength={30}
                 className="w-full px-3 py-2.5 bg-white/4 border border-glass-border rounded-lg text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-1 focus:ring-accent text-center"
               />
+              {saveNameError && (
+                <p className="text-xs text-red-400 text-center">{saveNameError}</p>
+              )}
               <div className="flex gap-3">
                 <button
                   onClick={() => setShowEditNameModal(false)}
