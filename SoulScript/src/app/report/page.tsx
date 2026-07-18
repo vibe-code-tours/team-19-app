@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { toPng } from "html-to-image";
 import { useQueryClient } from "@tanstack/react-query";
 import NavBar from "@/components/NavBar";
-import { useReport } from "@/hooks/useReport";
+import { useReport, type ReportResponse } from "@/hooks/useReport";
 import { MOOD_EMOJIS } from "@/lib/mood-themes";
 import { Sparkles, Shield, TrendingUp, Brain, Heart, ArrowLeft, BarChart, Loader2, Download } from "lucide-react";
 
@@ -85,40 +85,6 @@ function getBarColor(emotion: string): string {
   return colorMap[emotion.toLowerCase()] || "bg-violet-400";
 }
 
-const DAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-
-function getDominantDayMood(
-  entries: { primary_emotion: string; emoji: string; created_at: string }[]
-): Record<number, { emotion: string; emoji: string; count: number }> {
-  const dayGroups: Record<number, Record<string, { emoji: string; count: number }>> = {};
-
-  for (const entry of entries) {
-    const day = new Date(entry.created_at).getDay();
-    if (!dayGroups[day]) dayGroups[day] = {};
-    const emotion = entry.primary_emotion;
-    if (!dayGroups[day][emotion]) {
-      dayGroups[day][emotion] = { emoji: entry.emoji, count: 0 };
-    }
-    dayGroups[day][emotion].count++;
-  }
-
-  const result: Record<number, { emotion: string; emoji: string; count: number }> = {};
-  for (const [day, emotions] of Object.entries(dayGroups)) {
-    const dayNum = Number(day);
-    let maxEmotion = "";
-    let maxCount = 0;
-    let emoji = "";
-    for (const [emotion, data] of Object.entries(emotions)) {
-      if (data.count > maxCount) {
-        maxCount = data.count;
-        maxEmotion = emotion;
-        emoji = data.emoji;
-      }
-    }
-    result[dayNum] = { emotion: maxEmotion, emoji, count: maxCount };
-  }
-  return result;
-}
 
 function ReportContent() {
   const router = useRouter();
@@ -172,7 +138,7 @@ function ReportContent() {
 
         // Write to cache (works for both cached and fresh)
         if (raw) {
-          queryClient.setQueryData(["report", month], (old: any) => ({
+          queryClient.setQueryData(["report", month], (old: ReportResponse | undefined) => ({
             stats: old?.stats ?? stats,
             report: {
               summary: raw.summary_overview,
@@ -181,6 +147,7 @@ function ReportContent() {
               recommendations: raw.actionable_recommendations,
             },
           }));
+          if (!cancelled) setGenerating(false);
         }
       } catch (err) {
         console.error("Failed to generate report:", err);
@@ -189,13 +156,6 @@ function ReportContent() {
     generate();
     return () => { cancelled = true; };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  // Dismiss generating spinner once report data arrives
-  useEffect(() => {
-    if (generating && data?.report) {
-      setGenerating(false);
-    }
-  }, [generating, data?.report]);
 
   // Save report as PNG
   const handleSavePng = useCallback(async () => {
@@ -242,38 +202,112 @@ function ReportContent() {
     return (
       <div className="min-h-screen flex flex-col">
         <NavBar active="report" />
-        <div className="flex-1 px-5 md:px-10 lg:px-20 pb-10 max-w-4xl mx-auto w-full">
-          <div className="space-y-7">
-            {/* Header skeleton */}
-            <div className="text-center space-y-3 pt-2">
-              <div className="skeleton w-12 h-12 rounded-3xl mx-auto" />
-              <div className="skeleton h-7 w-48 mx-auto rounded-lg" />
-              <div className="skeleton h-4 w-64 mx-auto rounded-lg" />
-              <div className="skeleton h-3 w-40 mx-auto rounded-lg" />
-            </div>
-            <div className="h-px bg-white/5" />
-            {/* Big picture skeleton */}
-            <div className="space-y-3">
-              <div className="skeleton h-3 w-32 rounded-lg" />
-              <div className="glass rounded-2xl p-8 space-y-4">
-                <div className="skeleton w-12 h-12 rounded-full mx-auto" />
-                <div className="skeleton h-6 w-24 mx-auto rounded-lg" />
+        <div className="flex-1 px-5 md:px-10 lg:px-10 pb-10 max-w-5xl mx-auto w-full">
+          <div className="p-6 md:p-10 rounded-2xl">
+            <div className="bg-background rounded-2xl p-6 md:p-8 space-y-7">
+              {/* Header skeleton */}
+              <div className="text-center space-y-3 pt-2">
+                <div className="skeleton w-12 h-12 rounded-3xl mx-auto" />
+                <div className="skeleton h-7 w-48 mx-auto rounded-lg" />
                 <div className="skeleton h-4 w-64 mx-auto rounded-lg" />
+                <div className="skeleton h-3 w-40 mx-auto rounded-lg" />
               </div>
-            </div>
-            {/* Mood distribution skeleton */}
-            <div className="space-y-3">
-              <div className="skeleton h-3 w-40 rounded-lg" />
-              <div className="glass rounded-2xl p-5 space-y-4">
-                {[1, 2, 3].map((i) => (
-                  <div key={i} className="space-y-1.5">
-                    <div className="flex justify-between">
-                      <div className="skeleton h-4 w-20 rounded-lg" />
-                      <div className="skeleton h-4 w-8 rounded-lg" />
-                    </div>
-                    <div className="skeleton h-1.5 w-full rounded-full" />
+              <div className="h-px bg-white/5" />
+              {/* Top section — two columns on desktop */}
+              <div className="grid grid-cols-1 md:grid-cols-2 md:items-start gap-5">
+                {/* Big picture skeleton */}
+                <div className="space-y-3">
+                  <div className="skeleton h-3 w-32 rounded-lg" />
+                  <div className="glass rounded-2xl p-8 space-y-4">
+                    <div className="skeleton w-12 h-12 rounded-full mx-auto" />
+                    <div className="skeleton h-6 w-24 mx-auto rounded-lg" />
+                    <div className="skeleton h-4 w-64 mx-auto rounded-lg" />
                   </div>
-                ))}
+                </div>
+                {/* Mood distribution skeleton */}
+                <div className="space-y-3">
+                  <div className="skeleton h-3 w-40 rounded-lg" />
+                  <div className="glass rounded-2xl p-5 space-y-4">
+                    {[1, 2, 3].map((i) => (
+                      <div key={i} className="space-y-1.5">
+                        <div className="flex justify-between">
+                          <div className="skeleton h-4 w-20 rounded-lg" />
+                          <div className="skeleton h-4 w-8 rounded-lg" />
+                        </div>
+                        <div className="skeleton h-1.5 w-full rounded-full" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              {/* Bottom section — two columns on desktop */}
+              <div className="grid grid-cols-1 md:grid-cols-2 md:items-start gap-5">
+                {/* Pattern recognition skeleton */}
+                <div className="space-y-3">
+                  <div className="skeleton h-3 w-36 rounded-lg" />
+                  <div className="glass rounded-2xl p-5 space-y-5">
+                    {[1, 2, 3].map((i) => (
+                      <div key={i} className="flex gap-3.5">
+                        <div className="w-0.5 shrink-0 rounded-full skeleton" />
+                        <div className="flex-1 space-y-2">
+                          <div className="skeleton h-4 w-20 rounded-lg" />
+                          <div className="skeleton h-3 w-full rounded-lg" />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                {/* Emotional rhythm + moment skeletons */}
+                <div className="space-y-5">
+                  <div className="space-y-3">
+                    <div className="skeleton h-3 w-44 rounded-lg" />
+                    <div className="space-y-2.5">
+                      {[1, 2, 3].map((i) => (
+                        <div key={i} className="glass rounded-xl p-4 border-l-[3px] border-l-accent">
+                          <div className="flex items-center justify-between">
+                            <div className="space-y-1.5">
+                              <div className="skeleton h-3 w-24 rounded-lg" />
+                              <div className="skeleton h-4 w-32 rounded-lg" />
+                            </div>
+                            <div className="skeleton w-8 h-8 rounded-full" />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="space-y-3">
+                    <div className="skeleton h-3 w-40 rounded-lg" />
+                    <div className="glass rounded-2xl p-6 space-y-3">
+                      <div className="flex items-center gap-2">
+                        <div className="skeleton w-6 h-6 rounded-full" />
+                        <div className="skeleton h-3 w-20 rounded-lg" />
+                      </div>
+                      <div className="skeleton h-4 w-full rounded-lg" />
+                      <div className="skeleton h-3 w-48 rounded-lg" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* Actionable frameworks skeleton */}
+              <div className="space-y-3">
+                <div className="skeleton h-3 w-44 rounded-lg" />
+                <div className="skeleton h-3 w-64 rounded-lg" />
+                <div className="space-y-2.5">
+                  {[1, 2].map((i) => (
+                    <div key={i} className="glass rounded-xl p-4 flex items-start gap-3">
+                      <div className="skeleton w-6 h-6 rounded-full shrink-0 mt-0.5" />
+                      <div className="flex-1 space-y-1.5">
+                        <div className="skeleton h-4 w-32 rounded-lg" />
+                        <div className="skeleton h-3 w-full rounded-lg" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              {/* Closing reflection skeleton */}
+              <div className="glass rounded-2xl p-6 text-center space-y-3">
+                <div className="skeleton w-10 h-10 rounded-full mx-auto" />
+                <div className="skeleton h-3 w-3/4 mx-auto rounded-lg" />
               </div>
             </div>
           </div>
@@ -313,17 +347,13 @@ function ReportContent() {
   const insights = report ? splitInsights(report.insights) : [];
   const recommendations = report ? parseRecommendations(report.recommendations) : [];
 
-  // Entries for emotional rhythm (derived from mood distribution for day-of-week)
-  // We use the stats' moodDistribution and streak data to show what we have
-  const dayMoodData = hasEnoughEntries && report ? null : null; // Will compute from entries when available
-
   return (
     <div className="min-h-screen flex flex-col">
       <NavBar active="report" />
 
-      <div className="flex-1 px-5 md:px-10 lg:px-10 pb-10 max-w-4xl mx-auto w-full">
+      <div className="flex-1 px-5 md:px-10 lg:px-10 pb-10 max-w-5xl mx-auto w-full">
         <div ref={reportRef} className="p-6 md:p-10 rounded-2xl">
-          <div className="bg-[#0f0a1f] rounded-2xl p-6 md:p-8">
+          <div className="bg-background rounded-2xl p-6 md:p-8">
         <motion.div
           className="space-y-7"
           variants={containerVariants}

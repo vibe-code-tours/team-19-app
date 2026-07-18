@@ -17,7 +17,7 @@ interface ReportData {
   recommendations: string[];
 }
 
-interface ReportResponse {
+export interface ReportResponse {
   stats: ReportStats;
   report: ReportData | null;
   latestEntryTime: string | null;

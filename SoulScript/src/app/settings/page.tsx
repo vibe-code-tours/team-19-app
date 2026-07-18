@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "next-themes";
 
@@ -25,11 +26,8 @@ export default function SettingsPage() {
   const [savingName, setSavingName] = useState(false);
   const [saveNameError, setSaveNameError] = useState<string | null>(null);
   const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
   const router = useRouter();
   const supabase = useMemo(() => createClient(), []);
-
-  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     async function loadProfile() {
@@ -127,8 +125,55 @@ export default function SettingsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-6">
-        <div className="skeleton h-64 w-full max-w-sm rounded-xl" />
+      <div className="min-h-screen px-5 pb-8 max-w-lg mx-auto w-full md:max-w-[712px] lg:max-w-[848px]">
+        <div className="flex items-center justify-between py-4">
+          <div className="skeleton w-9 h-9 rounded-full" />
+          <div className="skeleton h-6 w-24 rounded-lg" />
+          <div className="w-9" />
+        </div>
+        <div className="space-y-6 mt-4">
+          <div className="glass rounded-xl p-6 space-y-5">
+            <div className="skeleton h-3 w-20 rounded-lg" />
+            <div className="flex items-center gap-4">
+              <div className="skeleton w-14 h-14 rounded-full shrink-0" />
+              <div className="flex-1 space-y-2">
+                <div className="skeleton h-5 w-32 rounded-lg" />
+                <div className="skeleton h-4 w-48 rounded-lg" />
+              </div>
+              <div className="skeleton w-9 h-9 rounded-full shrink-0" />
+            </div>
+          </div>
+          <div className="glass rounded-xl p-6 space-y-4">
+            <div className="skeleton h-3 w-28 rounded-lg" />
+            <div className="flex items-center justify-between">
+              <div className="space-y-1.5">
+                <div className="skeleton h-4 w-28 rounded-lg" />
+                <div className="skeleton h-3 w-20 rounded-lg" />
+              </div>
+              <div className="skeleton w-11 h-6 rounded-full" />
+            </div>
+          </div>
+          <div className="glass rounded-xl p-6 space-y-4">
+            <div className="skeleton h-3 w-16 rounded-lg" />
+            <div className="space-y-1.5">
+              <div className="skeleton h-4 w-32 rounded-lg" />
+              <div className="skeleton h-3 w-48 rounded-lg" />
+            </div>
+          </div>
+          <div className="glass rounded-xl p-6 space-y-4 border border-red-500/20">
+            <div className="skeleton h-3 w-28 rounded-lg" />
+            <div className="skeleton h-4 w-64 rounded-lg" />
+            <div className="skeleton h-12 w-full rounded-xl" />
+          </div>
+          <div className="glass rounded-xl p-6 space-y-4">
+            <div className="skeleton h-3 w-20 rounded-lg" />
+            <div className="space-y-1.5">
+              <div className="skeleton h-4 w-16 rounded-lg" />
+              <div className="skeleton h-3 w-24 rounded-lg" />
+            </div>
+            <div className="skeleton h-12 w-full rounded-xl" />
+          </div>
+        </div>
       </div>
     );
   }
@@ -173,7 +218,7 @@ export default function SettingsPage() {
 
           <div className="flex items-center gap-4">
             {avatarUrl ? (
-              <img
+              <Image
                 src={avatarUrl}
                 alt="Profile"
                 width={56}
@@ -218,20 +263,18 @@ export default function SettingsPage() {
               <p className="text-sm font-medium text-text-primary">Appearance</p>
               <p className="text-xs text-text-muted">{theme === "dark" ? "Dark mode" : "Light mode"}</p>
             </div>
-            {mounted && (
-              <button
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                className={`relative w-11 h-6 rounded-full transition-colors ${
-                  theme === "dark" ? "bg-[#6366F1]" : "bg-[#E0D6FF]"
+            <button
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              className={`relative w-11 h-6 rounded-full transition-colors ${
+                theme === "dark" ? "bg-[#6366F1]" : "bg-[#E0D6FF]"
+              }`}
+            >
+              <div
+                className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${
+                  theme === "dark" ? "translate-x-[22px]" : "translate-x-0.5"
                 }`}
-              >
-                <div
-                  className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${
-                    theme === "dark" ? "translate-x-[22px]" : "translate-x-0.5"
-                  }`}
-                />
-              </button>
-            )}
+              />
+            </button>
           </div>
         </div>
 

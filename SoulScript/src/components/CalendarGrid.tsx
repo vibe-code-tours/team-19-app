@@ -45,6 +45,7 @@ interface CalendarGridProps {
   onNextMonth: () => void;
   onGoToToday: () => void;
   onDayClick: (entries: JournalEntry[]) => void;
+  isFetching?: boolean;
 }
 
 export default function CalendarGrid({
@@ -57,6 +58,7 @@ export default function CalendarGrid({
   onNextMonth,
   onGoToToday,
   onDayClick,
+  isFetching = false,
 }: CalendarGridProps) {
   const today = new Date();
   const isCurrentMonth =
@@ -68,7 +70,8 @@ export default function CalendarGrid({
       <div className="flex items-center justify-between">
         <button
           onClick={onPrevMonth}
-          className="w-8 h-8 rounded-16 bg-white/[0.05] flex items-center justify-center text-text-secondary hover:text-text-primary transition-colors"
+          disabled={isFetching}
+          className="w-8 h-8 rounded-16 bg-white/[0.05] flex items-center justify-center text-text-secondary hover:text-text-primary transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -79,15 +82,30 @@ export default function CalendarGrid({
           <h2 className="font-[family-name:var(--font-heading)] text-xl font-bold text-text-primary tracking-tight">
             {MONTHS[month]} {year}
           </h2>
+          {isFetching && (
+            <div className="w-4 h-4 border-2 border-accent/30 border-t-accent rounded-full animate-spin" />
+          )}
         </div>
 
-        <button
-          onClick={onGoToToday}
-          className="flex items-center gap-1 px-3.5 py-1.5 rounded-full bg-white/[0.05] border border-white/[0.08] text-xs font-medium text-text-primary hover:bg-white/[0.08] transition-colors"
-        >
-          <span className="w-2 h-2 rounded-full bg-accent" />
-          Today
-        </button>
+        <div className="flex items-center gap-1.5">
+          <button
+            onClick={onNextMonth}
+            disabled={isFetching}
+            className="w-8 h-8 rounded-16 bg-white/[0.05] flex items-center justify-center text-text-secondary hover:text-text-primary transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+          <button
+            onClick={onGoToToday}
+            disabled={isFetching}
+            className="flex items-center gap-1 px-3.5 py-1.5 rounded-full bg-white/[0.05] border border-white/[0.08] text-xs font-medium text-text-primary hover:bg-white/[0.08] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            <span className="w-2 h-2 rounded-full bg-accent" />
+            Today
+          </button>
+        </div>
       </div>
 
       {/* Weekday Header */}
@@ -103,7 +121,7 @@ export default function CalendarGrid({
       </div>
 
       {/* Calendar Grid */}
-      <div className="grid grid-cols-7 gap-1.5">
+      <div className={`grid grid-cols-7 gap-1.5 transition-opacity ${isFetching ? "opacity-40 pointer-events-none" : ""}`}>
         {Array.from({ length: firstDay }).map((_, i) => (
           <div key={`empty-${i}`} className="aspect-square" />
         ))}
