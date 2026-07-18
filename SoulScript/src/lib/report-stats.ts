@@ -116,7 +116,7 @@ export function computeStreak(entries: TimestampEntry[]): StreakResult {
   }
 
   let current = 0;
-  let checkDate = new Date(startDate + "T12:00:00Z");
+  const checkDate = new Date(startDate + "T12:00:00Z");
   while (daySet.has(checkDate.toISOString().slice(0, 10))) {
     current++;
     checkDate.setDate(checkDate.getDate() - 1);
