@@ -132,17 +132,25 @@ function ReportContent() {
   const { data, isLoading, error } = useReport(month);
   const stats = data?.stats;
   const report = data?.report;
+  const latestEntryTime = data?.latestEntryTime;
+  const reportCreatedAt = data?.reportCreatedAt;
 
   const [generating, setGenerating] = useState(false);
   const [saving, setSaving] = useState(false);
 
   const hasEnoughEntries = (stats?.entryCount ?? 0) >= 10;
 
-  // Auto-generate report on load — fire POST silently (no spinner)
-  // Server returns cached:true if no new entries; only shows spinner for fresh generation
+  // Auto-generate report on load — only POST if no existing report or new entries exist
+  // GET already fetched stats and existing report via useReport hook
   useEffect(() => {
     if (isLoading || !hasEnoughEntries || generatedRef.current) return;
     generatedRef.current = true;
+
+    // Check if report is up-to-date (no new entries since report was created)
+    if (report && latestEntryTime && reportCreatedAt) {
+      const hasNewEntries = new Date(latestEntryTime) > new Date(reportCreatedAt);
+      if (!hasNewEntries) return; // Report is current, no need to POST
+    }
 
     let cancelled = false;
     async function generate() {

@@ -106,6 +106,7 @@ export async function POST(request: Request) {
             ? report.actionable_recommendations
             : []
           ).map((r) => JSON.stringify(r)),
+          created_at: new Date().toISOString(),
         },
         { onConflict: "user_id,month_year" }
       )
@@ -164,7 +165,7 @@ export async function GET(request: Request) {
     const { data: report, error: reportError } = await supabase
       .from("monthly_reports")
       .select(
-        "summary_overview, dominant_mood, pattern_insights, actionable_recommendations"
+        "summary_overview, dominant_mood, pattern_insights, actionable_recommendations, created_at"
       )
       .eq("user_id", user.id)
       .eq("month_year", month)
@@ -177,6 +178,13 @@ export async function GET(request: Request) {
     const moodDistribution = computeMoodDistribution(entries || []);
     const daysJournaled = computeDaysJournaled(entries || []);
     const streak = computeStreak(entries || []);
+
+    // Get latest entry time for staleness check
+    const latestEntryTime = entries && entries.length > 0
+      ? entries.reduce((latest, entry) =>
+          new Date(entry.created_at) > new Date(latest) ? entry.created_at : latest
+        , entries[0].created_at)
+      : null;
 
     return NextResponse.json({
       stats: {
@@ -193,6 +201,8 @@ export async function GET(request: Request) {
             recommendations: report.actionable_recommendations,
           }
         : null,
+      latestEntryTime,
+      reportCreatedAt: report?.created_at || null,
     });
   } catch (error) {
     console.error("Report fetch error:", error);
