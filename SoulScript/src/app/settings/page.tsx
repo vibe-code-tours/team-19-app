@@ -1,12 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "next-themes";
-import NavBar from "@/components/NavBar";
 
 export default function SettingsPage() {
   const [profile, setProfile] = useState<{
@@ -15,41 +14,51 @@ export default function SettingsPage() {
   const [email, setEmail] = useState("");
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState("");
   const [deleting, setDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [logoutError, setLogoutError] = useState<string | null>(null);
   const [showEditNameModal, setShowEditNameModal] = useState(false);
   const [editName, setEditName] = useState("");
   const [savingName, setSavingName] = useState(false);
+  const [saveNameError, setSaveNameError] = useState<string | null>(null);
   const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
   const router = useRouter();
-  const supabase = createClient();
-
-  useEffect(() => setMounted(true), []);
+  const supabase = useMemo(() => createClient(), []);
 
   useEffect(() => {
     async function loadProfile() {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      if (!user) {
-        router.push("/login");
-        return;
+      try {
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+        if (!user) {
+          router.push("/login");
+          return;
+        }
+
+        setEmail(user.email || "");
+        setAvatarUrl(user.user_metadata?.avatar_url || null);
+
+        const { data, error: profileError } = await supabase
+          .from("user_profiles")
+          .select("display_name")
+          .eq("user_id", user.id)
+          .single();
+
+        if (profileError) {
+          console.error("Failed to load profile:", profileError.message);
+        }
+        if (data) setProfile(data);
+      } catch (err) {
+        console.error("Failed to load profile:", err);
+        setError("Failed to load profile. Please try again.");
+      } finally {
+        setLoading(false);
       }
-
-      setEmail(user.email || "");
-      setAvatarUrl(user.user_metadata?.avatar_url || null);
-
-      const { data } = await supabase
-        .from("user_profiles")
-        .select("display_name")
-        .eq("user_id", user.id)
-        .single();
-
-      if (data) setProfile(data);
-      setLoading(false);
     }
     loadProfile();
   }, [supabase, router]);
@@ -57,31 +66,52 @@ export default function SettingsPage() {
   async function handleDeleteAccount() {
     if (deleteConfirm !== "DELETE") return;
     setDeleting(true);
-    const res = await fetch("/api/account", { method: "DELETE" });
-    if (res.ok) {
-      router.push("/login");
+    setDeleteError(null);
+    try {
+      const res = await fetch("/api/account", { method: "DELETE" });
+      if (res.ok) {
+        router.push("/login");
+      } else {
+        setDeleteError("Failed to delete account. Please try again.");
+      }
+    } catch {
+      setDeleteError("Network error. Please try again.");
+    } finally {
+      setDeleting(false);
     }
-    setDeleting(false);
   }
 
   async function handleLogout() {
-    await supabase.auth.signOut();
-    router.push("/login");
+    setLogoutError(null);
+    try {
+      await supabase.auth.signOut();
+      router.push("/login");
+    } catch {
+      setLogoutError("Failed to log out. Please try again.");
+    }
   }
 
   async function handleSaveName() {
     if (!editName.trim()) return;
     setSavingName(true);
-    const res = await fetch("/api/profile", {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ display_name: editName.trim() }),
-    });
-    if (res.ok) {
-      setProfile((prev) => prev ? { ...prev, display_name: editName.trim() } : prev);
-      setShowEditNameModal(false);
+    setSaveNameError(null);
+    try {
+      const res = await fetch("/api/profile", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ display_name: editName.trim() }),
+      });
+      if (res.ok) {
+        setProfile((prev) => prev ? { ...prev, display_name: editName.trim() } : prev);
+        setShowEditNameModal(false);
+      } else {
+        setSaveNameError("Failed to save name. Please try again.");
+      }
+    } catch {
+      setSaveNameError("Network error. Please try again.");
+    } finally {
+      setSavingName(false);
     }
-    setSavingName(false);
   }
 
   const initials = profile?.display_name
@@ -95,8 +125,71 @@ export default function SettingsPage() {
 
   if (loading) {
     return (
+      <div className="min-h-screen px-5 pb-8 max-w-lg mx-auto w-full md:max-w-[712px] lg:max-w-[848px]">
+        <div className="flex items-center justify-between py-4">
+          <div className="skeleton w-9 h-9 rounded-full" />
+          <div className="skeleton h-6 w-24 rounded-lg" />
+          <div className="w-9" />
+        </div>
+        <div className="space-y-6 mt-4">
+          <div className="glass rounded-xl p-6 space-y-5">
+            <div className="skeleton h-3 w-20 rounded-lg" />
+            <div className="flex items-center gap-4">
+              <div className="skeleton w-14 h-14 rounded-full shrink-0" />
+              <div className="flex-1 space-y-2">
+                <div className="skeleton h-5 w-32 rounded-lg" />
+                <div className="skeleton h-4 w-48 rounded-lg" />
+              </div>
+              <div className="skeleton w-9 h-9 rounded-full shrink-0" />
+            </div>
+          </div>
+          <div className="glass rounded-xl p-6 space-y-4">
+            <div className="skeleton h-3 w-28 rounded-lg" />
+            <div className="flex items-center justify-between">
+              <div className="space-y-1.5">
+                <div className="skeleton h-4 w-28 rounded-lg" />
+                <div className="skeleton h-3 w-20 rounded-lg" />
+              </div>
+              <div className="skeleton w-11 h-6 rounded-full" />
+            </div>
+          </div>
+          <div className="glass rounded-xl p-6 space-y-4">
+            <div className="skeleton h-3 w-16 rounded-lg" />
+            <div className="space-y-1.5">
+              <div className="skeleton h-4 w-32 rounded-lg" />
+              <div className="skeleton h-3 w-48 rounded-lg" />
+            </div>
+          </div>
+          <div className="glass rounded-xl p-6 space-y-4 border border-red-500/20">
+            <div className="skeleton h-3 w-28 rounded-lg" />
+            <div className="skeleton h-4 w-64 rounded-lg" />
+            <div className="skeleton h-12 w-full rounded-xl" />
+          </div>
+          <div className="glass rounded-xl p-6 space-y-4">
+            <div className="skeleton h-3 w-20 rounded-lg" />
+            <div className="space-y-1.5">
+              <div className="skeleton h-4 w-16 rounded-lg" />
+              <div className="skeleton h-3 w-24 rounded-lg" />
+            </div>
+            <div className="skeleton h-12 w-full rounded-xl" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
       <div className="min-h-screen flex items-center justify-center p-6">
-        <div className="skeleton h-64 w-full max-w-sm rounded-xl" />
+        <div className="text-center space-y-3">
+          <p className="text-red-400 text-sm">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="text-sm text-accent hover:underline"
+          >
+            Retry
+          </button>
+        </div>
       </div>
     );
   }
@@ -170,20 +263,18 @@ export default function SettingsPage() {
               <p className="text-sm font-medium text-text-primary">Appearance</p>
               <p className="text-xs text-text-muted">{theme === "dark" ? "Dark mode" : "Light mode"}</p>
             </div>
-            {mounted && (
-              <button
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                className={`relative w-11 h-6 rounded-full transition-colors ${
-                  theme === "dark" ? "bg-[#6366F1]" : "bg-[#E0D6FF]"
+            <button
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              className={`relative w-11 h-6 rounded-full transition-colors ${
+                theme === "dark" ? "bg-[#6366F1]" : "bg-[#E0D6FF]"
+              }`}
+            >
+              <div
+                className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${
+                  theme === "dark" ? "translate-x-[22px]" : "translate-x-0.5"
                 }`}
-              >
-                <div
-                  className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${
-                    theme === "dark" ? "translate-x-[22px]" : "translate-x-0.5"
-                  }`}
-                />
-              </button>
-            )}
+              />
+            </button>
           </div>
         </div>
 
@@ -198,14 +289,11 @@ export default function SettingsPage() {
               <p className="text-sm font-medium text-text-primary">Journal Privacy</p>
               <p className="text-xs text-text-muted">Your entries are always encrypted</p>
             </div>
-            <svg className="w-4 h-4 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
           </button>
         </div>
 
         {/* Export Data */}
-        <div className="glass rounded-xl p-6 space-y-4">
+        {/* <div className="glass rounded-xl p-6 space-y-4">
           <p className="text-xs font-semibold tracking-wider text-accent">
             EXPORT DATA
           </p>
@@ -215,11 +303,8 @@ export default function SettingsPage() {
               <p className="text-sm font-medium text-text-primary">Export my journal</p>
               <p className="text-xs text-text-muted">Download all your entries as JSON</p>
             </div>
-            <svg className="w-4 h-4 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
           </button>
-        </div>
+        </div> */}
 
         {/* Danger Zone */}
         <div className="glass rounded-xl p-6 space-y-4 border border-red-500/20">
@@ -298,6 +383,9 @@ export default function SettingsPage() {
                 placeholder='Type "DELETE"'
                 className="w-full px-3 py-2.5 bg-white/4 border border-glass-border rounded-lg text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-1 focus:ring-red-500 text-center"
               />
+              {deleteError && (
+                <p className="text-xs text-red-400 text-center">{deleteError}</p>
+              )}
               <div className="flex gap-3">
                 <button
                   onClick={() => {
@@ -351,6 +439,9 @@ export default function SettingsPage() {
               <p className="text-sm text-text-secondary">
                 Your journal will be here when you return.
               </p>
+              {logoutError && (
+                <p className="text-xs text-red-400">{logoutError}</p>
+              )}
 
               <div className="flex gap-3">
                 <button
@@ -402,6 +493,9 @@ export default function SettingsPage() {
                 maxLength={30}
                 className="w-full px-3 py-2.5 bg-white/4 border border-glass-border rounded-lg text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-1 focus:ring-accent text-center"
               />
+              {saveNameError && (
+                <p className="text-xs text-red-400 text-center">{saveNameError}</p>
+              )}
               <div className="flex gap-3">
                 <button
                   onClick={() => setShowEditNameModal(false)}
