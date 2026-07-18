@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTheme } from "next-themes";
 import NavBar from "@/components/NavBar";
 
 export default function SettingsPage() {
@@ -18,9 +19,15 @@ export default function SettingsPage() {
   const [deleteConfirm, setDeleteConfirm] = useState("");
   const [deleting, setDeleting] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
-  const [notifications, setNotifications] = useState(true);
+  const [showEditNameModal, setShowEditNameModal] = useState(false);
+  const [editName, setEditName] = useState("");
+  const [savingName, setSavingName] = useState(false);
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
   const router = useRouter();
   const supabase = createClient();
+
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     async function loadProfile() {
@@ -62,6 +69,21 @@ export default function SettingsPage() {
     router.push("/login");
   }
 
+  async function handleSaveName() {
+    if (!editName.trim()) return;
+    setSavingName(true);
+    const res = await fetch("/api/profile", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ display_name: editName.trim() }),
+    });
+    if (res.ok) {
+      setProfile((prev) => prev ? { ...prev, display_name: editName.trim() } : prev);
+      setShowEditNameModal(false);
+    }
+    setSavingName(false);
+  }
+
   const initials = profile?.display_name
     ? profile.display_name
         .split(" ")
@@ -83,7 +105,7 @@ export default function SettingsPage() {
     <div className="min-h-screen px-5 pb-8 max-w-lg mx-auto w-full md:max-w-[712px] lg:max-w-[848px]">
       {/* Header */}
       <div className="flex items-center justify-between py-4">
-        <button onClick={() => router.push("/")} className="p-2 text-text-secondary hover:text-white hover:bg-accent/20 hover:border-accent/50 rounded-lg border border-transparent transition-all cursor-pointer">
+        <button onClick={() => router.push("/")} className="p-2 text-text-secondary hover:text-text-primary">
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
@@ -117,12 +139,23 @@ export default function SettingsPage() {
                 </span>
               </div>
             )}
-            <div>
+            <div className="flex-1 min-w-0">
               <p className="font-medium text-text-primary text-base">
                 {profile?.display_name || "User"}
               </p>
               <p className="text-sm text-text-secondary">{email}</p>
             </div>
+            <button
+              onClick={() => {
+                setEditName(profile?.display_name || "");
+                setShowEditNameModal(true);
+              }}
+              className="w-9 h-9 shrink-0 rounded-full bg-white/[0.03] border border-white/[0.07] flex items-center justify-center hover:bg-white/[0.08] transition-colors"
+            >
+              <svg className="w-4 h-4 text-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+              </svg>
+            </button>
           </div>
         </div>
 
@@ -134,20 +167,23 @@ export default function SettingsPage() {
 
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-text-primary">Notifications</p>
+              <p className="text-sm font-medium text-text-primary">Appearance</p>
+              <p className="text-xs text-text-muted">{theme === "dark" ? "Dark mode" : "Light mode"}</p>
             </div>
-            <button
-              onClick={() => setNotifications(!notifications)}
-              className={`relative w-11 h-6 rounded-full transition-colors cursor-pointer ${
-                notifications ? "bg-accent" : "bg-white/10"
-              }`}
-            >
-              <div
-                className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${
-                  notifications ? "translate-x-[22px]" : "translate-x-0.5"
+            {mounted && (
+              <button
+                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                className={`relative w-11 h-6 rounded-full transition-colors ${
+                  theme === "dark" ? "bg-[#6366F1]" : "bg-[#E0D6FF]"
                 }`}
-              />
-            </button>
+              >
+                <div
+                  className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${
+                    theme === "dark" ? "translate-x-[22px]" : "translate-x-0.5"
+                  }`}
+                />
+              </button>
+            )}
           </div>
         </div>
 
@@ -157,11 +193,14 @@ export default function SettingsPage() {
             PRIVACY
           </p>
 
-          <button className="w-full flex items-center justify-between py-1 cursor-pointer">
+          <button className="w-full flex items-center justify-between py-1">
             <div className="text-left">
               <p className="text-sm font-medium text-text-primary">Journal Privacy</p>
               <p className="text-xs text-text-muted">Your entries are always encrypted</p>
-            </div>           
+            </div>
+            <svg className="w-4 h-4 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
           </button>
         </div>
 
@@ -171,11 +210,14 @@ export default function SettingsPage() {
             EXPORT DATA
           </p>
 
-          <button className="w-full flex items-center justify-between py-1 cursor-pointer">
+          <button className="w-full flex items-center justify-between py-1">
             <div className="text-left">
               <p className="text-sm font-medium text-text-primary">Export my journal</p>
               <p className="text-xs text-text-muted">Download all your entries as JSON</p>
             </div>
+            <svg className="w-4 h-4 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
           </button>
         </div>
 
@@ -189,7 +231,7 @@ export default function SettingsPage() {
           </p>
           <button
             onClick={() => setShowDeleteModal(true)}
-            className="w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-red-500 text-red-400 font-medium hover:bg-red-500/10 transition-colors cursor-pointer"
+            className="w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-red-500 text-red-400 font-medium hover:bg-red-500/10 transition-colors"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -212,7 +254,7 @@ export default function SettingsPage() {
           </div>
           <button
             onClick={() => setShowLogoutModal(true)}
-            className="w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-glass-border text-text-primary font-medium hover:bg-accent/20 hover:border-accent/50 transition-colors cursor-pointer"
+            className="w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-glass-border text-text-primary font-medium hover:bg-white/[0.06] transition-colors"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -262,7 +304,7 @@ export default function SettingsPage() {
                     setShowDeleteModal(false);
                     setDeleteConfirm("");
                   }}
-                  className="flex-1 py-2.5 glass rounded-xl text-sm font-medium text-text-secondary hover:text-text-primary cursor-pointer"
+                  className="flex-1 py-2.5 glass rounded-xl text-sm font-medium text-text-secondary hover:text-text-primary"
                 >
                   Cancel
                 </button>
@@ -325,6 +367,54 @@ export default function SettingsPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                   </svg>
                   Log Out
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Edit Name Modal */}
+      <AnimatePresence>
+        {showEditNameModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            onClick={() => setShowEditNameModal(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="glass rounded-2xl p-6 w-full max-w-sm space-y-5"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h3 className="font-(family-name:--font-playfair) text-lg font-bold text-text-primary text-center">
+                Edit Display Name
+              </h3>
+              <input
+                type="text"
+                value={editName}
+                onChange={(e) => setEditName(e.target.value)}
+                placeholder="Your name"
+                maxLength={30}
+                className="w-full px-3 py-2.5 bg-white/4 border border-glass-border rounded-lg text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-1 focus:ring-accent text-center"
+              />
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setShowEditNameModal(false)}
+                  className="flex-1 py-2.5 glass rounded-xl text-sm font-medium text-text-secondary hover:text-text-primary"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleSaveName}
+                  disabled={!editName.trim() || savingName}
+                  className="flex-1 py-2.5 bg-gradient-to-b from-accent to-accent-glow text-white rounded-xl text-sm font-semibold disabled:opacity-40 disabled:cursor-not-allowed hover:shadow-[0_6px_24px_rgba(88,44,255,0.45)] transition-all"
+                >
+                  {savingName ? "Saving..." : "Save"}
                 </button>
               </div>
             </motion.div>

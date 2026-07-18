@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@theme inline {
+@theme {
   /* Accent */
   --color-accent: #7C5CFC;
   --color-accent-secondary: #5B3CC4;
@@ -11,25 +11,25 @@
   --color-cta: #D97706;
   --color-cta-glow: #B45309;
 
-  /* Backgrounds */
-  --color-background: #0B0F19;
-  --color-foreground: #F0EDF6;
-  --color-bg-gradient: #111128;
-  --color-bg-mid: #1A1840;
-  --color-surface-deep: #0D0D1A;
+  /* Backgrounds - Light mode default */
+  --color-background: #EDE9FE;
+  --color-foreground: #1E1B4B;
+  --color-bg-gradient: #F5F3FF;
+  --color-bg-mid: #F5F3FF;
+  --color-surface-deep: #FFFFFF;
 
-  /* Text */
-  --color-text-primary: #F0EDF6;
-  --color-text-secondary: #8B8AA0;
-  --color-text-muted: #5A5970;
+  /* Text - Light mode default */
+  --color-text-primary: #1E1B4B;
+  --color-text-secondary: #475569;
+  --color-text-muted: #94A3B8;
 
-  /* Glass */
-  --color-glass: rgba(255, 255, 255, 0.03);
-  --color-glass-border: rgba(255, 255, 255, 0.08);
-  --color-glass-strong: rgba(255, 255, 255, 0.06);
+  /* Glass - Light mode default */
+  --color-glass: rgba(255, 255, 255, 0.8);
+  --color-glass-border: #E0D6FF;
+  --color-glass-strong: rgba(255, 255, 255, 0.8);
 
-  /* Border */
-  --color-border-subtle: #1E1E35;
+  /* Border - Light mode default */
+  --color-border-subtle: #E0D6FF;
 
   /* Fonts */
   --font-heading: "Playfair Display", Georgia, serif;
@@ -54,24 +54,23 @@
   --color-mood-uncertain: #47556925;
 }
 
-/* Light mode overrides */
-@media (prefers-color-scheme: light) {
-  @theme inline {
-    --color-background: #EDE9FE;
-    --color-foreground: #1E1B4B;
-    --color-bg-gradient: #F5F3FF;
-    --color-surface-deep: #FFFFFF;
+/* Dark mode overrides */
+html.dark {
+  --color-background: #0B0F19;
+  --color-foreground: #F0EDF6;
+  --color-bg-gradient: #111128;
+  --color-bg-mid: #1A1840;
+  --color-surface-deep: #0D0D1A;
 
-    --color-text-primary: #1E1B4B;
-    --color-text-secondary: #475569;
-    --color-text-muted: #94A3B8;
+  --color-text-primary: #F0EDF6;
+  --color-text-secondary: #8B8AA0;
+  --color-text-muted: #5A5970;
 
-    --color-glass: rgba(255, 255, 255, 0.8);
-    --color-glass-border: #E0D6FF;
-    --color-glass-strong: rgba(255, 255, 255, 0.8);
+  --color-glass: rgba(255, 255, 255, 0.03);
+  --color-glass-border: rgba(255, 255, 255, 0.08);
+  --color-glass-strong: rgba(255, 255, 255, 0.06);
 
-    --color-border-subtle: #E0D6FF;
-  }
+  --color-border-subtle: #1E1E35;
 }
 
 html,
@@ -87,19 +86,18 @@ body {
   position: relative;
 }
 
-/* Dark mode gradient background */
+/* Gradient background - Light mode default */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
-  background: linear-gradient(180deg, #08081A 0%, #0F0E28 50%, #08081A 100%);
+  background: linear-gradient(180deg, #EDE9FE 0%, #F5F3FF 50%, #EDE9FE 100%);
   z-index: -1;
 }
 
-@media (prefers-color-scheme: light) {
-  body::before {
-    background: linear-gradient(180deg, #EDE9FE 0%, #F5F3FF 50%, #EDE9FE 100%);
-  }
+/* Dark mode gradient */
+html.dark body::before {
+  background: linear-gradient(180deg, #08081A 0%, #0F0E28 50%, #08081A 100%);
 }
 
 /* Glass morphism */
@@ -147,7 +145,19 @@ body::before {
   100% { background-position: 200% 0; }
 }
 
+/* Skeleton - Light mode default */
 .skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(124, 92, 252, 0.08) 25%,
+    rgba(124, 92, 252, 0.15) 50%,
+    rgba(124, 92, 252, 0.08) 75%
+  );
+  background-size: 200% 100%;
+}
+
+/* Dark mode skeleton */
+html.dark .skeleton {
   background: linear-gradient(
     90deg,
     rgba(255, 255, 255, 0.05) 25%,
@@ -155,19 +165,6 @@ body::before {
     rgba(255, 255, 255, 0.05) 75%
   );
   background-size: 200% 100%;
-  animation: shimmer 1.5s ease-in-out infinite;
-}
-
-@media (prefers-color-scheme: light) {
-  .skeleton {
-    background: linear-gradient(
-      90deg,
-      rgba(124, 92, 252, 0.08) 25%,
-      rgba(124, 92, 252, 0.15) 50%,
-      rgba(124, 92, 252, 0.08) 75%
-    );
-    background-size: 200% 100%;
-  }
 }
 
 /* Dreamy Background */
