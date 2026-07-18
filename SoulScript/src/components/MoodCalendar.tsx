@@ -218,7 +218,7 @@ export default function MoodCalendar() {
         {entries.length > 0 && (
           <div className="space-y-2 text-center">
             <button
-              onClick={() => router.push("/report")}
+              onClick={() => router.push(`/report?month=${year}-${String(month + 1).padStart(2, '0')}`)}
               className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-b from-accent to-accent-glow text-white font-semibold rounded-full shadow-[0_4px_16px_rgba(124,92,252,0.3)] hover:shadow-[0_6px_24px_rgba(124,92,252,0.45)] transition-all"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

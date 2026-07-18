@@ -20,6 +20,8 @@ interface ReportData {
 interface ReportResponse {
   stats: ReportStats;
   report: ReportData | null;
+  latestEntryTime: string | null;
+  reportCreatedAt: string | null;
 }
 
 export function useReport(month: string) {
