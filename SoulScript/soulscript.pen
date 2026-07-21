@@ -21,7 +21,7 @@
       "name": "Dashboard",
       "clip": true,
       "width": 390,
-      "height": 1120,
+      "height": 1270,
       "fill": {
         "type": "gradient",
         "gradientType": "linear",
@@ -562,6 +562,270 @@
                       "fontFamily": "Inter",
                       "fontSize": 11,
                       "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "be871a31ef",
+              "name": "Daily Entry Tracker",
+              "width": "fill_container",
+              "fill": "#FFFFFF06",
+              "cornerRadius": 20,
+              "stroke": "#FFFFFF0A",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 16,
+              "padding": [
+                20,
+                24
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "9f2e464a2c",
+                  "name": "Label",
+                  "fill": "#8B7CF6",
+                  "content": "TODAY'S ENTRIES",
+                  "fontFamily": "Inter",
+                  "fontSize": 11,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "371adbe4b4",
+                  "name": "Content Row",
+                  "width": "fill_container",
+                  "fill": "transparent",
+                  "gap": 20,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "ODjPt",
+                      "name": "Donut",
+                      "clip": true,
+                      "width": 88,
+                      "height": 88,
+                      "fill": "#00000000",
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "N3SpDF",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Track Ring",
+                          "innerRadius": 0.75,
+                          "fill": "#ffffff0f",
+                          "width": 88,
+                          "height": 88
+                        },
+                        {
+                          "type": "ellipse",
+                          "id": "c5iiw",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Progress Arc",
+                          "innerRadius": 0.75,
+                          "startAngle": -90,
+                          "sweepAngle": -144,
+                          "fill": {
+                            "type": "gradient",
+                            "gradientType": "linear",
+                            "enabled": true,
+                            "rotation": 180,
+                            "size": {
+                              "height": 1
+                            },
+                            "colors": [
+                              {
+                                "color": "#8B7CF6",
+                                "position": 0
+                              },
+                              {
+                                "color": "#A78BFA",
+                                "position": 1
+                              }
+                            ]
+                          },
+                          "width": 88,
+                          "height": 88
+                        },
+                        {
+                          "type": "frame",
+                          "id": "jS04D",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Center Content",
+                          "width": 88,
+                          "height": 88,
+                          "fill": "#00000000",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "m5QWL",
+                              "name": "Count",
+                              "fill": "#FFFFFF",
+                              "content": "4",
+                              "textAlign": "center",
+                              "fontFamily": "Inter",
+                              "fontSize": 22,
+                              "fontWeight": "700"
+                            },
+                            {
+                              "type": "text",
+                              "id": "Hr2vU",
+                              "name": "Max",
+                              "fill": "#ffffff66",
+                              "content": "/ 10",
+                              "textAlign": "center",
+                              "fontFamily": "Inter",
+                              "fontSize": 11,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "VjDPN",
+                      "name": "Info",
+                      "width": "fill_container",
+                      "fill": "#00000000",
+                      "layout": "vertical",
+                      "gap": 12,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "s6XItx",
+                          "name": "Used Label",
+                          "fill": "#F0EDF6",
+                          "content": "4 of 10 used",
+                          "fontFamily": "Inter",
+                          "fontSize": 15,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "g6mu7",
+                          "name": "Remaining Label",
+                          "fill": "#8B8AA0",
+                          "content": "6 entries remaining",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "kzaxL",
+                          "name": "Dot Indicator",
+                          "width": "fill_container",
+                          "fill": "#00000000",
+                          "gap": 4,
+                          "children": [
+                            {
+                              "type": "ellipse",
+                              "id": "tJnjW",
+                              "name": "Used Dot 1",
+                              "fill": "#8B7CF6",
+                              "width": 8,
+                              "height": 8
+                            },
+                            {
+                              "type": "ellipse",
+                              "id": "x16Uor",
+                              "name": "Used Dot 2",
+                              "fill": "#8B7CF6",
+                              "width": 8,
+                              "height": 8
+                            },
+                            {
+                              "type": "ellipse",
+                              "id": "lfLMN",
+                              "name": "Used Dot 3",
+                              "fill": "#8B7CF6",
+                              "width": 8,
+                              "height": 8
+                            },
+                            {
+                              "type": "ellipse",
+                              "id": "C1qEIt",
+                              "name": "Used Dot 4",
+                              "fill": "#8B7CF6",
+                              "width": 8,
+                              "height": 8
+                            },
+                            {
+                              "type": "ellipse",
+                              "id": "YVPeO",
+                              "name": "Rem Dot 5",
+                              "fill": "#00000000",
+                              "width": 8,
+                              "height": 8,
+                              "stroke": "#ffffff26",
+                              "strokeWidth": 1.5
+                            },
+                            {
+                              "type": "ellipse",
+                              "id": "x0dH0J",
+                              "name": "Rem Dot 6",
+                              "fill": "#00000000",
+                              "width": 8,
+                              "height": 8,
+                              "stroke": "#ffffff26",
+                              "strokeWidth": 1.5
+                            },
+                            {
+                              "type": "ellipse",
+                              "id": "yq5u9",
+                              "name": "Rem Dot 7",
+                              "fill": "#00000000",
+                              "width": 8,
+                              "height": 8,
+                              "stroke": "#ffffff26",
+                              "strokeWidth": 1.5
+                            },
+                            {
+                              "type": "ellipse",
+                              "id": "JbPvm",
+                              "name": "Rem Dot 8",
+                              "fill": "#00000000",
+                              "width": 8,
+                              "height": 8,
+                              "stroke": "#ffffff26",
+                              "strokeWidth": 1.5
+                            },
+                            {
+                              "type": "ellipse",
+                              "id": "qRBqy",
+                              "name": "Rem Dot 9",
+                              "fill": "#00000000",
+                              "width": 8,
+                              "height": 8,
+                              "stroke": "#ffffff26",
+                              "strokeWidth": 1.5
+                            },
+                            {
+                              "type": "ellipse",
+                              "id": "GN8Oy",
+                              "name": "Rem Dot 10",
+                              "fill": "#00000000",
+                              "width": 8,
+                              "height": 8,
+                              "stroke": "#ffffff26",
+                              "strokeWidth": 1.5
+                            }
+                          ]
+                        }
+                      ]
                     }
                   ]
                 }
@@ -31079,7 +31343,7 @@
       "name": "Dashboard — Tablet",
       "clip": true,
       "width": 1024,
-      "height": 960,
+      "height": 1157,
       "fill": {
         "type": "gradient",
         "gradientType": "linear",
@@ -31619,6 +31883,270 @@
                       "fontFamily": "Inter",
                       "fontSize": 11,
                       "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "3ccfaeb47a",
+              "name": "Daily Entry Tracker",
+              "width": "fill_container",
+              "fill": "#FFFFFF06",
+              "cornerRadius": 20,
+              "stroke": "#FFFFFF0A",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 16,
+              "padding": [
+                20,
+                24
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "b76942477f",
+                  "name": "Label",
+                  "fill": "#8B7CF6",
+                  "content": "TODAY'S ENTRIES",
+                  "fontFamily": "Inter",
+                  "fontSize": 11,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "9e8d4f431b",
+                  "name": "Content Row",
+                  "width": "fill_container",
+                  "fill": "transparent",
+                  "gap": 20,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "GzHy3",
+                      "name": "Donut",
+                      "clip": true,
+                      "width": 88,
+                      "height": 88,
+                      "fill": "#00000000",
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "i46h8",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Track Ring",
+                          "innerRadius": 0.75,
+                          "fill": "#ffffff0f",
+                          "width": 88,
+                          "height": 88
+                        },
+                        {
+                          "type": "ellipse",
+                          "id": "WEbzz",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Progress Arc",
+                          "innerRadius": 0.75,
+                          "startAngle": -90,
+                          "sweepAngle": -144,
+                          "fill": {
+                            "type": "gradient",
+                            "gradientType": "linear",
+                            "enabled": true,
+                            "rotation": 180,
+                            "size": {
+                              "height": 1
+                            },
+                            "colors": [
+                              {
+                                "color": "#8B7CF6",
+                                "position": 0
+                              },
+                              {
+                                "color": "#A78BFA",
+                                "position": 1
+                              }
+                            ]
+                          },
+                          "width": 88,
+                          "height": 88
+                        },
+                        {
+                          "type": "frame",
+                          "id": "kf9tP",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Center Content",
+                          "width": 88,
+                          "height": 88,
+                          "fill": "#00000000",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "kYEr9",
+                              "name": "Count",
+                              "fill": "#FFFFFF",
+                              "content": "4",
+                              "textAlign": "center",
+                              "fontFamily": "Inter",
+                              "fontSize": 22,
+                              "fontWeight": "700"
+                            },
+                            {
+                              "type": "text",
+                              "id": "Z9cbv",
+                              "name": "Max",
+                              "fill": "#ffffff66",
+                              "content": "/ 10",
+                              "textAlign": "center",
+                              "fontFamily": "Inter",
+                              "fontSize": 11,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "c54mvq",
+                      "name": "Info",
+                      "width": "fill_container",
+                      "fill": "#00000000",
+                      "layout": "vertical",
+                      "gap": 12,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "L6IOR",
+                          "name": "Used Label",
+                          "fill": "#F0EDF6",
+                          "content": "4 of 10 used",
+                          "fontFamily": "Inter",
+                          "fontSize": 15,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "oFgfI",
+                          "name": "Remaining Label",
+                          "fill": "#8B8AA0",
+                          "content": "6 entries remaining",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "ns1HK",
+                          "name": "Dot Indicator",
+                          "width": "fill_container",
+                          "fill": "#00000000",
+                          "gap": 4,
+                          "children": [
+                            {
+                              "type": "ellipse",
+                              "id": "OzvKe",
+                              "name": "Used Dot 1",
+                              "fill": "#8B7CF6",
+                              "width": 8,
+                              "height": 8
+                            },
+                            {
+                              "type": "ellipse",
+                              "id": "pmia5",
+                              "name": "Used Dot 2",
+                              "fill": "#8B7CF6",
+                              "width": 8,
+                              "height": 8
+                            },
+                            {
+                              "type": "ellipse",
+                              "id": "V9e33I",
+                              "name": "Used Dot 3",
+                              "fill": "#8B7CF6",
+                              "width": 8,
+                              "height": 8
+                            },
+                            {
+                              "type": "ellipse",
+                              "id": "dZk5x",
+                              "name": "Used Dot 4",
+                              "fill": "#8B7CF6",
+                              "width": 8,
+                              "height": 8
+                            },
+                            {
+                              "type": "ellipse",
+                              "id": "xp0sn",
+                              "name": "Rem Dot 5",
+                              "fill": "#00000000",
+                              "width": 8,
+                              "height": 8,
+                              "stroke": "#ffffff26",
+                              "strokeWidth": 1.5
+                            },
+                            {
+                              "type": "ellipse",
+                              "id": "iu9OJ",
+                              "name": "Rem Dot 6",
+                              "fill": "#00000000",
+                              "width": 8,
+                              "height": 8,
+                              "stroke": "#ffffff26",
+                              "strokeWidth": 1.5
+                            },
+                            {
+                              "type": "ellipse",
+                              "id": "Y8STh7",
+                              "name": "Rem Dot 7",
+                              "fill": "#00000000",
+                              "width": 8,
+                              "height": 8,
+                              "stroke": "#ffffff26",
+                              "strokeWidth": 1.5
+                            },
+                            {
+                              "type": "ellipse",
+                              "id": "S7SW0",
+                              "name": "Rem Dot 8",
+                              "fill": "#00000000",
+                              "width": 8,
+                              "height": 8,
+                              "stroke": "#ffffff26",
+                              "strokeWidth": 1.5
+                            },
+                            {
+                              "type": "ellipse",
+                              "id": "M1AT1",
+                              "name": "Rem Dot 9",
+                              "fill": "#00000000",
+                              "width": 8,
+                              "height": 8,
+                              "stroke": "#ffffff26",
+                              "strokeWidth": 1.5
+                            },
+                            {
+                              "type": "ellipse",
+                              "id": "iBHnk",
+                              "name": "Rem Dot 10",
+                              "fill": "#00000000",
+                              "width": 8,
+                              "height": 8,
+                              "stroke": "#ffffff26",
+                              "strokeWidth": 1.5
+                            }
+                          ]
+                        }
+                      ]
                     }
                   ]
                 }
@@ -32406,7 +32934,7 @@
       "name": "Dashboard — Desktop Web",
       "clip": true,
       "width": 1440,
-      "height": 960,
+      "height": 1157,
       "fill": {
         "type": "gradient",
         "gradientType": "linear",
@@ -32947,6 +33475,270 @@
                       "fontFamily": "Inter",
                       "fontSize": 11,
                       "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "7916d08f4a",
+              "name": "Daily Entry Tracker",
+              "width": "fill_container",
+              "fill": "#FFFFFF06",
+              "cornerRadius": 20,
+              "stroke": "#FFFFFF0A",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 16,
+              "padding": [
+                20,
+                24
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "8f88161786",
+                  "name": "Label",
+                  "fill": "#8B7CF6",
+                  "content": "TODAY'S ENTRIES",
+                  "fontFamily": "Inter",
+                  "fontSize": 11,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "38563ec7ea",
+                  "name": "Content Row",
+                  "width": "fill_container",
+                  "fill": "transparent",
+                  "gap": 20,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "loWZK",
+                      "name": "Donut",
+                      "clip": true,
+                      "width": 88,
+                      "height": 88,
+                      "fill": "#00000000",
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "pV9mb",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Track Ring",
+                          "innerRadius": 0.75,
+                          "fill": "#ffffff0f",
+                          "width": 88,
+                          "height": 88
+                        },
+                        {
+                          "type": "ellipse",
+                          "id": "ADfwA",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Progress Arc",
+                          "innerRadius": 0.75,
+                          "startAngle": -90,
+                          "sweepAngle": -144,
+                          "fill": {
+                            "type": "gradient",
+                            "gradientType": "linear",
+                            "enabled": true,
+                            "rotation": 180,
+                            "size": {
+                              "height": 1
+                            },
+                            "colors": [
+                              {
+                                "color": "#8B7CF6",
+                                "position": 0
+                              },
+                              {
+                                "color": "#A78BFA",
+                                "position": 1
+                              }
+                            ]
+                          },
+                          "width": 88,
+                          "height": 88
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Yu3NW",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Center Content",
+                          "width": 88,
+                          "height": 88,
+                          "fill": "#00000000",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "y4BRyN",
+                              "name": "Count",
+                              "fill": "#FFFFFF",
+                              "content": "4",
+                              "textAlign": "center",
+                              "fontFamily": "Inter",
+                              "fontSize": 22,
+                              "fontWeight": "700"
+                            },
+                            {
+                              "type": "text",
+                              "id": "UkZzN",
+                              "name": "Max",
+                              "fill": "#ffffff66",
+                              "content": "/ 10",
+                              "textAlign": "center",
+                              "fontFamily": "Inter",
+                              "fontSize": 11,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "OZqVw",
+                      "name": "Info",
+                      "width": "fill_container",
+                      "fill": "#00000000",
+                      "layout": "vertical",
+                      "gap": 12,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Oc8gp",
+                          "name": "Used Label",
+                          "fill": "#F0EDF6",
+                          "content": "4 of 10 used",
+                          "fontFamily": "Inter",
+                          "fontSize": 15,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "mdZA0",
+                          "name": "Remaining Label",
+                          "fill": "#8B8AA0",
+                          "content": "6 entries remaining",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "fmYBv",
+                          "name": "Dot Indicator",
+                          "width": "fill_container",
+                          "fill": "#00000000",
+                          "gap": 4,
+                          "children": [
+                            {
+                              "type": "ellipse",
+                              "id": "rDPFV",
+                              "name": "Used Dot 1",
+                              "fill": "#8B7CF6",
+                              "width": 8,
+                              "height": 8
+                            },
+                            {
+                              "type": "ellipse",
+                              "id": "NbISN",
+                              "name": "Used Dot 2",
+                              "fill": "#8B7CF6",
+                              "width": 8,
+                              "height": 8
+                            },
+                            {
+                              "type": "ellipse",
+                              "id": "W6aWOw",
+                              "name": "Used Dot 3",
+                              "fill": "#8B7CF6",
+                              "width": 8,
+                              "height": 8
+                            },
+                            {
+                              "type": "ellipse",
+                              "id": "YufZT",
+                              "name": "Used Dot 4",
+                              "fill": "#8B7CF6",
+                              "width": 8,
+                              "height": 8
+                            },
+                            {
+                              "type": "ellipse",
+                              "id": "Z2Os49",
+                              "name": "Rem Dot 5",
+                              "fill": "#00000000",
+                              "width": 8,
+                              "height": 8,
+                              "stroke": "#ffffff26",
+                              "strokeWidth": 1.5
+                            },
+                            {
+                              "type": "ellipse",
+                              "id": "RL3fP",
+                              "name": "Rem Dot 6",
+                              "fill": "#00000000",
+                              "width": 8,
+                              "height": 8,
+                              "stroke": "#ffffff26",
+                              "strokeWidth": 1.5
+                            },
+                            {
+                              "type": "ellipse",
+                              "id": "Mlw8U",
+                              "name": "Rem Dot 7",
+                              "fill": "#00000000",
+                              "width": 8,
+                              "height": 8,
+                              "stroke": "#ffffff26",
+                              "strokeWidth": 1.5
+                            },
+                            {
+                              "type": "ellipse",
+                              "id": "Y9mYiB",
+                              "name": "Rem Dot 8",
+                              "fill": "#00000000",
+                              "width": 8,
+                              "height": 8,
+                              "stroke": "#ffffff26",
+                              "strokeWidth": 1.5
+                            },
+                            {
+                              "type": "ellipse",
+                              "id": "paVyi",
+                              "name": "Rem Dot 9",
+                              "fill": "#00000000",
+                              "width": 8,
+                              "height": 8,
+                              "stroke": "#ffffff26",
+                              "strokeWidth": 1.5
+                            },
+                            {
+                              "type": "ellipse",
+                              "id": "n6BjYH",
+                              "name": "Rem Dot 10",
+                              "fill": "#00000000",
+                              "width": 8,
+                              "height": 8,
+                              "stroke": "#ffffff26",
+                              "strokeWidth": 1.5
+                            }
+                          ]
+                        }
+                      ]
                     }
                   ]
                 }

@@ -190,18 +190,19 @@ export default function SettingsPage() {
         {/* Privacy */}
         <div className="glass rounded-xl p-6 space-y-4">
           <p className="text-xs font-semibold tracking-wider text-accent">
-            PRIVACY
+            PRIVACY & SECURITY
           </p>
 
-          <button className="w-full flex items-center justify-between py-1">
-            <div className="text-left">
-              <p className="text-sm font-medium text-text-primary">Journal Privacy</p>
-              <p className="text-xs text-text-muted">Your entries are always encrypted</p>
-            </div>
-            <svg className="w-4 h-4 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
+          <div className="space-y-3 text-sm text-text-secondary leading-relaxed">
+            <p>
+              Your journal entries are encrypted before
+              they ever leave your device. Not even we can read them — only you.
+            </p>
+            <p>
+              Your data is stored securely with end-to-end encryption in transit and at rest.
+              No third parties have access to your personal journal content.
+            </p>
+          </div>
         </div>
 
         {/* Export Data */}
