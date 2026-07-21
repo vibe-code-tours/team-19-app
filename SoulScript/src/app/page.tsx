@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import NavBar from "@/components/NavBar";
+import DailyEntryTracker from "@/components/DailyEntryTracker";
 import { useTodayEntries } from "@/hooks/useTodayEntries";
 import { useCreateEntry } from "@/hooks/useCreateEntry";
 import { useDeleteEntry } from "@/hooks/useDeleteEntry";
@@ -229,6 +230,12 @@ export default function DashboardPage() {
             </p>
           )}
 
+          {/* Daily Entry Tracker */}
+          <DailyEntryTracker
+            usedCount={todayEntries.length}
+            maxCount={10}
+          />
+
           {/* Stat Cards */}
           <div className="grid grid-cols-3 gap-2">
             <div className="glass rounded-[14px] p-3 text-center space-y-1.5 shadow-[0_1px_3px_rgba(255,255,255,0.04)_inset]">
@@ -426,6 +433,12 @@ export default function DashboardPage() {
                   </div>
                 </div>
               </div>
+
+              {/* Daily Entry Tracker */}
+              <DailyEntryTracker
+                usedCount={todayEntries.length}
+                maxCount={10}
+              />
 
               {/* AI Insight Preview */}
               <div className="glass rounded-[20px] p-4 space-y-3 shadow-[0_1px_3px_rgba(255,255,255,0.04)_inset]">
