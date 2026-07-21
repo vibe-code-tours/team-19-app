@@ -220,7 +220,7 @@ export default function MoodCalendar() {
 
         {/* Stat Cards */}
         <StatCards
-          entryCount={stats.uniqueDays}
+          entryCount={stats.monthEntryCount}
           streak={stats.streak}
           positivePercentage={stats.positivePercentage}
         />
