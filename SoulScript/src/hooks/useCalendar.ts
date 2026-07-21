@@ -6,6 +6,7 @@ import type { JournalEntry } from "@/lib/types";
 
 interface CalendarStats {
   uniqueDays: number;
+  monthEntryCount: number;
   streak: number;
   positivePercentage: number;
   moodDistribution: { emotion: string; emoji: string; count: number; percentage: number }[];
@@ -115,7 +116,7 @@ export function useCalendar() {
       )
       .slice(0, 3);
 
-    return { uniqueDays, streak, positivePercentage, moodDistribution, recentEntries };
+    return { uniqueDays, monthEntryCount: entries.length, streak, positivePercentage, moodDistribution, recentEntries };
   }, [entries]);
 
   function prevMonth() {
