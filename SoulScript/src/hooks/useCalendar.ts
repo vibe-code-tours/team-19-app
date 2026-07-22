@@ -65,7 +65,7 @@ export function useCalendar() {
   const month = currentDate.getMonth();
   const monthKey = getMonthKey(currentDate);
 
-  const { data: entries = [], isLoading } = useQuery<JournalEntry[]>({
+  const { data: entries = [], isLoading, isFetching } = useQuery<JournalEntry[]>({
     queryKey: ["entries", "month", monthKey],
     staleTime: 30_000,
     queryFn: async () => {
@@ -134,6 +134,7 @@ export function useCalendar() {
   return {
     entries,
     loading: isLoading,
+    isFetching,
     currentDate,
     year,
     month,

@@ -82,7 +82,7 @@ export default function MoodCalendar() {
   const {
     entries,
     loading,
-    currentDate,
+    isFetching,
     year,
     month,
     daysInMonth,
@@ -129,17 +129,75 @@ export default function MoodCalendar() {
     setShowMoodPicker(false);
   }
 
-  if (loading) {
+  if (loading && entries.length === 0) {
     return (
-      <div className="min-h-screen p-5">
-        <div className="max-w-lg mx-auto space-y-4">
-          <div className="skeleton h-8 w-40 rounded-lg mx-auto" />
+      <div className="min-h-screen flex flex-col">
+        <NavBar active="calendar" />
+        <div className="flex-1 px-5 md:px-10 lg:px-20 pb-8 max-w-5xl mx-auto w-full space-y-5">
+          <div className="space-y-1">
+            <div className="skeleton h-9 w-48 rounded-lg" />
+            <div className="skeleton h-5 w-64 rounded-lg" />
+          </div>
           <div className="grid grid-cols-3 gap-3">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="skeleton h-20 rounded-[14px]" />
+              <div key={i} className="glass rounded-[14px] p-4 space-y-1 border border-white/[0.04]">
+                <div className="skeleton w-5 h-5 rounded-full" />
+                <div className="skeleton h-7 w-12 rounded-lg" />
+                <div className="skeleton h-3 w-24 rounded-lg" />
+              </div>
             ))}
           </div>
-          <div className="skeleton h-[400px] rounded-[20px]" />
+          <div className="flex flex-col lg:flex-row gap-6">
+            <div className="lg:flex-1">
+              <div className="glass rounded-[20px] p-5 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="skeleton w-8 h-8 rounded-16" />
+                  <div className="skeleton h-6 w-36 rounded-lg" />
+                  <div className="skeleton h-8 w-20 rounded-full" />
+                </div>
+                <div className="grid grid-cols-7 border-b border-white/[0.04]">
+                  {[1, 2, 3, 4, 5, 6, 7].map((i) => (
+                    <div key={i} className="py-2.5 flex justify-center">
+                      <div className="skeleton h-2.5 w-6 rounded-lg" />
+                    </div>
+                  ))}
+                </div>
+                <div className="grid grid-cols-7 gap-1">
+                  {Array.from({ length: 35 }).map((_, i) => (
+                    <div key={i} className="aspect-square skeleton rounded-lg" />
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="lg:w-[340px] space-y-6">
+              <div className="space-y-3">
+                <div className="skeleton h-3 w-28 rounded-lg" />
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="glass rounded-xl p-4 space-y-2">
+                    <div className="flex items-center gap-3">
+                      <div className="skeleton w-10 h-10 rounded-full shrink-0" />
+                      <div className="flex-1 space-y-1.5">
+                        <div className="skeleton h-4 w-20 rounded-lg" />
+                        <div className="skeleton h-3 w-16 rounded-lg" />
+                      </div>
+                    </div>
+                    <div className="skeleton h-3 w-full rounded-lg" />
+                  </div>
+                ))}
+              </div>
+              <div className="space-y-3">
+                <div className="skeleton h-3 w-24 rounded-lg" />
+                <div className="glass rounded-xl p-4 space-y-3">
+                  <div className="skeleton h-32 w-full rounded-lg" />
+                  <div className="flex justify-between">
+                    {[1, 2, 3, 4, 5].map((i) => (
+                      <div key={i} className="skeleton h-3 w-8 rounded-lg" />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -181,6 +239,7 @@ export default function MoodCalendar() {
               onNextMonth={nextMonth}
               onGoToToday={goToToday}
               onDayClick={handleDayClick}
+              isFetching={isFetching}
             />
           </div>
 

@@ -3,8 +3,6 @@ import {
   computeMoodDistribution,
   computeDaysJournaled,
   computeStreak,
-  MoodDistributionItem,
-  StreakResult,
 } from "@/lib/report-stats";
 
 describe("report-stats", () => {
