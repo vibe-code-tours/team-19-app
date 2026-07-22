@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import NavBar from "./NavBar";
 import StatCards from "./StatCards";
@@ -9,10 +9,6 @@ import RecentEntries from "./RecentEntries";
 import MoodTrend from "./MoodTrend";
 import { useCalendar } from "@/hooks/useCalendar";
 import type { JournalEntry } from "@/lib/types";
-import { useEffect } from "react";
-import { createClient } from "@/lib/supabase/client";
-import { useRouter, useSearchParams } from "next/navigation";
-
 
 const MOOD_OPTIONS = [
   { name: "joy", emoji: "😊" },
@@ -83,7 +79,7 @@ function EntryCard({
 export default function MoodCalendar() {
   const {
     entries,
-    loading: calendarLoading,
+    loading,
     isFetching,
     year,
     month,
@@ -95,27 +91,10 @@ export default function MoodCalendar() {
     goToToday,
   } = useCalendar();
 
-  const supabase = useMemo(() => createClient(), []);
-  const router = useRouter();
-  const [authLoading, setAuthLoading] = useState(true);
   const [selectedEntries, setSelectedEntries] = useState<JournalEntry[] | null>(null);
   const [editingEntry, setEditingEntry] = useState<JournalEntry | null>(null);
   const [showMoodPicker, setShowMoodPicker] = useState(false);
   const [moodUpdateSuccess, setMoodUpdateSuccess] = useState(false);
-
-  useEffect(() => {
-      async function loadProfile() {
-        const {
-          data: { user },
-        } = await supabase.auth.getUser();
-        if (!user) {
-          router.push("/login");
-          return;
-        }
-        setAuthLoading(false);
-      }
-      loadProfile();
-    }, [supabase, router]);
 
   async function handleMoodUpdate(entryId: string, newMood: string, newEmoji: string) {
     await fetch(`/api/entries/${entryId}`, {
@@ -148,7 +127,7 @@ export default function MoodCalendar() {
     setShowMoodPicker(false);
   }
 
-  if (authLoading || (calendarLoading && entries.length === 0)) {
+  if (loading && entries.length === 0) {
     return (
       <div className="min-h-screen flex flex-col">
         <NavBar active="calendar" />
