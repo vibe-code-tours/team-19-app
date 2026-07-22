@@ -204,7 +204,7 @@ function ReportContent() {
         <NavBar active="report" />
         <div className="flex-1 px-5 md:px-10 lg:px-10 pb-10 max-w-5xl mx-auto w-full">
           <div className="p-6 md:p-10 rounded-2xl">
-            <div className="bg-background rounded-2xl p-6 md:p-8 space-y-7">
+            <div className="rounded-2xl p-6 md:p-8 space-y-7">
               {/* Header skeleton */}
               <div className="text-center space-y-3 pt-2">
                 <div className="skeleton w-12 h-12 rounded-3xl mx-auto" />
