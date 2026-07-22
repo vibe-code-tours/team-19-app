@@ -9,6 +9,7 @@ import CalendarGrid from "./CalendarGrid";
 import RecentEntries from "./RecentEntries";
 import MoodTrend from "./MoodTrend";
 import { useCalendar } from "@/hooks/useCalendar";
+import { useUpdateMood } from "@/hooks/useUpdateMood";
 import type { JournalEntry } from "@/lib/types";
 
 const MOOD_OPTIONS = [
@@ -96,23 +97,20 @@ export default function MoodCalendar() {
   const [selectedEntries, setSelectedEntries] = useState<JournalEntry[] | null>(null);
   const [editingEntry, setEditingEntry] = useState<JournalEntry | null>(null);
   const [showMoodPicker, setShowMoodPicker] = useState(false);
-  const [moodUpdateSuccess, setMoodUpdateSuccess] = useState(false);
 
-  async function handleMoodUpdate(entryId: string, newMood: string, newEmoji: string) {
-    await fetch(`/api/entries/${entryId}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ primary_emotion: newMood, emoji: newEmoji }),
-    });
+  const monthKey = `${year}-${String(month + 1).padStart(2, "0")}`;
+  const moodMutation = useUpdateMood(monthKey);
 
-    setMoodUpdateSuccess(true);
-    setTimeout(() => {
-      setMoodUpdateSuccess(false);
-      setShowMoodPicker(false);
-      setEditingEntry(null);
-      // Force refetch by toggling date
-      goToToday();
-    }, 1500);
+  function handleMoodUpdate(entryId: string, newMood: string, newEmoji: string) {
+    moodMutation.mutate({ entryId, newMood, newEmoji });
+    // Sync local snapshot so the EntryCard shows the new emoji immediately
+    setSelectedEntries((prev) =>
+      prev?.map((e) =>
+        e.id === entryId ? { ...e, primary_emotion: newMood, emoji: newEmoji } : e,
+      ) ?? null,
+    );
+    setShowMoodPicker(false);
+    setEditingEntry(null);
   }
 
   function handleEntryClick(entry: JournalEntry) {
@@ -280,7 +278,7 @@ export default function MoodCalendar() {
         {entries.length > 0 && (
           <div className="space-y-2 text-center">
             <button
-              onClick={() => router.push(`/report?month=${year}-${String(month + 1).padStart(2, '0')}`)}
+              onClick={() => router.push(`/report?month=${monthKey}`)}
               className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-b from-accent to-accent-glow text-white font-semibold rounded-full shadow-[0_4px_16px_rgba(124,92,252,0.3)] hover:shadow-[0_6px_24px_rgba(124,92,252,0.45)] transition-all"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -361,32 +359,26 @@ export default function MoodCalendar() {
                           exit={{ height: 0, opacity: 0 }}
                           className="overflow-hidden"
                         >
-                          {moodUpdateSuccess ? (
-                            <p className="text-center text-sm text-green-400 py-3">
-                              Mood updated ✓
-                            </p>
-                          ) : (
-                            <div className="grid grid-cols-5 gap-2 pt-2 mt-2">
-                              {MOOD_OPTIONS.map((mood) => (
-                                <button
-                                  key={mood.name}
-                                  onClick={() =>
-                                    handleMoodUpdate(
-                                      editingEntry.id,
-                                      mood.name,
-                                      mood.emoji
-                                    )
-                                  }
-                                  className="flex flex-col items-center gap-1 p-2 rounded-xl hover:bg-white/5 transition-colors"
-                                >
-                                  <span className="text-xl">{mood.emoji}</span>
-                                  <span className="text-xs text-text-secondary capitalize">
-                                    {mood.name}
-                                  </span>
-                                </button>
-                              ))}
-                            </div>
-                          )}
+                          <div className="grid grid-cols-5 gap-2 pt-2 mt-2">
+                            {MOOD_OPTIONS.map((mood) => (
+                              <button
+                                key={mood.name}
+                                onClick={() =>
+                                  handleMoodUpdate(
+                                    editingEntry.id,
+                                    mood.name,
+                                    mood.emoji
+                                  )
+                                }
+                                className="flex flex-col items-center gap-1 p-2 rounded-xl hover:bg-white/5 transition-colors"
+                              >
+                                <span className="text-xl">{mood.emoji}</span>
+                                <span className="text-xs text-text-secondary capitalize">
+                                  {mood.name}
+                                </span>
+                              </button>
+                            ))}
+                          </div>
                         </motion.div>
                       )}
                     </AnimatePresence>
