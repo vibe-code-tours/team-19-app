@@ -6,9 +6,11 @@ import type { JournalEntry } from "@/lib/types";
 function getTodayRange(): { start: string; end: string } {
   const now = new Date();
   // Compute UTC boundaries for the user's local day
-  const start = new Date(now.getFullYear(), now.getMonth(), now.getDate()
+  const start = new Date(
+    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate())
   );
-  const end = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1
+  const end = new Date(
+    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1)
   );
   return { start: start.toISOString(), end: end.toISOString() };
 }

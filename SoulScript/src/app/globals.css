@@ -52,6 +52,9 @@
   --color-mood-love: #EC489925;
   --color-mood-anxious: #EAB30825;
   --color-mood-uncertain: #47556925;
+
+  /* Ring */
+  --circle-track: rgba(0, 0, 0, 0.05);
 }
 
 /* Dark mode overrides */
@@ -71,6 +74,7 @@ html.dark {
   --color-glass-strong: rgba(255, 255, 255, 0.06);
 
   --color-border-subtle: #1E1E35;
+  --circle-track: rgba(255, 255, 255, 0.3);
 }
 
 html,

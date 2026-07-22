@@ -45,7 +45,7 @@ export default function DailyEntryTracker({
               cy={center}
               r={radius}
               fill="none"
-              stroke="rgba(255,255,255,0.12)"
+              stroke="var(--circle-track)"
               strokeWidth={strokeWidth}
             />
             {/* Progress arc */}
@@ -92,7 +92,7 @@ export default function DailyEntryTracker({
                 className={`w-[7px] h-[7px] rounded-full transition-colors duration-300 ${
                   i < usedCount
                     ? "bg-accent"
-                    : "border border-white/15 bg-transparent"
+                    : "border border-white/15 bg-gray-700/20 dark:bg-gray-700/10"
                 }`}
               />
             ))}
