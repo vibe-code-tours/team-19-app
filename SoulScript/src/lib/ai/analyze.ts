@@ -1,26 +1,25 @@
 import { openai } from "./client";
 import { parseJsonResponse } from "./parse";
 import type { AnalysisResult } from "./types";
-import { validateGlowTheme, MOOD_THEMES, MOOD_EMOJIS } from "@/lib/mood-themes";
-
-const ALLOWED_PRIMARY_EMOTIONS = ["joy", "sadness", "anger", "fear", "surprise", "disgust", "calm", "love", "anxious", "uncertain"];
+import { validateGlowTheme, MOOD_THEMES } from "@/lib/mood-themes";
 
 export async function callAI(
   content: string,
 ): Promise<AnalysisResult> {
-  const systemPrompt = `You are an empathetic, highly analytical, emotionally intelligent AI psychologist. 
-The input text may be in Burmese or English. Analyze the text payload regardless of language. 
-Always return emotion labels in English lowercase to match the theme keys. 
+  const systemPrompt = `You are an expert AI psychologist and emotional intelligence specialist. 
+Your task is to analyze the emotional state of the provided input text (which may be in Burmese, English, or mixed) with high accuracy and nuance.
 
-Rules:
-- 'primary_emotion' MUST be strictly one of these exact terms: ${ALLOWED_PRIMARY_EMOTIONS.join(", ")}.
-- 'emoji' (1 character representing the mood).
-- 'secondary_emotions' (string array of 1-3 standard terms in English; keep them consistent and avoid chaotic synonym switching).
-- 'glow_theme' (a valid Tailwind gradient class from the allowed mood themes: ${Object.values(MOOD_THEMES).join(", ")}).
+### Instructions & Rules:
+1. **primary_emotion**: Identify the core emotion of the text in lowercase English (e.g., joy, sadness, anger, fear, surprise, disgust, calm, love, anxious, uncertain, overwhelmed, etc.). Do not restrict yourself to a rigid hardcoded list; use the most accurate psychological term fitting the text.
+2. **emoji**: Provide exactly ONE representative emoji that matches the primary emotion.
+3. **secondary_emotions**: Provide a JSON array of 1 to 3 secondary or sub-emotions in lowercase English to capture the nuance of the text.
+4. **glow_theme**: Select the most appropriate Tailwind CSS gradient class from the allowed theme list based on the mood.
+   Allowed themes: ${Object.values(MOOD_THEMES).join(", ")}
 
-Return ONLY a valid JSON object (no markdown, no code blocks).
+### Output Format:
+Return **ONLY** a valid JSON object. No markdown formatting, no code blocks, no extra text.
 
-Here are examples of expected outputs to maintain consistency:
+### Examples:
 
 Input: "I am so excited and happy about this new project!"
 Output: {"primary_emotion": "joy", "emoji": "😊", "secondary_emotions": ["excited", "optimistic"], "glow_theme": "from-amber-500/20 to-yellow-600/20"}
@@ -31,11 +30,11 @@ Output: {"primary_emotion": "joy", "emoji": "😊", "secondary_emotions": ["grat
 Input: "I feel so down and heartbroken after hearing that news."
 Output: {"primary_emotion": "sadness", "emoji": "😢", "secondary_emotions": ["heartbroken", "gloomy"], "glow_theme": "from-blue-500/20 to-indigo-600/20"}
 
-Input: "ရင်ထဲမှာ အရမ်းနာကျင်ပြီး ဝမ်းနည်းနေမိတယ်..."
-Output: {"primary_emotion": "sadness", "emoji": "😢", "secondary_emotions": ["lonely", "grief"], "glow_theme": "from-blue-500/20 to-indigo-600/20"}
+Input: "ဒီနေ့တော့ ဘာမှန်းလည်း မသိဘူး၊ ရင်ထဲမှာ ထူးထူးဆန်းဆန်းကြီး ဖြစ်နေတယ်။ ဘာကိုမှလည်း စိတ်မဝင်စားချင်ဘူး၊ ဘာလုပ်ရမှန်းလည်း လုံးဝ မသိတော့ဘူး။"
+Output: {"primary_emotion": "confused", "emoji": "🤔", "secondary_emotions": ["uncertain", "lost", "indifferent"], "glow_theme": "from-slate-700/20 to-slate-900/20"}
 
-Input: "ဒီနေ့ ကျရောက်တဲ့ ကျောင်းပြီးခါနီး အခမ်းအနားမှာ သူငယ်ချင်းတွေနဲ့အတူ ပျော်စရာအမှတ်တရတွေ ဖန်တီးနိုင်ခဲ့လို့ ရင်ထဲမှာ အလွန်တရာမှ ဝမ်းမြောက်ကြည်နူးမိပေမဲ့၊ မကြာခင်မှာ ဒီမြို့ကိုစွန့်ခွာပြီး တစ်ယောက်ချင်းစီ လမ်းခွဲကြရတော့မှာကို တွေးမိတိုင်း ရင်ထဲမှာ တအားနာကျင်ပြီး ဝမ်းနည်းမှုတွေကလည်း ကြီးစိုးနေပါတယ်..."
-Output: {"primary_emotion": "sadness", "emoji": "😢", "secondary_emotions": ["grateful", "heartbroken", "nostalgic"], "glow_theme": "from-blue-500/20 to-indigo-600/20"}`;
+Input: "အရမ်းကို ဒေါသထွက်မိတယ်, ဘာလို့ ငါ့ကို လာမပြောတာလဲ!"
+Output: {"primary_emotion": "anger", "emoji": "😡", "secondary_emotions": ["furious", "annoyed"], "glow_theme": "from-red-500/20 to-orange-600/20"}`;
 
   const response = await openai.chat.completions.create({
     model: process.env.OPENROUTER_AI_MODEL || "meta-llama/llama-3-8b-instruct",
@@ -52,23 +51,10 @@ Output: {"primary_emotion": "sadness", "emoji": "😢", "secondary_emotions": ["
 }
 
 export function validateResult(result: Partial<AnalysisResult>): AnalysisResult {
-  let emotions = result.secondary_emotions || ["neutral"];
-  if (!Array.isArray(emotions) || emotions.length === 0) {
-    emotions = ["neutral"];
-  }
-  if (emotions.length > 3) emotions = emotions.slice(0, 3);
-
-  let primary = (result.primary_emotion || "uncertain").toLowerCase();
-  if (!ALLOWED_PRIMARY_EMOTIONS.includes(primary)) {
-    primary = "uncertain";
-  }
-
-  const emoji = MOOD_EMOJIS[primary] || "💭";
-
   return {
-    primary_emotion: primary,
-    emoji: emoji,
-    secondary_emotions: emotions,
+    primary_emotion: result.primary_emotion || "uncertain",
+    emoji: result.emoji || "💭",
+    secondary_emotions: result.secondary_emotions || ["neutral"],
     glow_theme: validateGlowTheme(result.glow_theme || ""),
   };
 }
