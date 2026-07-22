@@ -59,7 +59,7 @@
 
 /* Dark mode overrides */
 html.dark {
-  --color-background: #0B0F19;
+  --color-background: rgba(255, 255, 255, 0.03);
   --color-foreground: #F0EDF6;
   --color-bg-gradient: #111128;
   --color-bg-mid: #1A1840;
