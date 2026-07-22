@@ -1,7 +1,7 @@
 import { openai } from "./client";
 import { parseJsonResponse } from "./parse";
 import type { AnalysisResult } from "./types";
-import { validateGlowTheme, MOOD_THEMES } from "@/lib/mood-themes";
+import { validateGlowTheme, MOOD_THEMES, MOOD_EMOJIS } from "@/lib/mood-themes";
 
 const ALLOWED_PRIMARY_EMOTIONS = ["joy", "sadness", "anger", "fear", "surprise", "disgust", "calm", "love", "anxious", "uncertain"];
 
@@ -63,9 +63,11 @@ export function validateResult(result: Partial<AnalysisResult>): AnalysisResult 
     primary = "uncertain";
   }
 
+  const emoji = MOOD_EMOJIS[primary] || "💭";
+
   return {
     primary_emotion: primary,
-    emoji: result.emoji || "💭",
+    emoji: emoji,
     secondary_emotions: emotions,
     glow_theme: validateGlowTheme(result.glow_theme || ""),
   };
