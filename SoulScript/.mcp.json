@@ -16,10 +16,10 @@
     "pencil": {
       "name":"pencil",
       "transport":"stdio",
-      "command":"/mnt/d/Pencil/resources/app.asar.unpacked/out/mcp-server-windows-x64.exe",
-      "args":["--app","desktop"],
+      "command":"/Applications/Pencil.app/Contents/Resources/app.asar.unpacked/out/mcp-server-darwin-arm64",
+      "args":["--app","desktop", "--agent", "claudeDesktop"],
       "env":{}
-    }   
+    }
   }
 }
 
