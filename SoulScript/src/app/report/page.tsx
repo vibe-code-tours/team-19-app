@@ -1,11 +1,13 @@
 "use client";
 
-import { Suspense, useRef, useCallback, useState } from "react";
+import { Suspense, useRef, useCallback, useState, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { toPng } from "html-to-image";
 import { useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft, Download, Loader2, Sparkles } from "lucide-react";
+import { useEffect } from "react";
+import { createClient } from "@/lib/supabase/client";
 import {
   ReportHeader,
   BigPicture,
@@ -32,6 +34,9 @@ const containerVariants = {
 };
 
 function ReportContent() {
+
+  const supabase = useMemo(() => createClient(), []);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
   const searchParams = useSearchParams();
   const month =
@@ -48,6 +53,20 @@ function ReportContent() {
 
   const entryCount = stats?.entryCount ?? 0;
   const hasEnoughEntries = entryCount >= 10;
+
+  useEffect(() => {
+    async function loadProfile() {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user) {
+        router.push("/login");
+        return;
+      }
+      setLoading(false);
+    }
+    loadProfile();
+  }, [supabase, router]);
 
   const handleGenerate = useCallback(async () => {
     setGenerating(true);
