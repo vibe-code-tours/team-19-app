@@ -243,18 +243,21 @@ export default function MoodCalendar() {
             />
           </div>
 
-          {/* Right: Recent Entries + Mood Trend */}
+          {/* Right: Recent Entries*/}
           <div className="lg:w-[340px] space-y-6">
             <RecentEntries
               entries={stats.recentEntries}
               onEntryClick={handleEntryClick}
             />
+          </div>
+        </div>
+        {/* Mood Trend */}
+        <div>
             <MoodTrend
               entries={entries}
               moodDistribution={stats.moodDistribution}
               daysInMonth={daysInMonth}
             />
-          </div>
         </div>
 
         {/* Empty State */}

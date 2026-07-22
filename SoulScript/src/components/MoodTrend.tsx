@@ -91,12 +91,12 @@ export default function MoodTrend({ entries, moodDistribution, daysInMonth }: Mo
       {/* Chart Card */}
       <div className="glass rounded-2xl p-4 space-y-3 border border-white/[0.04]">
         {/* Bar Chart */}
-        <div className="flex items-end gap-[3px] h-[100px] overflow-visible">
+        <div className="flex items-end gap-[3px] h-[200px] overflow-visible">
           {dailyMoods.map((d, i) => (
             <motion.div
               key={d.day}
               initial={{ height: 0 }}
-              animate={{ height: `${d.heightPercent || 4}%` }}
+              animate={{ height: `${d.heightPercent || 8}%` }}
               transition={{ delay: i * 0.015, duration: 0.4, ease: "easeOut" }}
               className="flex-1 rounded-t-sm relative group cursor-default hover:brightness-125 hover:z-10 transition-[filter] duration-150"
               style={{
@@ -136,7 +136,7 @@ export default function MoodTrend({ entries, moodDistribution, daysInMonth }: Mo
         {/* Legend + Most Common */}
         <div className="pt-2 border-t border-white/[0.04] space-y-2">
           {/* Color legend for top 3 */}
-          {topEmotions.length > 0 && (
+          {/* {topEmotions.length > 0 && (
             <div className="flex items-center gap-3">
               {topEmotions.map((e) => (
                 <div key={e.emotion} className="flex items-center gap-1.5">
@@ -148,7 +148,7 @@ export default function MoodTrend({ entries, moodDistribution, daysInMonth }: Mo
                 </div>
               ))}
             </div>
-          )}
+          )} */}
 
           {/* Most Common Highlight */}
           {topEmotions[0] && (
