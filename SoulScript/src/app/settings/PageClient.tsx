@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "next-themes";
+import { toast } from "sonner";
 
 export default function SettingsPageClient() {
   const [profile, setProfile] = useState<{
@@ -71,6 +72,8 @@ export default function SettingsPageClient() {
       const res = await fetch("/api/account", { method: "DELETE" });
       if (res.ok) {
         router.push("/login");
+      } else if (res.status === 429) {
+        toast.error("Please wait before deleting your account. You can try again in an hour.");
       } else {
         setDeleteError("Failed to delete account. Please try again.");
       }
@@ -104,6 +107,8 @@ export default function SettingsPageClient() {
       if (res.ok) {
         setProfile((prev) => prev ? { ...prev, display_name: editName.trim() } : prev);
         setShowEditNameModal(false);
+      } else if (res.status === 429) {
+        toast.error("You've updated your profile too many times. Try again in an hour.");
       } else {
         const errorData = await res.json();
         setSaveNameError(errorData.error || "Failed to save name. Please try again.");

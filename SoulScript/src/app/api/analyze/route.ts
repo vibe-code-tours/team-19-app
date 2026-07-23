@@ -1,11 +1,11 @@
 import { createClient } from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
 import { encrypt } from "@/lib/encryption";
+import { checkRateLimit } from "@/lib/rate-limit";
 import { callAI, validateResult } from "@/lib/ai";
 
 const MAX_LENGTH = 5000;
 const MIN_LENGTH = 10;
-const DAILY_LIMIT = 10;
 
 export async function POST(request: Request) {
   try {
@@ -35,22 +35,18 @@ export async function POST(request: Request) {
     }
 
     // Rate limit: 10 entries per day
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const { count } = await supabase
-      .from("journal_entries")
-      .select("*", { count: "exact", head: true })
-      .eq("user_id", user.id)
-      .gte("created_at", today.toISOString())
-      .is("deleted_at", null);
-
-    if (count && count >= DAILY_LIMIT) {
+    const rateCheck = checkRateLimit(user.id, {
+      max: 10,
+      window: "day",
+      endpoint: "analyze:post",
+    });
+    if (!rateCheck.allowed) {
       return NextResponse.json(
         {
           error:
             "You've reached your daily limit of 10 entries. Come back tomorrow!",
         },
-        { status: 429 }
+        { status: 429 },
       );
     }
 
