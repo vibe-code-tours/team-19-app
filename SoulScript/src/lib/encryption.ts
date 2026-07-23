@@ -3,9 +3,18 @@ import crypto from "crypto";
 const ALGORITHM = "aes-256-gcm";
 
 function getKey(): Buffer {
-  const keyHex = process.env.ENCRYPTION_KEY!;
+  const keyHex = process.env.ENCRYPTION_KEY;
   if (!keyHex) throw new Error("ENCRYPTION_KEY environment variable is not set");
-  return Buffer.from(keyHex, "hex");
+
+  const key = Buffer.from(keyHex, "hex");
+  if (key.length !== 32) {
+    throw new Error(
+      `ENCRYPTION_KEY must be a 64-character hex string (32 bytes for AES-256). ` +
+      `Got ${keyHex.length} characters → ${key.length} bytes.`
+    );
+  }
+
+  return key;
 }
 
 export function encrypt(text: string): { encrypted: string; iv: string } {

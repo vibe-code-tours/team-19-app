@@ -105,7 +105,8 @@ export default function SettingsPageClient() {
         setProfile((prev) => prev ? { ...prev, display_name: editName.trim() } : prev);
         setShowEditNameModal(false);
       } else {
-        setSaveNameError("Failed to save name. Please try again.");
+        const errorData = await res.json();
+        setSaveNameError(errorData.error || "Failed to save name. Please try again.");
       }
     } catch {
       setSaveNameError("Network error. Please try again.");

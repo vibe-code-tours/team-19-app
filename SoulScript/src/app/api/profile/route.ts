@@ -50,7 +50,22 @@ export async function PATCH(request: Request) {
     const { display_name } = body;
 
     const updateData: Record<string, string> = { updated_at: new Date().toISOString() };
-    if (display_name !== undefined) updateData.display_name = display_name;
+    if (display_name !== undefined) {
+      if (typeof display_name !== "string") {
+        return NextResponse.json(
+          { error: "Display Name must be a string" },
+          { status: 400 }
+        );
+      }
+      const trimmed = display_name.trim();
+      if (trimmed.length < 4 || trimmed.length > 100) {
+        return NextResponse.json(
+          { error: "Display Name must be 4–100 characters" },
+          { status: 400 }
+        );
+      }
+      updateData.display_name = trimmed;
+    }
 
     const { data, error } = await supabase
       .from("user_profiles")
