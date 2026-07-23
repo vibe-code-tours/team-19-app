@@ -68,6 +68,7 @@ export function useCalendar() {
   const { data: entries = [], isLoading, isFetching } = useQuery<JournalEntry[]>({
     queryKey: ["entries", "month", monthKey],
     staleTime: 30_000,
+    placeholderData: (previousData) => previousData,
     queryFn: async () => {
       const res = await fetch(`/api/entries?month=${monthKey}`);
       if (!res.ok) throw new Error("Failed to fetch entries");
