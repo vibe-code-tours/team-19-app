@@ -19,18 +19,27 @@ vi.mock("@supabase/supabase-js", () => ({
 }));
 
 import { DELETE } from "@/app/api/account/route";
+import { resetRateLimits } from "@/lib/rate-limit";
 
-function chainable(overrides: Record<string, unknown> = {}) {
+function chainable(result: Record<string, unknown> = { error: null }) {
   const chain: Record<string, unknown> = {
+    select: vi.fn().mockReturnThis(),
     delete: vi.fn().mockReturnThis(),
-    eq: vi.fn().mockResolvedValue({ error: null }),
-    ...overrides,
+    eq: vi.fn().mockReturnThis(),
+    gte: vi.fn().mockReturnThis(),
+    then: vi.fn((onFulfilled?: (v: Record<string, unknown>) => unknown) =>
+      Promise.resolve(result).then(onFulfilled),
+    ),
+    catch: vi.fn(),
   };
   return chain;
 }
 
 describe("DELETE /api/account", () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => {
+    vi.clearAllMocks();
+    resetRateLimits();
+  });
 
   it("returns 401 when not authenticated", async () => {
     mockGetUser.mockResolvedValue({ data: { user: null } });
@@ -47,10 +56,21 @@ describe("DELETE /api/account", () => {
 
   it("returns 500 when deletion fails", async () => {
     mockGetUser.mockResolvedValue({ data: { user: { id: "user-1" } } });
-    mockFrom.mockReturnValue(chainable({
-      eq: vi.fn().mockResolvedValue({ error: { message: "db error" } }),
-    }));
+    mockFrom.mockReturnValue(chainable({ error: { message: "db error" } }));
     const res = await DELETE();
     expect(res.status).toBe(500);
+  });
+
+  it("returns 429 when rate limited (1 per hour)", async () => {
+    mockGetUser.mockResolvedValue({ data: { user: { id: "user-1" } } });
+    mockFrom.mockReturnValue(chainable());
+
+    const res1 = await DELETE();
+    expect(res1.status).toBe(200);
+
+    const res2 = await DELETE();
+    expect(res2.status).toBe(429);
+    const data = await res2.json();
+    expect(data.error).toContain("rate-limited");
   });
 });

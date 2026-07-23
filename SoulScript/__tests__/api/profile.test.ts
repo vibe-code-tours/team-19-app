@@ -13,11 +13,13 @@ vi.mock("@/lib/supabase/server", () => ({
 }));
 
 import { GET, PATCH } from "@/app/api/profile/route";
+import { resetRateLimits } from "@/lib/rate-limit";
 
 function chainable(overrides: Record<string, unknown> = {}) {
   const chain: Record<string, unknown> = {
     select: vi.fn().mockReturnThis(),
     eq: vi.fn().mockReturnThis(),
+    gte: vi.fn().mockReturnThis(),
     single: vi.fn().mockResolvedValue({ data: null, error: null }),
     update: vi.fn().mockReturnThis(),
     ...overrides,
@@ -26,7 +28,10 @@ function chainable(overrides: Record<string, unknown> = {}) {
 }
 
 describe("GET /api/profile", () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => {
+    vi.clearAllMocks();
+    resetRateLimits();
+  });
 
   it("returns 401 when not authenticated", async () => {
     mockGetUser.mockResolvedValue({ data: { user: null } });
@@ -57,7 +62,10 @@ describe("GET /api/profile", () => {
 });
 
 describe("PATCH /api/profile", () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => {
+    vi.clearAllMocks();
+    resetRateLimits();
+  });
 
   it("returns 401 when not authenticated", async () => {
     mockGetUser.mockResolvedValue({ data: { user: null } });
@@ -90,5 +98,42 @@ describe("PATCH /api/profile", () => {
     });
     const res = await PATCH(req);
     expect(res.status).toBe(200);
+  });
+
+  it("returns 429 when rate limited (10 per hour)", async () => {
+    mockGetUser.mockResolvedValue({ data: { user: { id: "user-1" } } });
+    // Send 10 requests to exhaust the limit
+    for (let i = 0; i < 10; i++) {
+      mockFrom.mockReturnValue(chainable({
+        update: vi.fn().mockReturnValue({
+          eq: vi.fn().mockReturnValue({
+            select: vi.fn().mockReturnValue({ single: vi.fn().mockResolvedValue({ data: {}, error: null }) }),
+          }),
+        }),
+      }));
+      const req = new Request("http://localhost/api/profile", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ display_name: `Test ${i}` }),
+      });
+      const res = await PATCH(req);
+      expect(res.status).toBe(200);
+    }
+
+    // 11th request should be rate limited
+    mockFrom.mockReturnValue(chainable({
+      update: vi.fn().mockReturnValue({
+        eq: vi.fn().mockReturnValue({
+          select: vi.fn().mockReturnValue({ single: vi.fn().mockResolvedValue({ data: {}, error: null }) }),
+        }),
+      }),
+    }));
+    const req = new Request("http://localhost/api/profile", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ display_name: "Too Many" }),
+    });
+    const res = await PATCH(req);
+    expect(res.status).toBe(429);
   });
 });

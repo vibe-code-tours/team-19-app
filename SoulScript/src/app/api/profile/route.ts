@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { checkRateLimit } from "@/lib/rate-limit";
 import { NextResponse } from "next/server";
 
 export async function GET() {
@@ -44,6 +45,19 @@ export async function PATCH(request: Request) {
 
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    // Rate limit: 10 profile updates per hour
+    const rateCheck = checkRateLimit(user.id, {
+      max: 10,
+      window: "hour",
+      endpoint: "profile:patch",
+    });
+    if (!rateCheck.allowed) {
+      return NextResponse.json(
+        { error: "Too many profile updates. Try again later." },
+        { status: 429 },
+      );
     }
 
     const body = await request.json();

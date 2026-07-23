@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { toPng } from "html-to-image";
 import { useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft, Download, Loader2, Sparkles } from "lucide-react";
+import { toast } from "sonner";
 import {
   ReportHeader,
   BigPicture,
@@ -58,12 +59,17 @@ function ReportContent() {
         body: JSON.stringify({ month }),
       });
       if (!res.ok) {
+        if (res.status === 429) {
+          toast.error("You've reached the daily limit of 3 report generations. Try again tomorrow.");
+        }
         setGenerating(false);
         return;
       }
 
       const body = await res.json();
       const raw = body.report;
+
+      toast.success("Your monthly reflection is ready!");
 
       // Write to cache
       if (raw) {

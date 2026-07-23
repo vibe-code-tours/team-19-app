@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
 import { decrypt } from "@/lib/encryption";
+import { checkRateLimit } from "@/lib/rate-limit";
 import { callAIForReport } from "@/lib/ai";
 import {
   computeMoodDistribution,
@@ -31,6 +32,22 @@ export async function POST(request: Request) {
     const [year, monthNum] = month.split("-").map(Number);
     const startDate = new Date(year, monthNum - 1, 1).toISOString();
     const endDate = new Date(year, monthNum, 1).toISOString();
+
+    // Rate limit: 3 reports per day (AI calls are expensive)
+    const rateCheck = checkRateLimit(user.id, {
+      max: 3,
+      window: "day",
+      endpoint: "report:post",
+    });
+    if (!rateCheck.allowed) {
+      return NextResponse.json(
+        {
+          error:
+            "You've reached the daily limit for report generation (3/day).",
+        },
+        { status: 429 },
+      );
+    }
 
     // Fetch entries for the month (newest first)
     const { data: entries, error } = await supabase

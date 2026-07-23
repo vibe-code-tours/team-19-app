@@ -24,6 +24,7 @@ vi.mock("openai", () => ({
 }));
 
 import { POST, GET } from "@/app/api/report/route";
+import { resetRateLimits } from "@/lib/rate-limit";
 
 /**
  * Create a mock Supabase query chain where all intermediate methods
@@ -84,6 +85,7 @@ function makeRequest(body: unknown) {
 describe("POST /api/report", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    resetRateLimits();
     process.env.ENCRYPTION_KEY = "0000000000000000000000000000000000000000000000000000000000000000";
   });
 
@@ -197,6 +199,57 @@ describe("POST /api/report", () => {
 
     const res = await POST(makeRequest({ month: "2026-01" }));
     expect(res.status).toBe(200);
+  });
+
+  it("returns 429 when rate limited (3 per day)", async () => {
+    mockGetUser.mockResolvedValue({ data: { user: { id: "user-1" } } });
+    // Stub out AI and DB responses for the first 3 calls
+    mockCreate.mockResolvedValue({
+      choices: [{
+        message: {
+          content: JSON.stringify({
+            summary_overview: "A good month.",
+            dominant_mood: "joy",
+            pattern_insights: "You felt happy often.",
+            actionable_recommendations: ["Exercise"],
+          }),
+        },
+      }],
+    });
+
+    const entriesData = Array.from({ length: 10 }, (_, i) => ({
+      id: String(i),
+      content: "encrypted",
+      content_iv: "iv",
+      primary_emotion: "joy",
+      emoji: "😊",
+      secondary_emotions: ["happy"],
+      created_at: "2026-01-15T00:00:00Z",
+    }));
+    const entriesChain = mockChain({ data: entriesData, error: null });
+    const noReportChain = mockChain({
+      data: null,
+      error: { code: "PGRST116", message: "No rows found" },
+    });
+    const upsertChain = mockUpsertChain({
+      data: { id: "report-1", month_year: "2026-01" },
+      error: null,
+    });
+
+    // First 3 calls should succeed
+    for (let i = 0; i < 3; i++) {
+      mockFrom
+        .mockReset()
+        .mockReturnValueOnce(entriesChain)    // entries query
+        .mockReturnValueOnce(noReportChain)   // no existing report
+        .mockReturnValueOnce(upsertChain);     // upsert
+      const res = await POST(makeRequest({ month: "2026-01" }));
+      expect(res.status).toBe(200);
+    }
+
+    // 4th call should be rate limited (no Supabase calls needed)
+    const res = await POST(makeRequest({ month: "2026-01" }));
+    expect(res.status).toBe(429);
   });
 });
 
