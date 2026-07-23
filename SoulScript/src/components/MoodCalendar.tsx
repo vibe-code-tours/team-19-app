@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import NavBar from "./NavBar";
 import StatCards from "./StatCards";
@@ -55,13 +54,25 @@ function EntryCard({
           onClick={onEditMood}
           className="flex items-center gap-1.5 px-3 py-1.5 glass rounded-full text-xs text-text-secondary hover:text-text-primary"
         >
-          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+          <svg
+            className="w-3 h-3"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+            />
           </svg>
           Edit
         </button>
       </div>
-      <p className="text-sm text-text-primary leading-relaxed">{entry.content}</p>
+      <p className="text-sm text-text-primary leading-relaxed">
+        {entry.content}
+      </p>
       {entry.secondary_emotions.length > 0 && (
         <div className="flex flex-wrap gap-2">
           {entry.secondary_emotions.map((emotion) => (
@@ -79,7 +90,6 @@ function EntryCard({
 }
 
 export default function MoodCalendar() {
-  const router = useRouter();
   const {
     entries,
     loading,
@@ -94,20 +104,29 @@ export default function MoodCalendar() {
     goToToday,
   } = useCalendar();
 
-  const [selectedEntries, setSelectedEntries] = useState<JournalEntry[] | null>(null);
+  const [selectedEntries, setSelectedEntries] = useState<JournalEntry[] | null>(
+    null,
+  );
   const [editingEntry, setEditingEntry] = useState<JournalEntry | null>(null);
   const [showMoodPicker, setShowMoodPicker] = useState(false);
 
   const monthKey = `${year}-${String(month + 1).padStart(2, "0")}`;
   const moodMutation = useUpdateMood(monthKey);
 
-  function handleMoodUpdate(entryId: string, newMood: string, newEmoji: string) {
+  function handleMoodUpdate(
+    entryId: string,
+    newMood: string,
+    newEmoji: string,
+  ) {
     moodMutation.mutate({ entryId, newMood, newEmoji });
     // Sync local snapshot so the EntryCard shows the new emoji immediately
-    setSelectedEntries((prev) =>
-      prev?.map((e) =>
-        e.id === entryId ? { ...e, primary_emotion: newMood, emoji: newEmoji } : e,
-      ) ?? null,
+    setSelectedEntries(
+      (prev) =>
+        prev?.map((e) =>
+          e.id === entryId
+            ? { ...e, primary_emotion: newMood, emoji: newEmoji }
+            : e,
+        ) ?? null,
     );
     setShowMoodPicker(false);
     setEditingEntry(null);
@@ -138,7 +157,10 @@ export default function MoodCalendar() {
           </div>
           <div className="grid grid-cols-3 gap-3">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="glass rounded-[14px] p-4 space-y-1 border border-white/[0.04]">
+              <div
+                key={i}
+                className="glass rounded-[14px] p-4 space-y-1 border border-white/[0.04]"
+              >
                 <div className="skeleton w-5 h-5 rounded-full" />
                 <div className="skeleton h-7 w-12 rounded-lg" />
                 <div className="skeleton h-3 w-24 rounded-lg" />
@@ -162,7 +184,10 @@ export default function MoodCalendar() {
                 </div>
                 <div className="grid grid-cols-7 gap-1">
                   {Array.from({ length: 35 }).map((_, i) => (
-                    <div key={i} className="aspect-square skeleton rounded-lg" />
+                    <div
+                      key={i}
+                      className="aspect-square skeleton rounded-lg"
+                    />
                   ))}
                 </div>
               </div>
@@ -251,11 +276,11 @@ export default function MoodCalendar() {
         </div>
         {/* Mood Trend */}
         <div>
-            <MoodTrend
-              entries={entries}
-              moodDistribution={stats.moodDistribution}
-              daysInMonth={daysInMonth}
-            />
+          <MoodTrend
+            entries={entries}
+            moodDistribution={stats.moodDistribution}
+            daysInMonth={daysInMonth}
+          />
         </div>
 
         {/* Empty State */}
@@ -269,30 +294,10 @@ export default function MoodCalendar() {
               <span className="text-2xl">✨</span>
             </div>
             <p className="text-text-secondary text-sm leading-relaxed">
-              Your mood constellation awaits. Start journaling to see your emotions map.
+              Your mood constellation awaits. Start journaling to see your
+              emotions map.
             </p>
           </motion.div>
-        )}
-
-        {/* Generate AI Report CTA */}
-        {entries.length > 0 && (
-          <div className="space-y-2 text-center">
-            <button
-              onClick={() => router.push(`/report?month=${monthKey}`)}
-              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-b from-accent to-accent-glow text-white font-semibold rounded-full shadow-[0_4px_16px_rgba(124,92,252,0.3)] hover:shadow-[0_6px_24px_rgba(124,92,252,0.45)] transition-all"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-              </svg>
-              Generate AI Report
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
-            <p className="text-xs text-text-muted">
-              AI will analyze your month and reveal emotional patterns
-            </p>
-          </div>
         )}
       </div>
 
@@ -327,7 +332,7 @@ export default function MoodCalendar() {
                 <h3 className="font-[family-name:var(--font-heading)] text-lg font-bold text-text-primary">
                   {new Date(selectedEntries[0].created_at).toLocaleDateString(
                     "en-US",
-                    { month: "long", day: "numeric", year: "numeric" }
+                    { month: "long", day: "numeric", year: "numeric" },
                   )}
                 </h3>
                 <p className="text-sm text-text-secondary">
@@ -367,7 +372,7 @@ export default function MoodCalendar() {
                                   handleMoodUpdate(
                                     editingEntry.id,
                                     mood.name,
-                                    mood.emoji
+                                    mood.emoji,
                                   )
                                 }
                                 className="flex flex-col items-center gap-1 p-2 rounded-xl hover:bg-white/5 transition-colors"
