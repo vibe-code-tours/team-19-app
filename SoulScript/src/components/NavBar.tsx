@@ -1,7 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Sparkles, Calendar, BarChart3, User } from "lucide-react";
+import Link from "next/link";
 
 type ActivePage = "dashboard" | "calendar" | "report" | "settings";
 
@@ -64,13 +66,25 @@ export default function NavBar({ active = "dashboard", title }: NavBarProps) {
   return (
     <div className="flex items-center justify-between px-5 py-3 md:px-10 lg:px-20">
       {/* Nav Left — Brand */}
-      <div className="flex flex-col" style={{ gap: 2 }}>
-        <span className="font-(family-name:--font-playfair) text-[20px] font-bold text-text-primary tracking-tight leading-none">
-          SoulScript
-        </span>
-        <span className="text-[10px] text-text-muted leading-none">
-          Write. Reflect. Grow.
-        </span>
+      <div className="flex items-center gap-2.5">
+        <Link href="/" className="flex items-center gap-2.5">
+          <Image
+            src="/favicon.png"
+            alt="SoulScript"
+            width={28}
+            height={23}
+            className="object-contain"
+            priority
+          />
+          <div className="flex flex-col" style={{ gap: 2 }}>
+            <span className="font-(family-name:--font-playfair) text-[20px] font-bold text-text-primary tracking-tight leading-none">
+              SoulScript
+            </span>
+            <span className="text-[10px] text-text-muted leading-none">
+              Write. Reflect. Grow.
+            </span>
+          </div>
+        </Link>
       </div>
 
       {/* Nav Right — 4 icon buttons */}
