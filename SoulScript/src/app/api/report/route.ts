@@ -1,7 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
 import { decrypt } from "@/lib/encryption";
-import { callAIForReport } from "@/lib/ai";
+import { callAIForReport, callAIForMoment } from "@/lib/ai";
 import {
   computeMoodDistribution,
   computeDaysJournaled,
@@ -115,7 +115,40 @@ export async function POST(request: Request) {
 
     if (saveError) throw saveError;
 
-    return NextResponse.json({ report: savedReport });
+    // Generate moment-worth-noting reflection from dominant-mood entries
+    let momentWorthNoting: string | null = null;
+    try {
+      const dominantMood = report.dominant_mood.toLowerCase();
+      const dominantEntries = decryptedEntries.filter(
+        (e) => e.primary_emotion.toLowerCase() === dominantMood
+      );
+      // Sort by content length descending and take top 2 most content-rich entries
+      const notableEntries = dominantEntries
+        .sort((a, b) => b.content.length - a.content.length)
+        .slice(0, 2)
+        .map((e) => ({
+          content: e.content,
+          emoji: e.emoji,
+          created_at: e.created_at,
+          primary_emotion: e.primary_emotion,
+        }));
+
+      if (notableEntries.length > 0) {
+        const momentResult = await callAIForMoment({
+          dominantMood,
+          emoji: notableEntries[0].emoji,
+          notableEntries,
+        });
+        momentWorthNoting = momentResult.reflection;
+      }
+    } catch (err) {
+      console.error("Moment reflection error (non-fatal):", err);
+    }
+
+    return NextResponse.json({
+      report: savedReport,
+      momentWorthNoting,
+    });
   } catch (error) {
     console.error("Report error:", error);
     return NextResponse.json(

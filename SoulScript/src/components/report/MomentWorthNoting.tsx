@@ -8,11 +8,11 @@ const itemVariants = {
 };
 
 interface MomentWorthNotingProps {
-  summary: string;
+  reflection: string | null;
 }
 
 export default function MomentWorthNoting({
-  summary,
+  reflection,
 }: MomentWorthNotingProps) {
   return (
     <motion.div variants={itemVariants} className="space-y-3">
@@ -25,10 +25,10 @@ export default function MomentWorthNoting({
           <span className="text-xs text-text-muted">AI Reflection</span>
         </div>
         <p className="text-sm text-text-primary leading-relaxed italic">
-          &ldquo;{summary}&rdquo;
+          &ldquo;{reflection || "Keep journaling to uncover the moments that matter most this month."}&rdquo;
         </p>
         <p className="text-xs text-text-muted">
-          This month&apos;s emotional synthesis from your journal entries.
+          A singular observation from your emotional landscape this month.
         </p>
       </div>
     </motion.div>
