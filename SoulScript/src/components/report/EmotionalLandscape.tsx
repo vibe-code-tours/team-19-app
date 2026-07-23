@@ -23,7 +23,7 @@ export default function EmotionalLandscape({
       </p>
       <div className="glass rounded-2xl p-5 space-y-4">
         {moodDistribution.length > 0 ? (
-          moodDistribution.map((item) => (
+          moodDistribution.slice(0,10).map((item) => (
             <div key={item.emotion} className="space-y-1.5">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
