@@ -25,7 +25,7 @@ export default function SettingsPage() {
   const [editName, setEditName] = useState("");
   const [savingName, setSavingName] = useState(false);
   const [saveNameError, setSaveNameError] = useState<string | null>(null);
-  const { theme, setTheme } = useTheme();
+  const { theme, resolvedTheme, setTheme } = useTheme();
   const router = useRouter();
   const supabase = useMemo(() => createClient(), []);
 
@@ -261,17 +261,17 @@ export default function SettingsPage() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-text-primary">Appearance</p>
-              <p className="text-xs text-text-muted">{theme === "dark" ? "Dark mode" : "Light mode"}</p>
+              <p className="text-xs text-text-muted">{resolvedTheme === "dark" ? "Dark mode" : "Light mode"}</p>
             </div>
             <button
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
               className={`relative w-11 h-6 rounded-full transition-colors ${
-                theme === "dark" ? "bg-[#6366F1]" : "bg-[#E0D6FF]"
+                resolvedTheme === "dark" ? "bg-[#6366F1]" : "bg-[#E0D6FF]"
               }`}
             >
               <div
                 className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${
-                  theme === "dark" ? "translate-x-[22px]" : "translate-x-0.5"
+                  resolvedTheme === "dark" ? "translate-x-[22px]" : "translate-x-0.5"
                 }`}
               />
             </button>
