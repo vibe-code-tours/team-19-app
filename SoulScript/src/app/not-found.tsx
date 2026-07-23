@@ -1,4 +1,10 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "404 — SoulScript",
+  description: "This page wandered off. Return to your journal.",
+};
 
 export default function NotFound() {
   return (
