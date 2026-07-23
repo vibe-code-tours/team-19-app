@@ -29,6 +29,16 @@ export async function proxy(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
+  // Protect pages
+  const protectedPaths = ["/settings", "/report", "/calendar"];
+  if (protectedPaths.some((path) => request.nextUrl.pathname.startsWith(path))) {
+    if (!user) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/login";
+      return NextResponse.redirect(url);
+    }
+  }
+
   // Protect API routes
   if (request.nextUrl.pathname.startsWith("/api")) {
     if (!user) {
@@ -36,15 +46,6 @@ export async function proxy(request: NextRequest) {
         { error: "Unauthorized" },
         { status: 401 }
       );
-    }
-  }
-
-  // Protect settings page
-  if (request.nextUrl.pathname.startsWith("/settings")) {
-    if (!user) {
-      const url = request.nextUrl.clone();
-      url.pathname = "/login";
-      return NextResponse.redirect(url);
     }
   }
 
@@ -63,5 +64,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/api/:path*", "/settings/:path*", "/login", "/signup"],
+  matcher: ["/api/:path*", "/settings/:path*", "/login", "/signup", "/report", "/report/:path*", "/calendar", "/calendar/:path*"],
 };

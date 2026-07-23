@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { checkRateLimit } from "@/lib/rate-limit";
 import { NextResponse } from "next/server";
 
 export async function GET() {
@@ -46,11 +47,39 @@ export async function PATCH(request: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    // Rate limit: 10 profile updates per hour
+    const rateCheck = checkRateLimit(user.id, {
+      max: 10,
+      window: "hour",
+      endpoint: "profile:patch",
+    });
+    if (!rateCheck.allowed) {
+      return NextResponse.json(
+        { error: "Too many profile updates. Try again later." },
+        { status: 429 },
+      );
+    }
+
     const body = await request.json();
     const { display_name } = body;
 
     const updateData: Record<string, string> = { updated_at: new Date().toISOString() };
-    if (display_name !== undefined) updateData.display_name = display_name;
+    if (display_name !== undefined) {
+      if (typeof display_name !== "string") {
+        return NextResponse.json(
+          { error: "Display Name must be a string" },
+          { status: 400 }
+        );
+      }
+      const trimmed = display_name.trim();
+      if (trimmed.length < 4 || trimmed.length > 100) {
+        return NextResponse.json(
+          { error: "Display Name must be 4–100 characters" },
+          { status: 400 }
+        );
+      }
+      updateData.display_name = trimmed;
+    }
 
     const { data, error } = await supabase
       .from("user_profiles")

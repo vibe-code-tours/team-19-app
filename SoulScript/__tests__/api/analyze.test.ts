@@ -20,6 +20,7 @@ vi.mock("openai", () => ({
 }));
 
 import { POST } from "@/app/api/analyze/route";
+import { resetRateLimits } from "@/lib/rate-limit";
 
 function chainable(overrides: Record<string, unknown> = {}) {
   const chain: Record<string, unknown> = {
@@ -45,6 +46,7 @@ function makeRequest(body: unknown) {
 describe("POST /api/analyze", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    resetRateLimits();
     process.env.ENCRYPTION_KEY = "0000000000000000000000000000000000000000000000000000000000000000";
   });
 
@@ -70,15 +72,33 @@ describe("POST /api/analyze", () => {
 
   it("returns 429 when daily limit reached", async () => {
     mockGetUser.mockResolvedValue({ data: { user: { id: "user-1" } } });
-    // Mock the count query to return 10
-    const countChain = chainable();
-    countChain.select.mockReturnValue({
-      ...countChain,
-      head: true,
-      count: 10,
+    mockCreate.mockResolvedValue({
+      choices: [{
+        message: {
+          content: JSON.stringify({
+            primary_emotion: "joy",
+            emoji: "😊",
+            secondary_emotions: ["happy"],
+            glow_theme: "from-amber-500/20 to-yellow-600/20",
+          }),
+        },
+      }],
     });
-    mockFrom.mockReturnValue(countChain);
+    const insertChain = chainable({
+      insert: vi.fn().mockReturnThis(),
+      select: vi.fn().mockReturnValue({
+        single: vi.fn().mockResolvedValue({ data: { id: "entry-1" }, error: null }),
+      }),
+    });
+    mockFrom.mockReturnValue(insertChain);
 
+    // First 10 requests should succeed
+    for (let i = 0; i < 10; i++) {
+      const res = await POST(makeRequest({ content: "A".repeat(15) }));
+      expect(res.status).toBe(200);
+    }
+
+    // 11th request should be rate limited
     const res = await POST(makeRequest({ content: "A".repeat(15) }));
     expect(res.status).toBe(429);
   });
@@ -86,28 +106,13 @@ describe("POST /api/analyze", () => {
   it("returns 200 with entry on success", async () => {
     mockGetUser.mockResolvedValue({ data: { user: { id: "user-1" } } });
 
-    // Mock the rate limit chain to return count < 10
-    const rateLimitChain = chainable();
-    rateLimitChain.select.mockReturnValue({
-      ...rateLimitChain,
-      head: true,
-      count: 0,
-    });
-
-    // Mock the insert chain
     const insertChain = chainable({
       insert: vi.fn().mockReturnThis(),
       select: vi.fn().mockReturnValue({
         single: vi.fn().mockResolvedValue({ data: { id: "entry-1" }, error: null }),
       }),
     });
-
-    let callCount = 0;
-    mockFrom.mockImplementation(() => {
-      callCount++;
-      if (callCount === 1) return rateLimitChain; // rate limit query
-      return insertChain; // insert
-    });
+    mockFrom.mockReturnValue(insertChain);
 
     mockCreate.mockResolvedValue({
       choices: [{

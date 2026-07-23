@@ -1,5 +1,6 @@
 "use client";
 
+import { toast } from "sonner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { JournalEntry } from "@/lib/types";
 
@@ -15,6 +16,9 @@ export function useCreateEntry() {
       });
       if (!res.ok) {
         const data = await res.json();
+        if (res.status === 429) {
+          toast.error("You've reached the daily limit of 10 entries. Try again tomorrow.");
+        }
         throw new Error(data.error || "Failed to create entry");
       }
       const { entry } = await res.json();

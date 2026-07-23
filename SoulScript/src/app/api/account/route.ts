@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { createClient as createAdminClient } from "@supabase/supabase-js";
+import { checkRateLimit } from "@/lib/rate-limit";
 import { NextResponse } from "next/server";
 
 export async function DELETE() {
@@ -11,6 +12,19 @@ export async function DELETE() {
 
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    // Rate limit: 1 account deletion per hour
+    const rateCheck = checkRateLimit(user.id, {
+      max: 1,
+      window: "hour",
+      endpoint: "account:delete",
+    });
+    if (!rateCheck.allowed) {
+      return NextResponse.json(
+        { error: "Account deletion is rate-limited. Try again later." },
+        { status: 429 },
+      );
     }
 
     // Delete all user data
