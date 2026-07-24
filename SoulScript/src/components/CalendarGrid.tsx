@@ -174,7 +174,7 @@ export default function CalendarGrid({
       </div>
 
       {/* Mood Legend */}
-      <div className="border-t border-white/[0.04] pt-3">
+      {/* <div className="border-t border-white/[0.04] pt-3">
         <div className="flex items-center justify-around">
           {LEGEND_ITEMS.map((item) => (
             <div key={item.emotion} className="flex items-center gap-1">
@@ -188,7 +188,7 @@ export default function CalendarGrid({
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
