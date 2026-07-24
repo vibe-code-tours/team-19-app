@@ -25,7 +25,7 @@ export async function POST(request: Request) {
     if (!month || !/^\d{4}-\d{2}$/.test(month)) {
       return NextResponse.json(
         { error: "Invalid month format. Use YYYY-MM" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -68,7 +68,7 @@ export async function POST(request: Request) {
             "Keep journaling! You need at least 10 entries to unlock your monthly journey.",
           count: entries?.length || 0,
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -89,7 +89,9 @@ export async function POST(request: Request) {
       if (latestEntryTime <= reportTime) {
         const { data: fullReport } = await supabase
           .from("monthly_reports")
-          .select("summary_overview, dominant_mood, pattern_insights, actionable_recommendations")
+          .select(
+            "summary_overview, dominant_mood, pattern_insights, actionable_recommendations",
+          )
           .eq("user_id", user.id)
           .eq("month_year", month)
           .single();
@@ -119,13 +121,15 @@ export async function POST(request: Request) {
           summary_overview: report.summary_overview,
           dominant_mood: report.dominant_mood,
           pattern_insights: report.pattern_insights,
-          actionable_recommendations: (Array.isArray(report.actionable_recommendations)
+          actionable_recommendations: (Array.isArray(
+            report.actionable_recommendations,
+          )
             ? report.actionable_recommendations
             : []
           ).map((r) => JSON.stringify(r)),
           created_at: new Date().toISOString(),
         },
-        { onConflict: "user_id,month_year" }
+        { onConflict: "user_id,month_year" },
       )
       .select()
       .single();
@@ -136,13 +140,10 @@ export async function POST(request: Request) {
     let momentWorthNoting: string | null = null;
     try {
       const dominantMood = report.dominant_mood.toLowerCase();
-      const dominantEntries = decryptedEntries.filter(
-        (e) => e.primary_emotion.toLowerCase() === dominantMood
-      );
-      // Sort by content length descending and take top 2 most content-rich entries
-      const notableEntries = dominantEntries
-        .sort((a, b) => b.content.length - a.content.length)
-        .slice(0, 2)
+      const dominantEntries = decryptedEntries
+        .filter(
+          (e) => e.primary_emotion.toLowerCase() === dominantMood,
+        )
         .map((e) => ({
           content: e.content,
           emoji: e.emoji,
@@ -150,11 +151,11 @@ export async function POST(request: Request) {
           primary_emotion: e.primary_emotion,
         }));
 
-      if (notableEntries.length > 0) {
+      if (dominantEntries.length > 0) {
         const momentResult = await callAIForMoment({
           dominantMood,
-          emoji: notableEntries[0].emoji,
-          notableEntries,
+          emoji: dominantEntries[0].emoji,
+          dominantEntries,
         });
         momentWorthNoting = momentResult.reflection;
       }
@@ -170,7 +171,7 @@ export async function POST(request: Request) {
     console.error("Report error:", error);
     return NextResponse.json(
       { error: "Failed to generate report" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -192,7 +193,7 @@ export async function GET(request: Request) {
     if (!month || !/^\d{4}-\d{2}$/.test(month)) {
       return NextResponse.json(
         { error: "Invalid month format. Use YYYY-MM" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -215,7 +216,7 @@ export async function GET(request: Request) {
     const { data: report, error: reportError } = await supabase
       .from("monthly_reports")
       .select(
-        "summary_overview, dominant_mood, pattern_insights, actionable_recommendations, created_at"
+        "summary_overview, dominant_mood, pattern_insights, actionable_recommendations, created_at",
       )
       .eq("user_id", user.id)
       .eq("month_year", month)
@@ -230,11 +231,16 @@ export async function GET(request: Request) {
     const streak = computeStreak(entries || []);
 
     // Get latest entry time for staleness check
-    const latestEntryTime = entries && entries.length > 0
-      ? entries.reduce((latest, entry) =>
-          new Date(entry.created_at) > new Date(latest) ? entry.created_at : latest
-        , entries[0].created_at)
-      : null;
+    const latestEntryTime =
+      entries && entries.length > 0
+        ? entries.reduce(
+            (latest, entry) =>
+              new Date(entry.created_at) > new Date(latest)
+                ? entry.created_at
+                : latest,
+            entries[0].created_at,
+          )
+        : null;
 
     return NextResponse.json({
       stats: {
@@ -258,7 +264,7 @@ export async function GET(request: Request) {
     console.error("Report fetch error:", error);
     return NextResponse.json(
       { error: "Failed to fetch report" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
