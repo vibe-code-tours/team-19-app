@@ -71,7 +71,7 @@ export default function CalendarGrid({
         <button
           onClick={onPrevMonth}
           disabled={isFetching}
-          className="w-8 h-8 rounded-16 bg-white/[0.05] flex items-center justify-center text-text-secondary hover:text-text-primary transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+          className="w-8 h-8 rounded-16  flex items-center justify-center text-text-secondary hover:text-text-primary transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -91,7 +91,7 @@ export default function CalendarGrid({
           <button
             onClick={onNextMonth}
             disabled={isFetching}
-            className="w-8 h-8 rounded-16 bg-white/[0.05] flex items-center justify-center text-text-secondary hover:text-text-primary transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            className="w-8 h-8 rounded-16 flex items-center justify-center text-text-secondary hover:text-text-primary transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -174,7 +174,7 @@ export default function CalendarGrid({
       </div>
 
       {/* Mood Legend */}
-      <div className="border-t border-white/[0.04] pt-3">
+      {/* <div className="border-t border-white/[0.04] pt-3">
         <div className="flex items-center justify-around">
           {LEGEND_ITEMS.map((item) => (
             <div key={item.emotion} className="flex items-center gap-1">
@@ -188,7 +188,7 @@ export default function CalendarGrid({
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
