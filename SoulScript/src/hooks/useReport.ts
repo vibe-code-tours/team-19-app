@@ -15,6 +15,7 @@ interface ReportData {
   dominantMood: string;
   insights: string;
   recommendations: string[];
+  momentWorthNoting: string | null;
 }
 
 export interface ReportResponse {

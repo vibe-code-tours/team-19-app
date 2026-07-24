@@ -23,6 +23,7 @@ import {
 import NavBar from "@/components/NavBar";
 import { useReport, type ReportResponse } from "@/hooks/useReport";
 import { splitInsights, parseRecommendations } from "@/lib/report-utils";
+import { saveMomentReflection, loadMomentReflection } from "@/lib/report-storage";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -50,6 +51,9 @@ function ReportContent() {
   const entryCount = stats?.entryCount ?? 0;
   const hasEnoughEntries = entryCount >= 10;
 
+  // Use report value if available, fall back to localStorage for persistence across refreshes
+  const momentReflection = report?.momentWorthNoting ?? (report ? loadMomentReflection(month) : null);
+
   const handleGenerate = useCallback(async () => {
     setGenerating(true);
     try {
@@ -73,15 +77,24 @@ function ReportContent() {
 
       // Write to cache
       if (raw) {
-        queryClient.setQueryData(["report", month], (old: ReportResponse | undefined) => ({
-          stats: old?.stats ?? stats,
-          report: {
-            summary: raw.summary_overview,
-            dominantMood: raw.dominant_mood,
-            insights: raw.pattern_insights,
-            recommendations: raw.actionable_recommendations,
-          },
-        }));
+        queryClient.setQueryData(["report", month], (old: ReportResponse | undefined) => {
+          const existingMoment = old?.report?.momentWorthNoting ?? null;
+          return {
+            stats: old?.stats ?? stats,
+            report: {
+              summary: raw.summary_overview,
+              dominantMood: raw.dominant_mood,
+              insights: raw.pattern_insights,
+              recommendations: raw.actionable_recommendations,
+              momentWorthNoting: body.momentWorthNoting ?? existingMoment,
+            },
+          };
+        });
+      }
+
+      // Persist moment reflection to localStorage
+      if (body.momentWorthNoting) {
+        saveMomentReflection(month, body.momentWorthNoting);
       }
     } catch (err) {
       console.error("Failed to generate report:", err);
@@ -181,7 +194,7 @@ function ReportContent() {
                       moodDistribution={stats?.moodDistribution ?? []}
                       daysJournaled={stats?.daysJournaled ?? 0}
                     />
-                    <MomentWorthNoting summary={report.summary} />
+                    <MomentWorthNoting reflection={momentReflection} />
                   </div>
                 </div>
               )}
