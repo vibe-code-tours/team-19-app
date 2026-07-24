@@ -71,7 +71,7 @@ export default function CalendarGrid({
         <button
           onClick={onPrevMonth}
           disabled={isFetching}
-          className="w-8 h-8 rounded-16 bg-white/[0.05] flex items-center justify-center text-text-secondary hover:text-text-primary transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+          className="w-8 h-8 rounded-16 bg-white/[0.05] cursor-pointer flex items-center justify-center text-text-secondary hover:text-text-primary transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -91,7 +91,7 @@ export default function CalendarGrid({
           <button
             onClick={onNextMonth}
             disabled={isFetching}
-            className="w-8 h-8 rounded-16 bg-white/[0.05] flex items-center justify-center text-text-secondary hover:text-text-primary transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            className="w-8 h-8 rounded-16 cursor-pointer bg-white/[0.05] flex items-center justify-center text-text-secondary hover:text-text-primary transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -100,7 +100,7 @@ export default function CalendarGrid({
           <button
             onClick={onGoToToday}
             disabled={isFetching}
-            className="flex items-center gap-1 px-3.5 py-1.5 rounded-full bg-white/[0.05] border border-white/[0.08] text-xs font-medium text-text-primary hover:bg-white/[0.08] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            className="flex items-center cursor-pointer gap-1 px-3.5 py-1.5 rounded-full bg-white/[0.05] border border-white/[0.08] text-xs font-medium text-text-primary hover:bg-white/[0.08] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
           >
             <span className="w-2 h-2 rounded-full bg-accent" />
             Today
