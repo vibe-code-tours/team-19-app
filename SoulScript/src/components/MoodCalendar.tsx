@@ -8,6 +8,7 @@ import CalendarGrid from "./CalendarGrid";
 import RecentEntries from "./RecentEntries";
 import MoodTrend from "./MoodTrend";
 import { useCalendar } from "@/hooks/useCalendar";
+import { useUpdateMood } from "@/hooks/useUpdateMood";
 import type { JournalEntry } from "@/lib/types";
 
 const MOOD_OPTIONS = [
@@ -53,13 +54,25 @@ function EntryCard({
           onClick={onEditMood}
           className="flex items-center gap-1.5 px-3 py-1.5 glass rounded-full text-xs text-text-secondary hover:text-text-primary"
         >
-          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+          <svg
+            className="w-3 h-3"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+            />
           </svg>
           Edit
         </button>
       </div>
-      <p className="text-sm text-text-primary leading-relaxed">{entry.content}</p>
+      <p className="text-sm text-text-primary leading-relaxed">
+        {entry.content}
+      </p>
       {entry.secondary_emotions.length > 0 && (
         <div className="flex flex-wrap gap-2">
           {entry.secondary_emotions.map((emotion) => (
@@ -91,26 +104,32 @@ export default function MoodCalendar() {
     goToToday,
   } = useCalendar();
 
-  const [selectedEntries, setSelectedEntries] = useState<JournalEntry[] | null>(null);
+  const [selectedEntries, setSelectedEntries] = useState<JournalEntry[] | null>(
+    null,
+  );
   const [editingEntry, setEditingEntry] = useState<JournalEntry | null>(null);
   const [showMoodPicker, setShowMoodPicker] = useState(false);
-  const [moodUpdateSuccess, setMoodUpdateSuccess] = useState(false);
 
-  async function handleMoodUpdate(entryId: string, newMood: string, newEmoji: string) {
-    await fetch(`/api/entries/${entryId}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ primary_emotion: newMood, emoji: newEmoji }),
-    });
+  const monthKey = `${year}-${String(month + 1).padStart(2, "0")}`;
+  const moodMutation = useUpdateMood(monthKey);
 
-    setMoodUpdateSuccess(true);
-    setTimeout(() => {
-      setMoodUpdateSuccess(false);
-      setShowMoodPicker(false);
-      setEditingEntry(null);
-      // Force refetch by toggling date
-      goToToday();
-    }, 1500);
+  function handleMoodUpdate(
+    entryId: string,
+    newMood: string,
+    newEmoji: string,
+  ) {
+    moodMutation.mutate({ entryId, newMood, newEmoji });
+    // Sync local snapshot so the EntryCard shows the new emoji immediately
+    setSelectedEntries(
+      (prev) =>
+        prev?.map((e) =>
+          e.id === entryId
+            ? { ...e, primary_emotion: newMood, emoji: newEmoji }
+            : e,
+        ) ?? null,
+    );
+    setShowMoodPicker(false);
+    setEditingEntry(null);
   }
 
   function handleEntryClick(entry: JournalEntry) {
@@ -138,7 +157,10 @@ export default function MoodCalendar() {
           </div>
           <div className="grid grid-cols-3 gap-3">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="glass rounded-[14px] p-4 space-y-1 border border-white/[0.04]">
+              <div
+                key={i}
+                className="glass rounded-[14px] p-4 space-y-1 border border-white/[0.04]"
+              >
                 <div className="skeleton w-5 h-5 rounded-full" />
                 <div className="skeleton h-7 w-12 rounded-lg" />
                 <div className="skeleton h-3 w-24 rounded-lg" />
@@ -162,7 +184,10 @@ export default function MoodCalendar() {
                 </div>
                 <div className="grid grid-cols-7 gap-1">
                   {Array.from({ length: 35 }).map((_, i) => (
-                    <div key={i} className="aspect-square skeleton rounded-lg" />
+                    <div
+                      key={i}
+                      className="aspect-square skeleton rounded-lg"
+                    />
                   ))}
                 </div>
               </div>
@@ -251,11 +276,11 @@ export default function MoodCalendar() {
         </div>
         {/* Mood Trend */}
         <div>
-            <MoodTrend
-              entries={entries}
-              moodDistribution={stats.moodDistribution}
-              daysInMonth={daysInMonth}
-            />
+          <MoodTrend
+            entries={entries}
+            moodDistribution={stats.moodDistribution}
+            daysInMonth={daysInMonth}
+          />
         </div>
 
         {/* Empty State */}
@@ -269,11 +294,11 @@ export default function MoodCalendar() {
               <span className="text-2xl">✨</span>
             </div>
             <p className="text-text-secondary text-sm leading-relaxed">
-              Your mood constellation awaits. Start journaling to see your emotions map.
+              Your mood constellation awaits. Start journaling to see your
+              emotions map.
             </p>
           </motion.div>
         )}
-
       </div>
 
       {/* Entry Overlay */}
@@ -307,7 +332,7 @@ export default function MoodCalendar() {
                 <h3 className="font-[family-name:var(--font-heading)] text-lg font-bold text-text-primary">
                   {new Date(selectedEntries[0].created_at).toLocaleDateString(
                     "en-US",
-                    { month: "long", day: "numeric", year: "numeric" }
+                    { month: "long", day: "numeric", year: "numeric" },
                   )}
                 </h3>
                 <p className="text-sm text-text-secondary">
@@ -339,32 +364,26 @@ export default function MoodCalendar() {
                           exit={{ height: 0, opacity: 0 }}
                           className="overflow-hidden"
                         >
-                          {moodUpdateSuccess ? (
-                            <p className="text-center text-sm text-green-400 py-3">
-                              Mood updated ✓
-                            </p>
-                          ) : (
-                            <div className="grid grid-cols-5 gap-2 pt-2 mt-2">
-                              {MOOD_OPTIONS.map((mood) => (
-                                <button
-                                  key={mood.name}
-                                  onClick={() =>
-                                    handleMoodUpdate(
-                                      editingEntry.id,
-                                      mood.name,
-                                      mood.emoji
-                                    )
-                                  }
-                                  className="flex flex-col items-center gap-1 p-2 rounded-xl hover:bg-white/5 transition-colors"
-                                >
-                                  <span className="text-xl">{mood.emoji}</span>
-                                  <span className="text-xs text-text-secondary capitalize">
-                                    {mood.name}
-                                  </span>
-                                </button>
-                              ))}
-                            </div>
-                          )}
+                          <div className="grid grid-cols-5 gap-2 pt-2 mt-2">
+                            {MOOD_OPTIONS.map((mood) => (
+                              <button
+                                key={mood.name}
+                                onClick={() =>
+                                  handleMoodUpdate(
+                                    editingEntry.id,
+                                    mood.name,
+                                    mood.emoji,
+                                  )
+                                }
+                                className="flex flex-col items-center gap-1 p-2 rounded-xl hover:bg-white/5 transition-colors"
+                              >
+                                <span className="text-xl">{mood.emoji}</span>
+                                <span className="text-xs text-text-secondary capitalize">
+                                  {mood.name}
+                                </span>
+                              </button>
+                            ))}
+                          </div>
                         </motion.div>
                       )}
                     </AnimatePresence>
